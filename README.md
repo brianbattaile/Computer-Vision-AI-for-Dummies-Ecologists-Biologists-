@@ -186,8 +186,7 @@ FN & TN
 
 for a singe class, with columns normalized to 1, (or a percentage) with true on the x axis and predictions on the y axis.  The IoU threshold is set at 0.45, why not 0.5 I don't know.
 
-There are two types of confidence scores, box confidence and class confidence.
-Box confidence is $IoU(pred, truth) \times Pr(Object)$.  I have not been able to find the equation for calculating $PR(Object)$.
+There are two types of confidence scores, box confidence and class confidence.  I believe the box confidence is the confidence associated with the bounding boxes created in the training and in predictions when using the model.  Box confidence is $IoU(pred, truth) \times Pr(Object)$.  I have not been able to find the equation for calculating $PR(Object)$.
 Class confidence is $PR(Class_i|Object) \times PR(Object) \times IoU(pred, truth)$.  Again, unable to find equation for $PR(Class_i|Object)$
 
 A final summary statistic often found is the $F1$
@@ -199,6 +198,8 @@ $$AP=\sum_{i=0}^{n-1}(Recall_i-Recall_{i-1}) Precision_i$$
 $$mAP=\frac{1}{c} \sum_{i=1}^c AP_i$$
 
 ## 5.1 Using SAHI and your newly trained YoloV8 model
+SAHI stands for Slicing Aided Hyper Inference and is designed to find relatively small objects within larger images.  For my use, this is mandatory because of my large, inconsistently sized images with small ooi's.  See https://docs.ultralytics.com/guides/sahi-tiled-inference/ and https://github.com/obss/sahi.
+
 In your python 3.11 virtual environment from the CMD line
 
 `(venv) C:\Users\Green Sturgeon\AI_Project\Images> sahi predict --model_path  "C:\Users\Green Sturgeon\AI_Project\Images\runs\detect\train_XTRA_LARGE\weights\best.pt" --model_type yolov8 --source "C:\Users\Green Sturgeon\AI_Project\Images\images" --slice_height 640 --slice_width 640 --visual_bbox_thickness 1 --visual_hide_labels TRUE --visual_bbox_thickness 1 --visual_hide_labels TRUE`
@@ -219,7 +220,7 @@ visual_bbox_thickness  This is the thickness of the line of the bounding box tha
 
 ## 5.2 Georeferenced.py (SAHI and YoloV8) on georeferenced images and QGIS
 
-This is a rather specialzed section that won't apply to the majority of investigators.  Our images are georeferenced so we want the images and predicted bounding boxes to be georeferenced as well so we can manipulate the them in a GIS program such as QGIS, instead of using LabelImg.  Georeferenced.py does this using SAHI and YoloV8.  This is from https://github.com/obss/sahi/discussions/870  This works on a georeferenced tif file (geotif) or a png with associated .xml file that contains georeferencing.  This creates a geojson file of the predicted bounding boxes associated with the image which can be opened in GIS along with the image.  The following applies to manipulating the bounding boxes within QGIS.  Any Computer Vision model is not going to be perfect, and by importing into QGIS you can correct the False Negatives and False Positives.
+This is a rather specialzed section that won't apply to the majority of investigators.  Our images are georeferenced so we want the images and predicted bounding boxes to be georeferenced as well so we can manipulate the them in a GIS program such as QGIS, instead of using LabelImg.  Georeferenced.py does this using SAHI and YoloV8.  This is from https://github.com/obss/sahi/discussions/870 and all credit goes to the author.  This works on a georeferenced tif file (geotif) or a png with associated .xml file that contains georeferencing.  This creates a geojson file of the predicted bounding boxes associated with the image which can be opened in GIS along with the image.  The following applies to manipulating the bounding boxes within QGIS.  Any Computer Vision model is not going to be perfect, and by importing into QGIS you can correct the False Negatives and False Positives.
 
 For importing the geojson into qgis, we need to create the default style  Go to Project>Properties and click on Default Styles.  
 	Under default symbols, change fill to outline red or favoriate color
