@@ -25,12 +25,14 @@ and download
 
 python-3.9.16-amd64-full.exe
 
-Python.org no longer allows downloads for 3.9, they must have their reasons.  Unfortunately we need it for LabelImg (See annotation section) because LabelImg just closes after trying to do something when run in python 3.11.  Your other option is to use a different annotation program...there are many to choose from.  I created a virtual environment for 3.9 just for the image annotation and a virtual environment for 3.11 for the actual AI stuff.
+Python.org no longer allows downloads for 3.9, they must have their reasons.  Unfortunately we need it for LabelImg (See annotation section) because LabelImg just closes after trying to do something when run in python 3.11.  Your other option is to use a different annotation program...there are many to choose from.  I created a virtual environment for python 3.9 just for the image annotation and a virtual environment for python 3.11 for the actual AI stuff.
 
 ### Install your favorite python IDE
 The pycharm community edition is free
 
 https://www.jetbrains.com/pycharm/download/?section=windows
+
+SETTING UP PYCHARM????
 
 ### Create Local Python Environment for AI_Porject
 in cmd-go to the folder you want your local project in, for me it is C:\Users\Green Sturgeon\AI_Project and or a python 3.11 virtual environment type
