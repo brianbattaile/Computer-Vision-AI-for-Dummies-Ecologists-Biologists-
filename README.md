@@ -181,7 +181,7 @@ The confusion matrix is a matrix in the form of
 TP  FP
 FN  TN
 
-with columns normalized to 1, (or a percentage) with true on the x axis and predictions on the y axis.  The IoU threshold is set at 0.45, why not 0.5 I don't know.
+for a singe class, with columns normalized to 1, (or a percentage) with true on the x axis and predictions on the y axis.  The IoU threshold is set at 0.45, why not 0.5 I don't know.
 
 There are two types of confidence scores, box confidence and class confidence.
 Box confidence is IoU(pred, truth) * Pr(Object).  I have not been able to find the equation for calculating PR(Object).
@@ -189,5 +189,37 @@ Class confidence is PR(Class_i|Object) * PR(Object) * IoU(pred, truth).  Again, 
 
 A final summary statistic often found is the F1_Score = 2 x Precision x Recall\(Precision + Recall)
 
-## Using SAHI and your newly trained YoloV8 model
+## 5.1 Using SAHI and your newly trained YoloV8 model
+In your python 3.11 virtual environment from the CMD line
+
+`(venv) C:\Users\Green Sturgeon\AI_Project\Images> sahi predict --model_path  "C:\Users\Green Sturgeon\AI_Project\Images\runs\detect\train_XTRA_LARGE\weights\best.pt" --model_type yolov8 --source "C:\Users\Green Sturgeon\AI_Project\Images\images" --slice_height 640 --slice_width 640 --visual_bbox_thickness 1 --visual_hide_labels TRUE --visual_bbox_thickness 1 --visual_hide_labels TRUE`
+
+As with the yolo call to train, there are a huge number of optional arguments.  See https://docs.ultralytics.com/guides/sahi-tiled-inference/#standard-inference-with-yolov8  for further details.
+
+If you don't need to use SAHI, replace "sahi predict" with "yolo task=predict" and omit the slice_height and width arguments.  For additional yolo arguments see https://docs.ultralytics.com/modes/predict/#inference-arguments  Note that their example notation is in python, not command line notation.
+
+model_path is the path to one of the *.pt files in the weights folder.  You should use the best.pt model unless your an advanced user, but you are reading this so you aren't advanced...just like me.
+
+source is your path to the images you want your yoloV8 model to do predictions on
+
+--slice_height and slice_width are the dimensions in pixels you want SAHI to slice your images into...should be the same dimensions you used in part 3 Tiling Images and part 4 Train YoloV8.
+
+visual_hide_labels  I didn't want to see the confidence scores or because I only had one class, there was no abbiguity there.  Defaults to False
+
+visual_bbox_thickness  This is the thickness of the line of the bounding box that surrounds your ooi's, I prefered a thinner line so it didn't obstruct the image when I went back to correct the model predictions.
+
+## 5.2 Georeferenced.py (SAHI and YoloV8) on georeferenced images and QGIS
+
+This is a rather specialzed section that won't apply to the majority of investigators.  Our images are georeferenced so we want the images and predicted bounding boxes to be georeferenced as well so we can manipulate the them in a GIS program such as QGIS, instead of using LabelImg.  Georeferenced.py does this using SAHI and YoloV8.  This is from https://github.com/obss/sahi/discussions/870  This works on a georeferenced tif file (geotif) or a png with associated .xml file that contains georeferencing.  This creates a geojson file of the predicted bounding boxes associated with the image which can be opened in GIS along with the image.  The following applies to manipulating the bounding boxes within QGIS.  Any Computer Vision model is not going to be perfect, and by importing into QGIS you can correct the False Negatives and False Positives.
+
+For importing the geojson into qgis, we need to create the default style  Go to Project>Properties and click on Default Styles.  
+	Under default symbols, change fill to outline red or favoriate color
+	click on style manager, click on line, click on simple red line, change color or width or whatever.
+Edit, click on pencil when layer is selected, use polygon tool to add fish, delete polygons with select features tool, adjust polygons with vertex tool
+	View>Toolbars>Shape Digitizing Toolbar  Then use "add rectangle from extent"
+Save as geojson file non newline type...which can be reconverted to Yolo annotation format in next section for adding to the images to retain the model on a larger data set for next time.  It's a never ending iterativ process over time.
+
+## 6 Convert georeferenced annotations back to Yolo format
+
+Run "Geojson_to_Yolo_Darknet.py to convert QGIS geojson files into yolo darknet annotation sytle.  This is essentially a reverse engineered back transform of the Georeferenced.py script that made coco (Coco is a data set of images of everyday items used to train and benchmark AI computer vision models) formatted annotations (which are based on x-y coordinates of the image in pixels) and turned them into georeferenced coordinates based on the projection of the georeferenced image.  So Geojson_to_Yolo_Darknet.py takes georeferenced annotations and turns them into x-y image pixel coordinates but using the yolo darknet annotation format instead of the coco format.  Its confusing as Fuck.  Now you can retrain your model with the new annotations and images that your model helped you identify.
 
