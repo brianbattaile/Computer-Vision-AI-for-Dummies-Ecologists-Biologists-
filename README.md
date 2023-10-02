@@ -172,4 +172,22 @@ Results end up in C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\tra
 
 ### Understanding the Results
 
-What to put here?
+Understanding the diagnostics is a bit opaque and at some levels requires digging into the code or trusting what you might read on line.  The following is what I've been able to glean from multiple sources.  
+
+Predictions can come in 4 flavors, True Positives (TP), False Positives (FP), True Negatives (TN) and False Negatives (FN).  True positives occur when the model predicted an object of interest correctly.  False Positives occur when the model detected an object of interest that did not exist.  Ture Negatives occur when the computer does not detect an ooi when non exist, kinda strange in practice.  False Negatives occur when the model did not detect and ooi when in fact it did exist. There are a number of metrics to summarize the efficency of the model using these four flavors, but the two most commonly used statistics for computer Vision AI are Recall and Precision.  Recall is TP/(TP + FN) or in words, the percentage of true predictions of all real ooi's, or how welll do we find the ooi's. Precision is TP/(TP + FP) or in words, the percentage of true predictions of all predictions, or the percentage of predictions that are correct.  The rub is that if we want better Precision, Recall gets worse and vise versa, so there is a Precisioin Recall curve that shows how these two are co-related.  The other rub, is that these are different for different classes.  Another common statistic we are interested in is how close is the bounding box created by the computer model prediction, to the bounding box we created in the annotations, the close they are to the same size and location, the better.  The metric that describes this is the Intersectin over Union and is defined as the Area of overlap/Area of Union.  Often an IoU of 50% or greater is used as a lower limit to determine if a prediction is a True Positive but that IoU is user defined.  A higher IoU will result in greater Precision but lower Recall.  From these statistics, the Average Precision is calculated.  Average Precision is defined at a prticular IoU, so AP50 is the average precision for an IoU of 50% or greater.  In other words, it is the weighted sum of precisions at each threshold where the weight is inthe increase in recall...if that helps you.  It is defined as the area under the Precision-Recall curve. The mAP50 is the average precision averaged over all the different ooi classes.  And a final statistic is mAP50-95, which is the mAP over blocks of 0.05 between 0.5 to 0.95.  
+
+The confusion matrix is a matrix in the form of 
+
+TP  FP
+FN  TN
+
+with columns normalized to 1, (or a percentage) with true on the x axis and predictions on the y axis.  The IoU threshold is set at 0.45, why not 0.5 I don't know.
+
+There are two types of confidence scores, box confidence and class confidence.
+Box confidence is IoU(pred, truth) * Pr(Object).  I have not been able to find the equation for calculating PR(Object).
+Class confidence is PR(Class_i|Object) * PR(Object) * IoU(pred, truth).  Again, unable to find equation for PR(Class_i|Object)
+
+A final summary statistic often found is the F1_Score = 2 x Precision x Recall\(Precision + Recall)
+
+## Using SAHI and your newly trained YoloV8 model
+
