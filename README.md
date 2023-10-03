@@ -74,36 +74,29 @@ or for a particular version, and in our case we need a python 3.9 environment
 
 #### Activate your local environment
 
-To activate your environment use cd in the CMD to get into the Scripts folder in your local environment
+To activate your environment navigate to the Scripts folder in your local environment and type "activate"
 
-`C:\Users\Green Sturgeon\AI_Project\AIvenv>  cd Scripts
+`C:\Users\Green Sturgeon\AI_Project\AIvenv3.11\Scripts> activate`
 
-`C:\Users\Green Sturgeon\AI_Project\AIvenv\Scripts>`
+and your CMD prompt will chage to this
 
-and type 
+`(AIvenv3.9) C:\Users\Green Sturgeon\AI_Project\AIvenv3.9\Scripts>`
 
-`activate`
-
-or
-
-`C:\Users\Green Sturgeon\AI_Project> AIvenv3.9\Scripts\activate`
-
-just type
-
-`(AIvenv3.9) C:\Users\Green Sturgeon\AI_Project\AIvenv3.9\Scripts> deactivate`
-
-to get out of your local environment
+just type "deactivate" while in that same Scripts folder to get our of your local environment
 
 ### Install Pytorch 
-Pytorch is needed to do AI stuff...comes with CUDA and cuDNN which could also be installed seperately.  Go to
+Pytorch is needed to do AI stuff...comes with CUDA and cuDNN which allow the use of your gpu, instead of your cpu, to do the AI work.
+
+Go to
 
 https://pytorch.org/get-started/locally/
 
-Find the CMD line code that fits your system, I chose the stable version, Widows, Pip, Python and CUDA 11.8.  CUDA is required for using your GPU, if for some reason your don't have a supported GPU, you will want to look into using Google Colab.  Hopefully (most likely) you do, in which case, copy the code and in your virtual environment (doesn't matter what folder you are in CMD) paste it in. 
+Find the CMD line code that fits your system, I chose the stable version, Widows, Pip, Python and CUDA 11.8.  CUDA is required for using your GPU, if for some reason your don't have a supported GPU, you will want to look into using Google Colab or go down the rabbit hole of trying to figure out how to get yours to work. Hopefully (most likely) yours does work, in which case, copy the code the website gives and in your virtual environment (doesn't matter what folder you are in CMD) paste it in.  This is what mine looks like.
 
 `(AIvenv3.9) C:\Users\Green Sturgeon\AI_Project> pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118`   
+
 ### Install LabelImg
-LabelImg is the program you will annotate your training images in, unfortunately, it does not work with python greater than 3.9....so install in the AIvenv3.9 virtual environment    
+LabelImg is the program you will annotate your training images with, unfortunately, it does not work with python greater than 3.9....so install in the AIvenv3.9 virtual environment    
  
 `(AIvenv3.9) C:\Users\Green Sturgeon\AI_Project> pip install labelImg`
 
@@ -121,21 +114,21 @@ See https://pypi.org/project/sahi/ for more information
 
 `(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project> pip install sahi`
 
-SAHI does the detections by chopping the image into small sections, ~the same size as your tiled images used for training the model, with overlap so it shouldn't miss anything.
+SAHI does the detections by chopping the image into small sections, ~the same size as your tiled images used for training the model, with overlap so it shouldn't miss anything, more on this later.
 
 ### Install split-folders
-For easy random splitting of train, test and validation images
+For easy random splitting of train, test and validation images (more on this later)
 
 `(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project\AIvenv3.11\Scripts>pip install split-folders`
 
+OK!  That's all you should need as far as programs and packages for you to run the AI on your computer.  So easy!!!
+
 ## 2. Annotating Images
-To use LabelImg to annotate your images, activate environment in CMD
-`C:\Users\Green Sturgeon\AI_Project> AIvenv3.9\Scripts\activate`
-Then open LabelImg from CMD by
+To use LabelImg to annotate your images, activate your python 3.9 environment then open LabelImg from CMD by
 
 `(AIvenv3.9) C:\Users\Green Sturgeon\AI_Project> LabelImg`
 
-In general, you want to enclose your target objects as closely as possible with the annotation box.  LabelImg is fairly self explanitory but go to https://github.com/HumanSignal/labelImg for more information.  Each type of object your are intersted in identifying will require it's own class label.  LabelImg automatically creates a classes.txt file when you annotate an image.  If you are opening a previously annotated image, you will need the classes.txt file in the folder with your images.  It is best practice to label all objects of interest in an image, leaving some out will "confuse" the model and make it less efficient.
+LabelImg is fairly self explanitory but go to https://github.com/HumanSignal/labelImg for more information.  In general, you want to enclose your target objects as closely as possible with the annotation box.  When you create a bounding box, LabelImg will ask for the class that ooi belongs to.  Each type of object your are intersted in identifying will require it's own class label.  You want to save your annotations using the Yolo style.  LabelImg also automatically creates a classes.txt file when you annotate an image.  If you are opening a previously annotated image, you will need the classes.txt file in the folder with your images.  It is best practice to label ALL of your objects of interest in an image, leaving some out will "confuse" the model and make it less efficient.
 
 ## 3. Tile Images
 If you have standard sized images, say 1280 x 1280 or smaller (much larger images slow down the processing),  or consistent sized images with objects of interest that are relatively large compared to the size of the image, you will not need to do this step.  The point of tiling the images is to create images the same size for training as you will input in the model for predictions when you go to use the model.  In my case, I can have very large images (~20,000 x 12,000) as well as relatively small images (~1,000 x 1,000) AND the objects of interest in my images are relatively small so breaking up the images into consistent sizes is mandatory for YoloV8 to work.  The convolution part of the convolution neural network reduces the size of the images through "filters" and if your ooi's are to small, then they get lost in the many series of filters of the convolution section.  When we go to implement the model for predictions we will also be cutting the images into a standard size but using the SAHI package to implement the model...again, if you have standard and consistent sized images with relatively large objects of interest, you will not need to use SAHI.
