@@ -157,23 +157,24 @@ After the script is finished, I assume we should reannotate the sliced images in
 In LabelImg, open "directory" and you can use the Next and Prev Image buttons to quickly go through your tiled images.  Ultimately, this will result in some images with no annotations but still have an annotations.txt file, which is just fine.
 
 ### Seperate your images into Train, Validate and Test categories
-To train a CNN like YoloV8, it is best practice to split the annotated data into a few groups.  Usually they are split into 70-80% Train, 10-20% Validate and 10% or so for Testing.  
+To train a Convolution Neural Network(CNN) like YoloV8, it is best practice to split the annotated data into a few groups.  Usually they are split into 70-80% Train, 10-20% Validate and 10% or so for Testing.  
 
-Use "Seperate Train Validate and Test.py" assign your tiled images and associated annotations into Train, Validate and Test folders.  Again, if you are more comfortable with R, you can use Seperate Train and Validate.R, but it currently only seperates into the Train and Validate groups.
+Use "Seperate Train Validate and Test.py" to assign your tiled images and associated annotations into Train, Validate and Test folders.  Again, if you are more comfortable with R, you can use Seperate Train and Validate.R, but it currently only seperates into the Train and Validate groups.  I"M NOT SURE YET THAT YOLO USES THE TEST GROUP.
 
 ## 4. Train VoloV8
 
-Yolo V8 comes in 5 different model sizes ranging from nano at 3.5 million parameters to extra large at 68.7 million parameters.  The difference in size will affect how quickly your model trains and how quickly it works when applied.  If you are working through large numbers of images such as video, or want to implement a fast version for realtime evaluation in video, the nano version may be your best option, if accurace is paramount and time is no object, the extral large version may be for you, some experimentation will be required to determine the best model for your application.
+Yolo V8 comes in 5 different model sizes ranging from nano at 3.5 million parameters to extra large at 68.7 million parameters.  The difference in size will affect how quickly your model trains and how quickly it works when applied.  If you are working through large numbers of images such as video, or want to implement a fast version for realtime evaluation in video, the nano version may be your best option, if accuracy is paramount and time is no object, the extral large version may be for you, some experimentation will be required to determine the best model for your application.
 
-There are a large number of options for training a YoloV8 model, I will go over a few of the options I found important, but please consult the YoloV8 reference pages https://docs.ultralytics.com/ but this is a monster of opaqueness and confusion for the beginner.  I also found this particular video valuable for explaining the training process and some output options, www.youtube.com/watch?v=gRAyOPjQ9_s "Complete yolo v8 custom object detection tutorial | Windows & Linux"
+There are a large number of options for training a YoloV8 model, I will go over a few of the options I found important, but please consult the YoloV8 reference pages https://docs.ultralytics.com/ but I found this is a monster of opaqueness and confusion.  I also found this particular video valuable for explaining the training process and some output options, www.youtube.com/watch?v=gRAyOPjQ9_s "Complete yolo v8 custom object detection tutorial | Windows & Linux"
 
 ### Create your .yaml file
 This file tells Yolo where your images are, the number of classes you want to train for and the names of those classes.  it's a simple file to create and I've included an example for my work with a single class of ooi's.
 
-Activate your Python 3.11 virtual environment and navigate to the folder where GSAI_Images.yaml folder is, for me it's called TrainYoloV8
+Activate your Python 3.11 virtual environment and navigate to the TrainYoloV8 folder where GSAI_Images.yaml is stored.
 
 ### Run the YoloV8 trainer on a pretrained model
-The following command traines a pretrained yoloV8 model, which means it comes from the factory trained to detect common everyday things you kind in your house or as you are walking around your neighborhood.  
+The following command traines a pretrained yoloV8 model, which means YoloV8 comes from the factory trained to detect common everyday things you find in your house or as you are walking around your neighborhood.  (As an asside, it is briefly fun to run that model on your images and watch the model find chairs and dogs amidst an image of a pristine forest or coral reef.)
+
 `(AIvenv) C:\Users\Green Sturgeon\AI_Project\TrainYoloV8>yolo task=detect mode=train epochs=120 data=GSAI_Images.yaml model=yolov8x.pt imgsz=640`
 
 I'll break down the commands used
@@ -181,22 +182,22 @@ task=detect  Yolo can do a few different computer vision tasks, object detection
 
 mode=train  Here we are training the model, When we go to actually use our trained model when we call yolo, we will use mode=predict
 
-epochs=300  This has to do with how many times the trainer will run through our images.  We don't want to over or under train our model, thankfully, the trainer tests for these things and will stop at an optimal point.  Advanced users will want to optimize this themselves, but if you are reading this, you are not an advanced user.  My extra large model stopped at ~120, so 300 was overkill for me, but better to overguess than find your training stopped at your limit resulting with an un optimized model, if this is the case, you can continue training your model with the following commands....
+epochs=300  This has to do with how many times the trainer will run through our images.  We don't want to over or under train our model, thankfully, the trainer tests for these things and will stop at an optimal point.  Advanced users will want to optimize this themselves, but if you are reading this, you are not an advanced user.  My extra large model stopped at ~120, so 300 was overkill for me, but better to overguess than find your training stopped at your limit resulting with an un-optimized model, if this is the case, you can continue training your model starting with the model it output...See "Results of the training" below for info on that.
 
 ### Run the YoloV8 trainer from an untrained model from "scratch"
-#Or use this to run a yolov8 model from scratch that has not been pretrained.  The only difference in the call is model=yolov8x.yaml.  I believe yolo grabs this file from the interwebs somewhere... I also did not find much difference in the overall results between this and the pretrained model.
+Or use this to run a yolov8 model from scratch that has not been pretrained.  The only difference in the call is model=yolov8x.yaml.  I believe yolo grabs this file from the interwebs somewhere... I also did not find much difference in the overall results between this and the pretrained model.
 yolo task=detect mode=train epochs=10 data=GSAI_Images.yaml model=yolov8x.yaml imgsz=640
 
 ### Run the trainer from python
-Trying to do it in YoloV8_train.py in the C:\Users\Green Sturgeon\AI_Project\AI_Project\TrainYoloV8
-	Need to add the "if __name__ == '__main__':" line to make it work relative to directions in ultralytics and everywhere else....I don't know why
+Trying to do it in YoloV8_train.py in the C:\Users\Green Sturgeon\AI_Project\AI_Project\TrainYoloV8\
+I needed to add the "if __name__ == '__main__':" line to make it work relative to directions in ultralytics and everywhere else....I don't know why
 
 Or in the command line, go to the folder it is in and run 
 
 `C:\Users\Green Sturgeon\AI_Project\TrainYoloV8> python YoloV8_train.py`
 
-### Results of the trining
-Results end up in C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\train and if you decide to train different models, they will end up in folders sequentially numbered folders train1, train2 etc.  Inside those folders are a number of diagnostic graphs, images from train and validate with model detections outlined with confidence scores.  The weights folder is your new model and what you will point to when running your model on new images.
+### Results of the training
+Results end up in C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\train and if you decide to train different models, they will end up in sequentially numbered folders train1, train2 etc.  Inside those folders are a number of diagnostic graphs, images from train and validate with model detections outlined with confidence scores.  The weights folder is your new model and what you will point to when running your model on new images, or if your model training stopped to soon, what you will point to, to further the training..
 
 ### Understanding the Results
 
