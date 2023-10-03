@@ -3,14 +3,15 @@
 ## Order of Operations
 1.  Preparing your Computer.  Adds python 3.11 and all needed packages to your computer to do the deep neural network computer vision work.
 2.  Annotate Images (This assumes you have images you want to work on)
-3.  Tile Images.   YoloV8 defaults to images 640 x 640 pixels but any size can be used.  My images are much larger AND teh fish I want to detect are relatively small.  So I must break up my images into smaller sizes close to 640 x 640 to train my model.
-4.  Train YoloV8  This is re-training the commercial YoloV8 model to work on images that you care about.
-5.  Run Model.  using SAHI and YoloV8.txt to create geojson files that mark your objects of interest (ooi's) from a Georeferenced Image.  SAHI cuts up your images into ~640 x 640 pixels, then applies your customized YoloV8 model to find your ooi's
+3.  Tile Images.   YoloV8 defaults to images 640 x 640 pixels but any size can be used.  My images are much larger AND the fish I want to detect are relatively small.  So I must break up my images into smaller sizes close to 640 x 640 to train my model.
+4.  Train YoloV8  This is training the YoloV8 model to work on images and objects of interest (ooi's) that you care about.
+5.  Run Model.  Using SAHI and YoloV8.txt to create geojson files that mark your ooi's from a georeferenced image.  SAHI cuts up your images into ~640 x 640 pixels, then applies your customized YoloV8 model to find your ooi's
 6.  QGIS. Import your images and corresponding geojson files for manual editing into QGIS to remove false positives and add false negatives.
-7.  Run "Geojson_to_Yolo_Darknet.py to convert QGIS geojson files into yolo darknet annotation sytle to reread into LabelImg or put back into
-	 step 4 to improve your yoloV8 model...yeah!!!
+7.  Run Geojson_to_Yolo_Darknet.py to convert QGIS geojson files into yolo darknet annotation sytle to reread into LabelImg or put back into step 4 to improve your yoloV8 model...yeah!!!
 
 ## 1. Preparing Your Computer
+Clone this repository to your computer.
+
 Install folders with python and directions...I put mine in C:\Users\Green Sturgeon\AI_Project
 
 ### Installing Python
