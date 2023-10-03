@@ -37,16 +37,42 @@ https://www.jetbrains.com/pycharm/download/?section=windows
 SETTING UP PYCHARM????
 
 ### Create Local Python Environment for AI_Porject
-in cmd-go to the folder you want your local project in, for me it is C:\Users\Green Sturgeon\AI_Project and or a python 3.11 virtual environment type
+
+We are going to make python local environments, which tends to be good practice because many python versions and packages can interfer with each other, so we can make a local environment to isolate projects that might require different python versions and packages.  We ran into this problem with LabelImg.
+
+#### Navigating in your Command Line Interface
+In your Command Prompt (CMD)-navigate to the folder where you downloaded this git hub repository, for me it is C:\Users\Green Sturgeon\AI_Project.  For instance, my CMD opens up to 
+
+`C:\Users\Green Sturgeon>`
+
+So I type 
+
+`C:\Users\Green Sturgeon> cd AI_Project`
+
+cd stands for change directory and AI_Projecct is the name of the folder I want to get to.   
+
+`C:\Users\Green Sturgeon\AI_Project`
+
+The fast way to do this if you have multiple folders to get through is copy the entire path from your folder explorer and paste that after "cd"
+
+`C:\Users\Green Sturgeon> cd C:\Users\Green Sturgeon\AI_Project\GeoReferenced`
+
+#### Python 3.11 local environment
+
+and to create a python 3.11 virtual environment type
 
 ```
-python -m venv AIvenv3.11
+C:\Users\Green Sturgeon\AI_Project>python -m venv AIvenv3.11
 ```
-replacing "AIvenv3.11" for your preferend folder name
+replacing "AIvenv3.11" for your preferend folder name of your virtual environment
 
-or for a particular version
+#### Python 3.9 local environment
+
+or for a particular version, and in our case we need a python 3.9 environment
 
 `python3.9 -m venv AIvenv3.9`
+
+#### Activate your local environment
 
 To activate your environment use cd in the CMD to get into the Scripts folder in your local environment
 
