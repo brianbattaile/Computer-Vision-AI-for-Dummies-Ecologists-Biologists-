@@ -53,9 +53,13 @@ cd stands for change directory and AI_Projecct is the name of the folder I want 
 
 `C:\Users\Green Sturgeon\AI_Project`
 
-The fast way to do this if you have multiple folders to get through is copy the entire path from your folder explorer and paste that after "cd"
+The fast way to do this if you have multiple folders to get through is copy the entire path from your folder explorer and paste that after "cd", for instance
 
 `C:\Users\Green Sturgeon> cd C:\Users\Green Sturgeon\AI_Project\GeoReferenced`
+
+gets you to
+
+`C:\Users\Green Sturgeon\AI_Project\GeoReferenced>`
 
 #### Python 3.11 local environment
 
@@ -165,7 +169,7 @@ Use "Seperate Train Validate and Test.py" to assign your tiled images and associ
 
 Yolo V8 comes in 5 different model sizes ranging from nano at 3.5 million parameters to extra large at 68.7 million parameters.  The difference in size will affect how quickly your model trains and how quickly it works when applied.  If you are working through large numbers of images such as video, or want to implement a fast version for realtime evaluation in video, the nano version may be your best option, if accuracy is paramount and time is no object, the extral large version may be for you, some experimentation will be required to determine the best model for your application.
 
-There are a large number of options for training a YoloV8 model, I will go over a few of the options I found important, but please consult the YoloV8 reference pages https://docs.ultralytics.com/ but I found this is a monster of opaqueness and confusion.  I also found this particular video valuable for explaining the training process and some output options, www.youtube.com/watch?v=gRAyOPjQ9_s "Complete yolo v8 custom object detection tutorial | Windows & Linux"
+There are a large number of options for training a YoloV8 model, I will go over a few of the options I found important, but please consult the YoloV8 reference pages https://docs.ultralytics.com/ and specifically https://docs.ultralytics.com/usage/cfg/#train but in gneral I found this site to be a monster of opaqueness and confusion.  I also found this particular video valuable for explaining the training process and some output options, www.youtube.com/watch?v=gRAyOPjQ9_s "Complete yolo v8 custom object detection tutorial | Windows & Linux"
 
 ### Create your .yaml file
 This file tells Yolo where your images are, the number of classes you want to train for and the names of those classes.  it's a simple file to create and I've included an example for my work with a single class of ooi's.
@@ -180,9 +184,9 @@ The following command traines a pretrained yoloV8 model, which means YoloV8 come
 I'll break down the commands used
 task=detect  Yolo can do a few different computer vision tasks, object detection is just one of them, others include segmentation, pose estimation, tracking, and classification.
 
-mode=train  Here we are training the model, When we go to actually use our trained model when we call yolo, we will use mode=predict
+mode=train  Here we are training the model, When we go to actually use our trained model when we call yolo, we would use mode=predict
 
-epochs=300  This has to do with how many times the trainer will run through our images.  We don't want to over or under train our model, thankfully, the trainer tests for these things and will stop at an optimal point.  Advanced users will want to optimize this themselves, but if you are reading this, you are not an advanced user.  My extra large model stopped at ~120, so 300 was overkill for me, but better to overguess than find your training stopped at your limit resulting with an un-optimized model, if this is the case, you can continue training your model starting with the model it output...See "Results of the training" below for info on that.
+epochs=300  This has to do with how many times the trainer will run through our images.  We don't want to over or under train our model, thankfully, the trainer tests for these things and will stop at an optimal point.  Advanced users will want to optimize this themselves, but if you are reading this, you are not an advanced user.  My extra large model stopped at ~120, so 300 was overkill for me, but better to overguess than find your training stopped at your limit resulting with an un-optimized model.  You might be able to restart the training where it left off but that's really beyond this tutorial. 
 
 ### Run the YoloV8 trainer from an untrained model from "scratch"
 Or use this to run a yolov8 model from scratch that has not been pretrained.  The only difference in the call is model=yolov8x.yaml.  I believe yolo grabs this file from the interwebs somewhere... I also did not find much difference in the overall results between this and the pretrained model.
@@ -197,13 +201,21 @@ Or in the command line, go to the folder it is in and run
 `C:\Users\Green Sturgeon\AI_Project\TrainYoloV8> python YoloV8_train.py`
 
 ### Results of the training
-Results end up in C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\train and if you decide to train different models, they will end up in sequentially numbered folders train1, train2 etc.  Inside those folders are a number of diagnostic graphs, images from train and validate with model detections outlined with confidence scores.  The weights folder is your new model and what you will point to when running your model on new images, or if your model training stopped to soon, what you will point to, to further the training..
+Results end up in C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\train and if you decide to train different models, they will end up in sequentially numbered folders train1, train2 etc.  Inside those folders are a number of diagnostic graphs, images from train and validate with model detections outlined with confidence scores.  The weights folder is your new model and what you will point to when running your model on new images.
 
 ### Understanding the Results
 
-Understanding the diagnostics is a bit opaque and at some levels requires digging into the code or trusting what you might read on line.  The following is what I've been able to glean from multiple sources.  
+Understanding the diagnostics is a bit opaque and at some levels requires digging into the code or trusting what you might read on-line.  The following is what I've been able to glean from multiple sources.  
 
-Predictions can come in 4 flavors, True Positives (TP), False Positives (FP), True Negatives (TN) and False Negatives (FN).  True positives occur when the model predicted an object of interest correctly.  False Positives occur when the model detected an object of interest that did not exist.  Ture Negatives occur when the computer does not detect an ooi when none exist, kinda strange in practice.  False Negatives occur when the model did not detect and ooi when in fact it did exist. There are a number of metrics to summarize the efficency of the model using these four flavors, but the two most commonly used statistics for computer Vision AI are Recall and Precision.  Recall is $\frac{TP}{(TP + FN)}$ or in words, the percentage of true predictions of all real ooi's, or how well do we find the ooi's. Precision is $\frac{TP}{(TP + FP)}$ or in words, the percentage of true predictions of all predictions, or the percentage of predictions that are correct.  The rub is that if we want better Precision, Recall gets worse and vise versa, so there is a Precisioin Recall curve that shows how these two are co-related.  The other rub, is that these are different for different classes.  Another common statistic we are interested in is how close is the bounding box created by the computer model prediction, to the bounding box we created in the annotations, the close they are to the same size and location, the better.  The metric that describes this is the Intersectin over Union and is defined as the $\frac{\text{Area  of  Overlap}}{\text{Area  of  Union}}$.  Often an IoU of 50% or greater is used as a lower limit to determine if a prediction is a True Positive but that IoU is user defined.  A higher IoU will result in greater Precision but lower Recall.  From these statistics, the Average Precision is calculated.  Average Precision is defined at a prticular IoU, so AP50 is the average precision for an IoU of 50% or greater.  In other words, it is the weighted sum of precisions at each threshold where the weight is inthe increase in recall...if that helps you.  It is defined as the area under the Precision-Recall curve. The mAP50 is the average precision averaged over all the different ooi classes.  And a final statistic is mAP50-95, which is the mAP over blocks of 0.05 between 0.5 to 0.95.  
+Predictions can come in 4 flavors, True Positives (TP), False Positives (FP), True Negatives (TN) and False Negatives (FN).  True positives occur when the model predicted an object of interest correctly.  False Positives occur when the model detected an object of interest that did not exist.  Ture Negatives occur when the computer does not detect an ooi when none exist, kinda strange in practice.  False Negatives occur when the model did not detect and ooi when in fact it did exist. There are a number of metrics to summarize the efficency of the model using these four flavors, but the two most commonly used statistics for computer Vision AI are Recall and Precision.  Recall is $\frac{TP}{(TP + FN)}$ or in words, the percentage of true predictions of all real ooi's, or how well do we find the ooi's. Precision is $\frac{TP}{(TP + FP)}$ or in words, the percentage of true predictions of all predictions, or the percentage of predictions that are correct.  The rub is that if we want better Precision, Recall gets worse and vise versa, so there is a Precision Recall curve that shows how these two are co-related.  The other rub, is that these are different for different classes.  Another common statistic we are interested in is how close is the bounding box created by the computer model prediction, to the bounding box we created in the annotations, the closer they are in size and location, the better.  The metric that describes this is the Intersectin over Union and is defined as the $\frac{\text{Area  of  Overlap}}{\text{Area  of  Union}}$.  Often an IoU of 50% or greater is used as a lower limit to determine if a prediction is a True Positive but that IoU is user defined.  A higher IoU will result in greater Precision but lower Recall.  From these statistics, the Average Precision is calculated.  
+
+$$AP=\sum_{i=0}^{n-1}(Recall_i-Recall_{i-1}) Precision_i$$
+
+Average Precision is defined at a prticular IoU, so AP50 is the average precision for an IoU of 50% or greater.  In other words, it is the weighted sum of precisions at each threshold where the weight is the increase in recall...if that helps you.  It is more simply defined as the area under the Precision-Recall curve. The mAP50 (mean AP50) is the average precision averaged over all the different ooi classes.  
+
+$$mAP=\frac{1}{c} \sum_{i=1}^c AP_i$$
+
+And a final statistic is mAP50-95, which is the mAP over IoU blocks of 0.05 between 0.5 to 0.95.  
 
 The confusion matrix is a matrix in the form of 
 
@@ -218,13 +230,18 @@ for a singe class, with columns normalized to 1, (or a percentage) with true on 
 There are two types of confidence scores, box confidence and class confidence.  I believe the box confidence is the confidence associated with the bounding boxes created in the training and in predictions when using the model.  Box confidence is $IoU(pred, truth) \times Pr(Object)$.  I have not been able to find the equation for calculating $PR(Object)$.
 Class confidence is $PR(Class_i|Object) \times PR(Object) \times IoU(pred, truth)$.  Again, unable to find equation for $PR(Class_i|Object)$
 
-A final summary statistic often found is the $F1$
+A final summary statistic often found is the $F1_{Score}$
 
 $$F1_{Score} = \frac{2\times{Precision}\times{Recall}}{(Preciaion + Recall)}$$
 
-$$AP=\sum_{i=0}^{n-1}(Recall_i-Recall_{i-1}) Precision_i$$
+## Running your basic model
 
-$$mAP=\frac{1}{c} \sum_{i=1}^c AP_i$$
+to run a basic model from CMD line,
+
+```
+yolo detect predict model='C:\Users\Green Sturgeon\AI_Project\Images\runs\detect\train_XTRA_LARGE\weights\best.pt' source='C:\Users\Green Sturgeon\AI_Project\Images\images' imgsz=640 
+```
+but again, please see https://docs.ultralytics.com/usage/cfg/#predict for a list and brief description of the possible arguments.
 
 ## 5.1 Using SAHI and your newly trained YoloV8 model
 SAHI stands for Slicing Aided Hyper Inference and is designed to find relatively small objects within larger images.  For my use, this is mandatory because of my large, inconsistently sized images with small ooi's.  See https://docs.ultralytics.com/guides/sahi-tiled-inference/ and https://github.com/obss/sahi.
@@ -243,7 +260,7 @@ source is your path to the images you want your yoloV8 model to do predictions o
 
 --slice_height and slice_width are the dimensions in pixels you want SAHI to slice your images into...should be the same dimensions you used in part 3 Tiling Images and part 4 Train YoloV8.
 
-visual_hide_labels  I didn't want to see the confidence scores or because I only had one class, there was no abbiguity there.  Defaults to False
+visual_hide_labels  I didn't want to see the confidence scores or because I only had one class, there was no ambiguity there.  Defaults to False
 
 visual_bbox_thickness  This is the thickness of the line of the bounding box that surrounds your ooi's, I prefered a thinner line so it didn't obstruct the image when I went back to correct the model predictions.
 
