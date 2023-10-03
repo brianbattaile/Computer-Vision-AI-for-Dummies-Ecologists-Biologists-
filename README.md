@@ -10,13 +10,14 @@
 7.  Run Geojson_to_Yolo_Darknet.py to convert QGIS geojson files into yolo darknet annotation sytle to reread into LabelImg or put back into step 4 to improve your yoloV8 model...yeah!!!
 
 ## 1. Preparing Your Computer
-If you are a github stud, clone this repository, if not, just go to "code" and download the zip file and install it in your favored location on your computer, I chose to put it here and renaimed it AI_Project.
+If you are a github stud, clone this repository, if not, just go to green "code" button and download the zip file and install it in your favored location on your computer, I chose to put it here and renaimed it AI_Project.
 
 C:\Users\Green Sturgeon\AI_Project
 
 ### Installing Python
 
-Install python 3.11  click "add to path" at install.   I installed at C:\Users\Green Sturgeon\AppData\Local\Programs
+Go to https://www.python.org/downloads/
+Install python 3.11 (Or the latest version, this guide was made using 3.11).   click "add to path" at install.   I used the default and installed at C:\Users\Green Sturgeon\AppData\Local\Programs
 
 Install python 3.9-- Go to 
 
@@ -26,7 +27,7 @@ and download
 
 python-3.9.16-amd64-full.exe
 
-Python.org no longer allows downloads for 3.9, they must have their reasons.  Unfortunately we need it for LabelImg (See annotation section) because LabelImg just closes after trying to do something when run in python 3.11.  Your other option is to use a different annotation program...there are many to choose from.  I created a virtual environment for python 3.9 just for the image annotation and a virtual environment for python 3.11 for the actual AI stuff.
+Python.org no longer allows downloads for 3.9, they must have their reasons.  Unfortunately we need it for LabelImg (See annotation section) because LabelImg just closes after trying to do something when run in python 3.11.  Your other option is to use a different annotation program...there are many to choose from.  I created a virtual environment (explained later) for python 3.9 just for the image annotation and a virtual environment for python 3.11 for the actual AI stuff.
 
 ### Install your favorite python IDE
 The pycharm community edition is free
