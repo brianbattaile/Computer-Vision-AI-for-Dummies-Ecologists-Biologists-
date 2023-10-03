@@ -240,8 +240,10 @@ $$F1_{Score} = \frac{2\times{Precision}\times{Recall}}{(Preciaion + Recall)}$$
 Now that you have trained your model, you can use it to identify things!  To run a basic model from CMD line,
 
 ```
-yolo detect predict model='C:\Users\Green Sturgeon\AI_Project\Images\runs\detect\train_XTRA_LARGE\weights\best.pt' source='C:\Users\Green Sturgeon\AI_Project\Images\images' imgsz=640 
+yolo detect predict model="C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\train_XTRA_LARGE\weights\best.pt" source="C:\Users\Green Sturgeon\AI_Project\Test" imgsz=640 save_txt=True
 ```
+
+Which will save labeled images and a yolo_darknet annotation text file that you can read back into LabelImg to fix False Positives and False Negatives by hand....Hey, no one said this was perfect.
 but again, please see https://docs.ultralytics.com/usage/cfg/#predict for a list and brief description of the possible arguments.
 
 ## 5.1 Using SAHI and your newly trained YoloV8 model
@@ -267,9 +269,9 @@ visual_bbox_thickness  This is the thickness of the line of the bounding box tha
 
 This is a rather specialzed section that won't apply to the majority of investigators.  Our images are georeferenced so we want the images and predicted bounding boxes to be georeferenced as well so we can manipulate them in a GIS program such as QGIS, instead of using LabelImg.  GeoreferencedBB.py does this using SAHI and YoloV8.  This is from https://github.com/obss/sahi/discussions/870 and all credit goes to the author.  This works on a georeferenced .tif file (geotif) or a .png with associated .xml file that contains georeferencing.  This creates a geojson file of the predicted bounding boxes associated with the image which can be opened in GIS along with the image.  You can run this file from your python IDE or from the CMD activate your 3.11 virtual environment and navigate to the folder the python script is in and type
 
-`(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project\Georeferenced> python GeoReferencedBB.py
+`(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project\Georeferenced> python GeoReferencedBB.py`
 
-But before that you need to change the file paths on rows 59 and 66.  Also, the script is currently set up for .png files, if you are using .tif files, you will need to change lines 61 and 81 from "png" to "tif".
+But before that you need to change the file paths on rows 59 and 66.  The path on line 59 will find every instance of a .png in the directories and subdirectories below it and will perform the predictions on all these images.  Also, the script is currently set up for .png files, if you are using .tif files, you will need to change lines 61 and 81 from "png" to "tif".  The predictions will be saved as a .geojson file in the same directory as the image with the same name as the image.
 
 The following applies to manipulating the bounding boxes within the freeware QGIS.  Any Computer Vision model is not going to be perfect, and by importing into QGIS you can correct the False Negatives and False Positives.  
 
