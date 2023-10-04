@@ -251,21 +251,45 @@ SAHI stands for Slicing Aided Hyper Inference and is designed to find relatively
 
 In your python 3.11 virtual environment from the CMD line
 
-`(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project\Images> sahi predict --model_path  "C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\train_XTRA_LARGE\weights\best.pt" --model_type yolov8 --source "C:\Users\Green Sturgeon\AI_Project\Test" --slice_height 640 --slice_width 640 --visual_bbox_thickness 1 --visual_hide_labels TRUE --export_pickle TRUE`
+`(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project\Images> sahi predict --model_path  "C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\train_XTRA_LARGE\weights\best.pt" --model_type yolov8 --source "C:\Users\Green Sturgeon\AI_Project\Test" --slice_height 640 --slice_width 640 --overlap_height_ratio 0.2 --overlap_width_ratio 0.2 --visual_bbox_thickness 1 --visual_hide_labels TRUE --export_pickle TRUE --result_json_path result.json`
 
-The "pickle" file is the txt file with the annotations but in an unreadable format.  If you want to turn this into a readable yolodarknet annotation file, we must........
+As an asside...
+
+the "pickle" file is the txt file with the annotations but in an unreadable format.  If you want to turn this into a readable file, 
 
 ```
 python
 import pandas as pd
+```
+If you don't have pandas it will throgh an error in that case just do this
+
+`exit()`
+
+to exit python and then type
+
+`pip install pandas`
+
+Then rerun the import from within python
+
 unpickled_data=pd.read_pickle(r"C:\Users\Green Sturgeon\AI_Project\Test\runs\predict\exp\pickles\MasterImage000815_1_2.pickle")
 print(unpickled_data)
 ```
-to save as readable text file
+
+to save as readable text file still within python within CMD
 ```
 import pprint
-with open(r"C:\Users\Green Sturgeon\AI_Project\Test\runs\predict\exp\pickles\MasterImage000797_1_1.txt", "a") as f:pprint.pprint(unpickled_data, stream=f)
+with open(r"C:\Users\Green Sturgeon\AI_Project\Test\runs\predict\exp\pickles\MasterImage000797_1_1.txt", "a") as f:
+	pprint.pprint(unpickled_data, stream=f)
 ```
+You might need to press enter a couple times for it to take...don't know why
+
+To exit python
+```
+exit()
+```
+To turn it into a yolodarknet annotation file that we can read into LabelImg........  Probably need to create a .py to batch process these.
+
+Back to our regular programming.....
 
 As with the yolo call to train, there are a huge number of optional arguments.  See https://docs.ultralytics.com/guides/sahi-tiled-inference/#standard-inference-with-yolov8 for further details.
 
