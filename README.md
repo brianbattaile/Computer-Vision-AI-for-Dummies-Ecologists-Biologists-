@@ -243,7 +243,7 @@ Now that you have trained your model, you can use it to identify things!  To run
 yolo detect predict model="C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\train_XTRA_LARGE\weights\best.pt" source="C:\Users\Green Sturgeon\AI_Project\Test" imgsz=640 save_txt=True
 ```
 
-Which will save labeled images and a yolo_darknet annotation text file that you can read back into LabelImg to fix False Positives and False Negatives by hand....Hey, no one said this was perfect.
+Which will save labeled images and a yolo_darknet annotation text file in the folder that you are in at the CMD.  You can then read back into LabelImg to fix False Positives and False Negatives by hand....Hey, no one said this was perfect.
 but again, please see https://docs.ultralytics.com/usage/cfg/#predict for a list and brief description of the possible arguments.
 
 ## 5.1 Using SAHI and your newly trained YoloV8 model
@@ -251,7 +251,21 @@ SAHI stands for Slicing Aided Hyper Inference and is designed to find relatively
 
 In your python 3.11 virtual environment from the CMD line
 
-`(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project\Images> sahi predict --model_path  "C:\Users\Green Sturgeon\AI_Project\Images\runs\detect\train_XTRA_LARGE\weights\best.pt" --model_type yolov8 --source "C:\Users\Green Sturgeon\AI_Project\Images\images" --slice_height 640 --slice_width 640 --visual_bbox_thickness 1 --visual_hide_labels TRUE --visual_bbox_thickness 1 --visual_hide_labels TRUE`
+`(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project\Images> sahi predict --model_path  "C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\train_XTRA_LARGE\weights\best.pt" --model_type yolov8 --source "C:\Users\Green Sturgeon\AI_Project\Test" --slice_height 640 --slice_width 640 --visual_bbox_thickness 1 --visual_hide_labels TRUE --export_pickle TRUE`
+
+The "pickle" file is the txt file with the annotations but in an unreadable format.  If you want to turn this into a readable yolodarknet annotation file, we must........
+
+```
+python
+import pandas as pd
+unpickled_data=pd.read_pickle(r"C:\Users\Green Sturgeon\AI_Project\Test\runs\predict\exp\pickles\MasterImage000815_1_2.pickle")
+print(unpickled_data)
+```
+to save as readable text file
+```
+import pprint
+with open(r"C:\Users\Green Sturgeon\AI_Project\Test\runs\predict\exp\pickles\MasterImage000797_1_1.txt", "a") as f:pprint.pprint(unpickled_data, stream=f)
+```
 
 As with the yolo call to train, there are a huge number of optional arguments.  See https://docs.ultralytics.com/guides/sahi-tiled-inference/#standard-inference-with-yolov8 for further details.
 
