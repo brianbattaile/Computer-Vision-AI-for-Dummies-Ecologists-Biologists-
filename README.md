@@ -10,7 +10,7 @@
 7.  Run Geojson_to_Yolo_Darknet.py to convert QGIS geojson files into yolo darknet annotation sytle to reread into LabelImg or put back into step 4 to improve your yoloV8 model...yeah!!!
 
 ## 1. Preparing Your Computer
-If you are a github stud, clone this repository, if not, just go to green "code" button and download the zip file and install it in your favored location on your computer, I chose to put it here and renaimed it AI_Project.
+If you are a github stud, clone this repository, if not, just go to green "code" button and download the zip file and install it in your favored location on your computer, I chose to put it here.
 
 C:\Users\Green Sturgeon\AI_Project
 
