@@ -1,5 +1,7 @@
 # AI Computer Vision For Dummies (Biologists/Ecologists)
 
+This guide was prepared and tested on a windows 10 and windows 11 computer.  Using the CMD line code will most certainly fail on a Mac (but should be pretty close) though the python code should be the same.  Also, for most of this guide, the folder paths will start with the AI_Project folder from this github repository that you will soon download, and everything before that will be replaced by C:\Your\Folder\Path\To\ or C:\...\AI_Project
+
 ## Order of Operations
 1.  Preparing your Computer.  Adds python 3.11 and all needed packages to your computer to do the deep neural network computer vision work.
 2.  Annotate Images (This assumes you have images you want to work on)
@@ -12,14 +14,19 @@
 ## 1. Preparing Your Computer
 If you are a github stud, clone this repository, if not, just go to green "code" button and download the zip file and install it in your favored location on your computer, I chose to put it here.
 
-C:\Users\Green Sturgeon\AI_Project
+`C:\Users\Green Sturgeon\AI_Project`
 
 ### Installing Python
 
-Go to https://www.python.org/downloads/
-Install python 3.11 (Or the latest version, this guide was made using 3.11).   click "add to path" at install.   I used the default and installed at C:\Users\Green Sturgeon\AppData\Local\Programs
+We are going to install python 3.11 AND 3.9
 
-Install python 3.9-- Go to 
+Go to https://www.python.org/downloads
+
+Install python 3.11 (This guide was made using 3.11 and broke installing pytorch (later) with 3.12).   When installing at the first window, click "add to path".   I used the default and it installed at C:\Users\Green Sturgeon\AppData\Local\Programs\Python.  You will need to note the location of your install for later.
+
+Install python 3.9.  Unfortunately we need it for LabelImg (See annotation section) because LabelImg just closes after trying to do something when run in python 3.11.  Your other option is to use a different annotation program...there are many to choose from.  I created a virtual environment (explained later) for python 3.9 just for the image annotation and a virtual environment for python 3.11 for the actual AI stuff. 
+
+Python.org no longer allows downloads for 3.9, they must have their reasons, so go to 
 
 https://github.com/adang1345/PythonWindows/tree/master/3.9.16    
 
@@ -27,19 +34,16 @@ and download
 
 python-3.9.16-amd64-full.exe
 
-Python.org no longer allows downloads for 3.9, they must have their reasons.  Unfortunately we need it for LabelImg (See annotation section) because LabelImg just closes after trying to do something when run in python 3.11.  Your other option is to use a different annotation program...there are many to choose from.  I created a virtual environment (explained later) for python 3.9 just for the image annotation and a virtual environment for python 3.11 for the actual AI stuff.
-
 ### Install your favorite python IDE
 The pycharm community edition is free
 
 https://www.jetbrains.com/pycharm/download/?section=windows
 
-At this point, I highly recommend reading or watching a tutorial on you chosen editor, they are complicated beasts.  In the least, you will likely need to learn how to assign an interpreter to your project and learn how to run a script from the editor.
-SETTING UP PYCHARM????
+At this point, I highly recommend reading or watching a brief tutorial on you chosen editor, they are complicated beasts.  In the least, you will likely need to learn how to assign a python interpreter to your project and learn how to run a script from the editor.  Within pycharm at least, with a script open, you will go into the settings, poke around until you find the python interpreter and set it to the 3.11 python.exe in your 3.11 local environment that we will create next!!!
 
-### Create Local Python Environment for AI_Porject
+### Create Local Python Environment for AI_Project
 
-We are going to make python local environments, which tends to be good practice because many python versions and packages can interfer with each other, so we can make a local environment to isolate projects that might require different python versions and packages.  We ran into this problem with LabelImg.
+We are going to make python local environments, which tends to be good practice because many python versions and packages can interfer with each other, or not work together, as we found with pycharm and 3.12 and LabelImg not working in >3.10, so we can make a local environment to isolate projects that might require different python versions and packages.
 
 #### Navigating in your Command Line Interface
 In your Command Prompt (CMD)-navigate to the folder where you downloaded this git hub repository, for me it is C:\Users\Green Sturgeon\AI_Project.  For instance, my CMD opens up to 
@@ -67,35 +71,39 @@ In your CMD, type
 
 `pip install virtualenv`
 
-This imports a package to create virtual environments, this shouldn't be necessary but I have found it to be when creating virtual environments with different versions of python.
+This imports a package to create virtual environments.
 
 In CMD, navigate to the folder you want the virtual environment to be in, mine is in the top level of the github project you cloned or downloaded as a zip.
+
+`C:\Users\Green Sturgeon\AI_Project`
+
 Now type 
 ```
-python -m virtualenv AIvenv3.92 -p="C:\Users\Green Sturgeon\AppData\Local\Programs\Python\Python39\python.exe"
+python -m virtualenv AIvenv3.11 -p="C:\Users\Your\Folder\Path\AppData\Local\Programs\Python\Python311\python.exe"
 ```
-replacing "AIvenv3.11" for your preferend folder name of your virtual environment and "C:\Users\Green Sturgeon\AppData\Local\Programs\Python\Python39\python.exe" with the path to your 3.11 python executable file.
+replacing "AIvenv3.11" for your preferend folder name of your virtual environment and "C:\Users\...Your\Folder\Path...\AppData\Local\Programs\Python\Python39\python.exe" with the path to your 3.11 python executable file, which is likely to be similar to mine so ***HOPEFULLY*** you only need to replace the "...Your\Folder\Path..." part of the path.
 
 #### Python 3.9 local environment
 
-or for a particular version, and in our case we need a python 3.9 environment
-
-`python3.9 -m venv AIvenv3.9`
+Do the same to make a Python 3.9 local environment
+```
+python -m virtualenv AIvenv3.9 -p="C:\Users\...Your\Folder\Path...\AppData\Local\Programs\Python\Python39\python.exe"
+```
 
 #### Activate your local environment
 
 To activate your environment navigate to the Scripts folder in your local environment and type "activate"
 
-`C:\Users\Green Sturgeon\AI_Project\AIvenv3.11\Scripts> activate`
+`C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11\Scripts> activate`
 
 and your CMD prompt will chage to this
 
-`(AIvenv3.9) C:\Users\Green Sturgeon\AI_Project\AIvenv3.9\Scripts>`
+`(AIvenv3.9) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.9\Scripts>`
 
 just type "deactivate" while in that same Scripts folder to get our of your local environment
 
 ### Install Pytorch 
-Pytorch is needed to do AI stuff...comes with CUDA and cuDNN which allow the use of your gpu, instead of your cpu, to do the AI work.
+Pytorch is needed to do AI stuff...comes with CUDA and cuDNN which allow the use of your gpu, instead of your cpu, to do the AI work which is ***MANY*** times faster.
 
 Go to
 
@@ -130,6 +138,11 @@ SAHI does the detections by chopping the image into small sections, ~the same si
 For easy random splitting of train, test and validation images (more on this later)
 
 `(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project\AIvenv3.11\Scripts>pip install split-folders`
+
+### Install rasterio
+This is to help create images that can be uploaded into a GIS program
+
+`(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project\AIvenv3.11\Scripts>pip install rasterio`
 
 OK!  That's all you should need as far as programs and packages for you to run the AI on your computer.  So easy!!!
 
