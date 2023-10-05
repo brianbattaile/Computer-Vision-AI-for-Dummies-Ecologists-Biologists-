@@ -65,7 +65,7 @@ gets you to
 #### Python 3.11 local environment
 In your CMD, type 
 
-~pip install virtualenv`
+`pip install virtualenv`
 
 This imports a package to create virtual environments, this shouldn't be necessary but I have found it to be when creating virtual environments with different versions of python.
 
