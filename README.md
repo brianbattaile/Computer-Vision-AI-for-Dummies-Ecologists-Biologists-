@@ -22,7 +22,7 @@ We are going to install python 3.11 AND 3.9
 
 Go to https://www.python.org/downloads
 
-Install python 3.11 (This guide was made using 3.11 and broke installing pytorch (later) with 3.12).   When installing at the first window, click "add to path".   I used the default and it installed at C:\Users\Green Sturgeon\AppData\Local\Programs\Python.  You will need to note the location of your install for later.
+Install python 3.11 (This guide was made using 3.11 and broke installing pytorch (later) with 3.12).   When installing at the first window, click "add to path" check box.   I used the default and it installed at C:\Users\Green Sturgeon\AppData\Local\Programs\Python.  You will need to note the location of your install for later.
 
 Install python 3.9.  Unfortunately we need it for LabelImg (See annotation section) because LabelImg just closes after trying to do something when run in python 3.11.  Your other option is to use a different annotation program...there are many to choose from.  I created a virtual environment (explained later) for python 3.9 just for the image annotation and a virtual environment for python 3.11 for the actual AI stuff. 
 
@@ -138,7 +138,7 @@ pip install ultralytics
 ```
 
 ### Download the 5 YoloV8 models
-Downlaod all five sized models at https://docs.ultralytics.com/models/yolov8/#supported-tasks under the Supported models heading, in the Performance table and Detection(Coco) heading.  Click on the blue YOLOv8n, YOLOv8s etc...  Another place to find these is https://github.com/ultralytics/ultralytics
+Downlaod all five sized models at https://docs.ultralytics.com/models/yolov8/#supported-tasks under the Supported models heading, in the Performance table and Detection(Coco) heading.  Click on the blue YOLOv8n, YOLOv8s etc...  Another place to find these is https://github.com/ultralytics/ultralytics.  A good place to put them is C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8
 
 ### Install SAHI  
 See https://pypi.org/project/sahi/ for more information
@@ -218,12 +218,12 @@ python tile_yolo_new_BB.py`
 
 Sliced images with ooi's and annotation files end up in the C:\Users\...Your\Folder\Path...\AI_Project\Tile_Images\yolosliced\ts folder while any tiled images that did not have any ooi's end up in the C:\Users\...Your\Folder\Path...\AI_Project\ile_Images\yolo-tiling-main\yolosliced\ff folder.
 
-After the script is finished, I reannotate the sliced images in LabelImg to clean up any annotated objects of interest that were cut in half by the tiling program.  I kept a split annotation if I could still identify the object of interest as an object of interest and deleted any annotations otherwise. In LabelImg, open "directory" and you can use the Next and Prev Image buttons to quickly go through your tiled images.  Ultimately, this will result in some images with no annotations but still have an annotations.txt file, which is just fine.  Again, ***If you are opening a previously annotated image, you will need the classes.txt file in the folder with your image***
+After the script is finished, I reannotate the sliced images in LabelImg to clean up any annotated objects of interest that were cut in half by the tiling program.  I kept a split annotation if I could still identify the object of interest as an object of interest and deleted any annotations otherwise. In LabelImg, open "directory" and you can use the Next and Prev Image buttons to quickly go through your tiled images.  Ultimately, this will result in some images with no annotations but still have an annotations.txt file, which is just fine.  Again, ***If you are opening a previously annotated image, you will need the classes.txt file in the folder with your image***.
 
 ### Seperate your images into Train and Validate categories
-To train a Convolution Neural Network(CNN) like YoloV8, it is best practice to split the annotated data into a few groups.  Usually they are split into ~80-90% Train and ~10-20% Validate and ~10% or so for and optional Testing category.  
+To train a Convolution Neural Network(CNN) like YoloV8, you need to split the annotated data into a two-three groups.  Usually they are split into ~80-90% Train and ~10-20% Validate and ~10% or so for a Testing category.  
 
-Use "Seperate Train Validate and Test.py" to assign your tiled images and associated annotations into Train, Validate and optional Test folders.  Again, if you are more comfortable with R, you can use Seperate Train and Validate.R, but it currently only seperates into the Train and Validate groups.  YoloV8 doesn't make use of a Test category at this point for the training.
+Use "Seperate Train Validate and Test.py" to assign your tiled images and associated annotations into Train, Validate and optional Test folders.  Again, if you are more comfortable with R, you can use Seperate Train and Validate.R, but it currently only seperates into the Train and Validate groups.  YoloV8 doesn't make use of a Test category at this point for the training, so we only want to seperate our images into Train and Validate categories.
 
 ## 4. Train VoloV8
 
