@@ -100,30 +100,42 @@ and your CMD prompt will chage to this
 
 `(AIvenv3.9) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.9\Scripts>`
 
-just type "deactivate" while in that same Scripts folder to get our of your local environment
+just type "deactivate" while in that same Scripts folder to get our of your local environment.  At this point, I found it easiest to have two CMD windows open, one with your python 3.9 local environment activated and the other with your 3.11 python environment activated...and maybe even a third open without a local environment activated.  Keeping track of which is which can take some extra concentration, but having to constantly activate and deactivate local environments is ***TEDIOOUS***.
 
 ### Install Pytorch 
-Pytorch is needed to do AI stuff...comes with CUDA and cuDNN which allow the use of your gpu, instead of your cpu, to do the AI work which is ***MANY*** times faster.
+Pytorch is needed to do AI stuff...comes with CUDA and cuDNN which allow the use of your gpu, instead of your cpu, to do the AI work which is ***MANY*** times faster.  I was not able to install pytorch with Python 3.12, but that might have changed by the time you read this.
 
 Go to
 
 https://pytorch.org/get-started/locally/
 
-Find the CMD line code that fits your system, I chose the stable version, Widows, Pip, Python and CUDA 11.8.  CUDA is required for using your GPU, if for some reason your don't have a supported GPU, you will want to look into using Google Colab or go down the rabbit hole of trying to figure out how to get yours to work. Hopefully (most likely) yours does work, in which case, copy the code the website gives and in your virtual environment (doesn't matter what folder you are in CMD) paste it in.  This is what mine looks like.
+And in that orange and grey table select the options that describe your system, I chose the stable version, Widows, Pip, Python and CUDA 11.8.  If for some reason your don't have a supported GPU, you will want to look into using Google Colab if you have serious computing power needs or just use your CPU for small projects. If you have a relatively modern computer with an NVIDIA GPU, your GPU will likely work, regardless, we must try so copy the code the website shows at the bottom of the table and in your virtual environment (doesn't matter what folder you are in CMD) paste it in.  This is what mine looks like.
 
-`(AIvenv3.9) C:\Users\Green Sturgeon\AI_Project> pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118`   
+`(AIvenv3.9) C:\Users\...Your\Folder\Path...\AI_Project>pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118```   
 
 ### Install LabelImg
-LabelImg is the program you will annotate your training images with, unfortunately, it does not work with python greater than 3.9....so install in the AIvenv3.9 virtual environment    
+LabelImg is the program you will annotate your training images with, unfortunately, it does not work with python greater than 3.9 so...
+
+In your AIvenv3.9 virtual environment
  
-`(AIvenv3.9) C:\Users\Green Sturgeon\AI_Project> pip install labelImg`
+`(AIvenv3.9) C:\Users\Green Sturgeon\AI_Project>`
+
+Type
+```
+pip install labelImg
+```
 
 ### Install YoloV8
 See https://pypi.org/project/ultralytics/ for more information
 
-In your AIvenv3.11 virtual environment	
+In your AIvenv3.11 virtual environment
 
-`(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project> pip install ultralytics`
+`(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project>
+
+type
+```
+pip install ultralytics`
+```
 	
 downlaod all five sized models at https://docs.ultralytics.com/models/yolov8/#supported-tasks under the DETECTION heading
 
