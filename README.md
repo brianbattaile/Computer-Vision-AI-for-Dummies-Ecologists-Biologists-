@@ -63,13 +63,18 @@ gets you to
 `C:\Users\Green Sturgeon\AI_Project\GeoReferenced>`
 
 #### Python 3.11 local environment
+In your CMD, type 
 
-and to create a python 3.11 virtual environment type
+~pip install virtualenv`
 
+This imports a package to create virtual environments, this shouldn't be necessary but I have found it to be when creating virtual environments with different versions of python.
+
+In CMD, navigate to the folder you want the virtual environment to be in, mine is in the top level of the github project you cloned or downloaded as a zip.
+Now type 
 ```
-C:\Users\Green Sturgeon\AI_Project>python -m venv AIvenv3.11
+python -m virtualenv AIvenv3.92 -p="C:\Users\Green Sturgeon\AppData\Local\Programs\Python\Python39\python.exe"
 ```
-replacing "AIvenv3.11" for your preferend folder name of your virtual environment
+replacing "AIvenv3.11" for your preferend folder name of your virtual environment and "C:\Users\Green Sturgeon\AppData\Local\Programs\Python\Python39\python.exe" with the path to your 3.11 python executable file.
 
 #### Python 3.9 local environment
 
