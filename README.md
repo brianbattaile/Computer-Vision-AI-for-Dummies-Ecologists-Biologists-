@@ -66,7 +66,7 @@ gets you to
 
 `C:\Users\Green Sturgeon\AI_Project\GeoReferenced>`
 
-#### Python 3.11 local environment
+#### Python 3.11 virtual local environment
 In your CMD, type 
 
 `pip install virtualenv`
@@ -83,14 +83,14 @@ python -m virtualenv AIvenv3.11 -p="C:\Users\Your\Folder\Path\AppData\Local\Prog
 ```
 replacing "AIvenv3.11" for your preferend folder name of your virtual environment and "C:\Users\...Your\Folder\Path...\AppData\Local\Programs\Python\Python39\python.exe" with the path to your 3.11 python executable file, which is likely to be similar to mine so ***HOPEFULLY*** you only need to replace the "...Your\Folder\Path..." part of the path.
 
-#### Python 3.9 local environment
+#### Python 3.9 virtual local environment
 
 Do the same to make a Python 3.9 local environment
 ```
 python -m virtualenv AIvenv3.9 -p="C:\Users\...Your\Folder\Path...\AppData\Local\Programs\Python\Python39\python.exe"
 ```
 
-#### Activate your local environment
+#### Activate your virtual local environment
 
 To activate your environment navigate to the Scripts folder in your local environment and type "activate"
 
@@ -100,7 +100,7 @@ and your CMD prompt will chage to this
 
 `(AIvenv3.9) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.9\Scripts>`
 
-just type "deactivate" while in that same Scripts folder to get our of your local environment.  At this point, I found it easiest to have two CMD windows open, one with your python 3.9 local environment activated and the other with your 3.11 python environment activated...and maybe even a third open without a local environment activated.  Keeping track of which is which can take some extra concentration, but having to constantly activate and deactivate local environments is ***TEDIOOUS***.
+just type "deactivate" while in that same Scripts folder to get our of your local environment.  At this point, I found it easiest to have two CMD windows open, one with your python 3.9 local environment activated and the other with your 3.11 python environment activated...and maybe even a third open without a local environment activated.  Keeping track of which is which can take some extra concentration, but having to constantly activate and deactivate virtual environments is *tedious*.
 
 ### Install Pytorch 
 Pytorch is needed to do AI stuff...comes with CUDA and cuDNN which allow the use of your gpu, instead of your cpu, to do the AI work which is ***MANY*** times faster.  I was not able to install pytorch with Python 3.12, but that might have changed by the time you read this.
@@ -109,12 +109,12 @@ Go to
 
 https://pytorch.org/get-started/locally/
 
-And in that orange and grey table select the options that describe your system, I chose the stable version, Widows, Pip, Python and CUDA 11.8.  If for some reason your don't have a supported GPU, you will want to look into using Google Colab if you have serious computing power needs or just use your CPU for small projects. If you have a relatively modern computer with an NVIDIA GPU, your GPU will likely work, regardless, we must try so copy the code the website shows at the bottom of the table and in your virtual environment (doesn't matter what folder you are in CMD) paste it in.  This is what mine looks like.
+And in that orange and grey table select the options that describe your system, I chose the stable version, Widows, Pip, Python and CUDA 11.8.  If for some reason your don't have a supported GPU, you will want to look into using Google Colab if you have serious computing power needs or just use your CPU for small projects. If you have a relatively modern computer with an NVIDIA GPU, your GPU will likely work, regardless, we must try so copy the code the website shows at the bottom of the table and in your python 3.11 virtual environment (doesn't matter what folder you are in CMD) paste it in.  This is what mine looks like. 
 
-`(AIvenv3.9) C:\Users\...Your\Folder\Path...\AI_Project>pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118```   
+`(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project>pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118```   
 
 ### Install LabelImg
-LabelImg is the program you will annotate your training images with, unfortunately, it does not work with python greater than 3.9 so...
+LabelImg is the program you will use to annotate your training images with, unfortunately, it does not work with python greater than 3.9 so...
 
 In your AIvenv3.9 virtual environment
  
@@ -136,8 +136,9 @@ type
 ```
 pip install ultralytics`
 ```
-	
-downlaod all five sized models at https://docs.ultralytics.com/models/yolov8/#supported-tasks under the DETECTION heading
+
+### Download the 5 YoloV8 models
+Downlaod all five sized models at https://docs.ultralytics.com/models/yolov8/#supported-tasks under the Supported models heading, in the Performance table and Detection(Coco) heading.  Click on the blue YOLOv8n, YOLOv8s etc...  Another place to find these is https://github.com/ultralytics/ultralytics
 
 ### Install SAHI  
 See https://pypi.org/project/sahi/ for more information
