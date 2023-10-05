@@ -174,25 +174,29 @@ OK!  That's all you should need as far as programs and packages for you to run t
 
 ## 2. Annotating Images
 
-First, put the images you want to use to train your model in a folder inside
+To create an AI model that will detect objects of interest for you, you first must show the AI what it should be looking for.  We do this by annotating images by drawing boxes that surround the objects of interest and labeling those boxes with a class name (like Fish_Type_1).  Annotatio prograrms help us do this by turning these graphic boxes (and associated labels) into text files that describe where the boxes are in the image, and what class that box belongs to. This is the time consuming part of creating an AI as many hundreds to thousands of images must be annotated with thousands of boxes surrounding each class of your objects of interest...at least those are the types of numbers one sees thrown around on the internet.  A model that is useful may require much less or much more. 
 
-`C:\Users\Green Sturgeon\AI_Project\Annotations`
+First order of business, put the images you want to use to train your model in a folder inside
+
+`C:\Users\...Your\Folder\Path...\AI_Project\Annotations`
 
 To use LabelImg to annotate your images,
 
 In your AIvenv3.9 virtual environment
 
-`(AIvenv3.9) C:\Users\\...Your\Folder\Path...\AI_Project>`
+`(AIvenv3.9) C:\Users\...Your\Folder\Path...\AI_Project>`
 
 Type
 ```
 LabelImg
 ```
 
-LabelImg is fairly self explanitory but go to https://github.com/HumanSignal/labelImg for more information.  In general, you want to enclose your target objects as closely as possible with the annotation/bounding box.  When you create a bounding box (With the "Create RectBox" button), LabelImg will open an window that wants you to fill in the class name that the ooi belongs to.  Each type of object you are intersted in identifying will require it's own class label.  You want to save your annotations using the Yolo style (click through the button under the Save  icon to find the Yolo option) and save the annotations in the same folder as the images.  LabelImg also automatically creates a classes.txt file in that folder when you annotate an image.  ***If you are opening a previously annotated image, you will need the classes.txt file in the folder with your images***.  Otherwise it will just close when you attempt to edit the previously annotataed image.  It is best practice to label ALL of your objects of interest in an image, leaving some out will "confuse" the model and make it less efficient.  LabelImg is a very basic annotator and doesn't do more advance annotations such as masking.  Use CTRL plus the mouse wheel to zoom in and out instead of the dumb buttons. 
+And the LabelImg GUI will open.
+
+LabelImg is fairly self explanitory, but go to https://github.com/HumanSignal/labelImg for more information.  In general, you want to enclose your target objects as closely as possible with the annotation/bounding box.  When you create a bounding box (With the "Create RectBox" button), LabelImg will open an window that wants you to fill in the class name that the ooi belongs to.  Each type of object you are intersted in identifying will require it's own class label.  You want to save your annotations using the Yolo style (click through the button under the Save  icon to find the Yolo option) and save the annotations in the same folder as the images.  LabelImg also automatically creates a classes.txt file in that folder when you annotate an image.  ***If you are opening a previously annotated image, you will need the classes.txt file in the folder with your image***.  Otherwise it will just close when you attempt to edit the previously annotataed image.  It is best practice to label ALL of your objects of interest in an image, leaving some out will "confuse" the model and make it less efficient.  LabelImg is a very basic annotator and doesn't do more advance annotations such as masking.  Use CTRL plus the mouse wheel to zoom in and out instead of the dumb buttons. 
 
 ## 3. Tile Images
-If you have standard sized images, say 1280 x 1280 or smaller (much larger images slow down the processing),  or consistent sized images with objects of interest that are relatively large compared to the size of the image, you will not need to do this step.  The point of tiling the images is to create images the same size for training as you will input in the model for predictions when you go to use the model.  In my case, I can have very large images (~20,000 x 12,000) as well as relatively small images (~1,000 x 1,000) AND the objects of interest in my images are relatively small so breaking up the images into consistent sizes is mandatory for YoloV8 to work.  The convolution part of the convolution neural network reduces the size of the images through "filters" and if your ooi's are to small, then they get lost in the many series of filters of the convolution section.  When we go to implement the model for predictions we will also be cutting the images into a standard size but using the SAHI package to implement the model...again, if you have standard and consistent sized images with relatively large objects of interest, you will not need to use SAHI.
+If you have standard sized images, say 1280 x 1280 or smaller (much larger images slow down the processing),  or consistent sized images with objects of interest that are relatively large compared to the size of the image, you will not need to do this step.  The point of tiling the images is to create images the same size for training as you will input in the model for predictions when you go to use the model.  In my case, I can have very large images (~20,000 x 12,000) as well as relatively small images (~1,000 x 1,000) AND the objects of interest in my images are relatively small so breaking up the images into consistent sizes is mandatory for YoloV8 to work.  The convolution part of a convolution neural network reduces the size of the images through "filters" and if your ooi's are to small, then they get lost in the many series of filters of the convolution section.  When we go to implement the model for predictions we will also be cutting the images into a standard size but using the SAHI package to implement the model...again, if you have standard and consistent sized images with relatively large objects of interest, you will not need to use SAHI, in which case just move on to setion 4.
 
 ### Create blank annotation files if needed
 It is good practice to include some images with no objects of interest, and hence no annotations, for the model to work on.  For these images with no annotations  you will need a blank annotations.txt file for the tiling program to work.  Open Create_blank_txt_annotations.py in your python IDE, change the file paths to yours and run it, or run it from command.  If you are more comfortable in R you can use Create_blank_txt_annotations.R to do the same thing.
@@ -205,17 +209,21 @@ Activate your python 3.11 virtual environment
 
 Then navigate to your directory that has the tile_yolo_new_BB.py script and type `python tile_yolo_new_BB.py` to run the python script from CMD
 
-`(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project\Tile_Images\yolo-tiling-main>python tile_yolo_new_BB.py`
+`(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\Tile_Images\>
 
-Sliced images with ooi's and annotation files end up in the ~Tile_Images\yolo-tiling-main\yolosliced\ts folder while any tiled images that did not have any ooi's end up in the ~Tile_Images\yolo-tiling-main\yolosliced\ff folder.
+Type
+```
+python tile_yolo_new_BB.py`
+```
 
-After the script is finished, I assume we should reannotate the sliced images in LabelImg to clean up any annotated objects of interest that were cut in half by the tiling program.  I kept a split annotation if I could still identify the object of interest as an object of interest and deleted any annotations otherwise. 
-In LabelImg, open "directory" and you can use the Next and Prev Image buttons to quickly go through your tiled images.  Ultimately, this will result in some images with no annotations but still have an annotations.txt file, which is just fine.
+Sliced images with ooi's and annotation files end up in the C:\Users\...Your\Folder\Path...\AI_Project\Tile_Images\yolosliced\ts folder while any tiled images that did not have any ooi's end up in the C:\Users\...Your\Folder\Path...\AI_Project\ile_Images\yolo-tiling-main\yolosliced\ff folder.
 
-### Seperate your images into Train, Validate and Test categories
-To train a Convolution Neural Network(CNN) like YoloV8, it is best practice to split the annotated data into a few groups.  Usually they are split into 70-80% Train, 10-20% Validate and 10% or so for Testing.  
+After the script is finished, I reannotate the sliced images in LabelImg to clean up any annotated objects of interest that were cut in half by the tiling program.  I kept a split annotation if I could still identify the object of interest as an object of interest and deleted any annotations otherwise. In LabelImg, open "directory" and you can use the Next and Prev Image buttons to quickly go through your tiled images.  Ultimately, this will result in some images with no annotations but still have an annotations.txt file, which is just fine.  Again, ***If you are opening a previously annotated image, you will need the classes.txt file in the folder with your image***
 
-Use "Seperate Train Validate and Test.py" to assign your tiled images and associated annotations into Train, Validate and Test folders.  Again, if you are more comfortable with R, you can use Seperate Train and Validate.R, but it currently only seperates into the Train and Validate groups.  I"M NOT SURE YET THAT YOLO USES THE TEST GROUP.
+### Seperate your images into Train and Validate categories
+To train a Convolution Neural Network(CNN) like YoloV8, it is best practice to split the annotated data into a few groups.  Usually they are split into ~80-90% Train and ~10-20% Validate and ~10% or so for and optional Testing category.  
+
+Use "Seperate Train Validate and Test.py" to assign your tiled images and associated annotations into Train, Validate and optional Test folders.  Again, if you are more comfortable with R, you can use Seperate Train and Validate.R, but it currently only seperates into the Train and Validate groups.  YoloV8 doesn't make use of a Test category at this point for the training.
 
 ## 4. Train VoloV8
 
