@@ -118,7 +118,7 @@ LabelImg is the program you will use to annotate your training images with, unfo
 
 In your AIvenv3.9 virtual environment
  
-`(AIvenv3.9) C:\Users\Green Sturgeon\AI_Project>`
+`(AIvenv3.9) C:\Users\...Your\Folder\Path...\AI_Project>`
 
 Type
 ```
@@ -130,11 +130,11 @@ See https://pypi.org/project/ultralytics/ for more information
 
 In your AIvenv3.11 virtual environment
 
-`(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project>
+`(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project>`
 
 type
 ```
-pip install ultralytics`
+pip install ultralytics
 ```
 
 ### Download the 5 YoloV8 models
@@ -143,19 +143,32 @@ Downlaod all five sized models at https://docs.ultralytics.com/models/yolov8/#su
 ### Install SAHI  
 See https://pypi.org/project/sahi/ for more information
 
-`(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project> pip install sahi`
+In your AIvenv3.11 virtual environment
 
+`(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project>`
+
+Type
+```
+pip install sahi
+```
 SAHI does the detections by chopping the image into small sections, ~the same size as your tiled images used for training the model, with overlap so it shouldn't miss anything, more on this later.
 
 ### Install split-folders
-For easy random splitting of train, test and validation images (more on this later)
+For easy random splitting of images into train, validation and test(If applicable) groups (more on this later)
 
 `(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project\AIvenv3.11\Scripts>pip install split-folders`
 
 ### Install rasterio
 This is to help create images that can be uploaded into a GIS program
 
-`(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project\AIvenv3.11\Scripts>pip install rasterio`
+In your AIvenv3.11 virtual environment
+
+`(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project>`
+
+Type
+```
+pip install rasterio
+```
 
 OK!  That's all you should need as far as programs and packages for you to run the AI on your computer.  So easy!!!
 
@@ -163,13 +176,20 @@ OK!  That's all you should need as far as programs and packages for you to run t
 
 First, put the images you want to use to train your model in a folder inside
 
-``C:\Users\Green Sturgeon\AI_Project\Annotations`
+`C:\Users\Green Sturgeon\AI_Project\Annotations`
 
-To use LabelImg to annotate your images, activate your python 3.9 environment then open LabelImg from CMD by
+To use LabelImg to annotate your images,
 
-`(AIvenv3.9) C:\Users\Green Sturgeon\AI_Project> LabelImg`
+In your AIvenv3.9 virtual environment
 
-LabelImg is fairly self explanitory but go to https://github.com/HumanSignal/labelImg for more information.  In general, you want to enclose your target objects as closely as possible with the annotation box.  When you create a bounding box, LabelImg will ask for the class that ooi belongs to.  Each type of object you are intersted in identifying will require it's own class label.  You want to save your annotations using the Yolo style and save the annotations in the same folder as the images.  LabelImg also automatically creates a classes.txt file for a project when you annotate an image.  If you are opening a previously annotated image, you will need the classes.txt file in the folder with your images.  It is best practice to label ALL of your objects of interest in an image, leaving some out will "confuse" the model and make it less efficient.  
+`(AIvenv3.9) C:\Users\\...Your\Folder\Path...\AI_Project>`
+
+Type
+```
+LabelImg
+```
+
+LabelImg is fairly self explanitory but go to https://github.com/HumanSignal/labelImg for more information.  In general, you want to enclose your target objects as closely as possible with the annotation/bounding box.  When you create a bounding box (With the "Create RectBox" button), LabelImg will open an window that wants you to fill in the class name that the ooi belongs to.  Each type of object you are intersted in identifying will require it's own class label.  You want to save your annotations using the Yolo style (click through the button under the Save  icon to find the Yolo option) and save the annotations in the same folder as the images.  LabelImg also automatically creates a classes.txt file in that folder when you annotate an image.  ***If you are opening a previously annotated image, you will need the classes.txt file in the folder with your images***.  Otherwise it will just close when you attempt to edit the previously annotataed image.  It is best practice to label ALL of your objects of interest in an image, leaving some out will "confuse" the model and make it less efficient.  LabelImg is a very basic annotator and doesn't do more advance annotations such as masking.  Use CTRL plus the mouse wheel to zoom in and out instead of the dumb buttons. 
 
 ## 3. Tile Images
 If you have standard sized images, say 1280 x 1280 or smaller (much larger images slow down the processing),  or consistent sized images with objects of interest that are relatively large compared to the size of the image, you will not need to do this step.  The point of tiling the images is to create images the same size for training as you will input in the model for predictions when you go to use the model.  In my case, I can have very large images (~20,000 x 12,000) as well as relatively small images (~1,000 x 1,000) AND the objects of interest in my images are relatively small so breaking up the images into consistent sizes is mandatory for YoloV8 to work.  The convolution part of the convolution neural network reduces the size of the images through "filters" and if your ooi's are to small, then they get lost in the many series of filters of the convolution section.  When we go to implement the model for predictions we will also be cutting the images into a standard size but using the SAHI package to implement the model...again, if you have standard and consistent sized images with relatively large objects of interest, you will not need to use SAHI.
