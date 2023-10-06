@@ -387,9 +387,9 @@ To exit python
 ```
 exit()
 ```
-Still, the dumb thing isn't in yolo format and can't be imported into LabelImg.  ***To turn it into a yolodarknet annotation file that we can read into LabelImg........  Probably need to create a .py to batch process these.***
+Still, the dumb thing isn't in yolo format and can't be imported into LabelImg.  The Extract_Details_From_Predictions.py script will turn the pickle files into yolo darknet so they can be read back into LabelImg.  You will need to change the folder paths in lines 19, 21 and 23. 
 
-Back to our regular programming.....
+Back to Using SAHI...
 
 As with the yolo call to train a model, there are a huge number of optional arguments.  See https://docs.ultralytics.com/guides/sahi-tiled-inference/#standard-inference-with-yolov8 for further details.
 
