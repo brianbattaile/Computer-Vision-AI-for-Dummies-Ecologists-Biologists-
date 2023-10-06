@@ -234,34 +234,52 @@ There are a large number of argument options for training a YoloV8 model, I will
 ### Create your .yaml file
 This file tells Yolo where your images are, the number of classes you want to train for and the names of those classes.  it's a simple file to create and I've included an example for my work with a single class of ooi's.  It is stored inside C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8\
 
+### Run the YoloV8 trainer on a pretrained model
+The following command traines a pretrained yoloV8 model, which means YoloV8 comes from the factory trained to detect common everyday things you find in your house or as you are walking around your neighborhood.  (As an asside, it is briefly fun and instructive to run that model on your images and watch the model find chairs, vases and dogs amidst an image of a pristine forest or coral reef.)
+
 In CMD, activate your Python 3.11 virtual environment and navigate to the TrainYoloV8 folder where GSAI_Images.yaml is stored.
 
-### Run the YoloV8 trainer on a pretrained model
-The following command traines a pretrained yoloV8 model, which means YoloV8 comes from the factory trained to detect common everyday things you find in your house or as you are walking around your neighborhood.  (As an asside, it is briefly fun to run that model on your images and watch the model find chairs, vases and dogs amidst an image of a pristine forest or coral reef.)
+`(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8>`
 
-`(AIvenv) C:\Users\Green Sturgeon\AI_Project\TrainYoloV8>yolo task=detect mode=train epochs=120 data=GSAI_Images.yaml model=yolov8x.pt imgsz=640`
+And type
+```
+yolo task=detect mode=train epochs=300 data=GSAI_Images.yaml model=yolov8x.pt imgsz=640`
+```
 
-I'll break down the commands used
+I'll break down the commands used'''
+
 task=detect  Yolo can do a few different computer vision tasks, object detection is just one of them, others include segmentation, pose estimation, tracking, and classification.
 
 mode=train  Here we are training the model, When we go to actually use our trained model when we call yolo, we would use mode=predict
 
-epochs=300  This has to do with how many times the trainer will run through our images.  We don't want to over or under train our model, thankfully, the trainer tests for these things and will stop at an optimal point.  Advanced users will want to optimize this themselves, but if you are reading this, you are not an advanced user.  My extra large model stopped at ~120, so 300 was overkill for me, but better to overguess than find your training stopped at your limit resulting with an un-optimized model.  You might be able to restart the training where it left off but that's really beyond this tutorial. 
+epochs=300  This has to do with how many times the trainer will run through our images.  We don't want to over or under train our model, thankfully, the trainer tests for these things and will stop at an optimal point.  Advanced users may want to optimize this themselves, but if you are reading this, you are not an advanced user.  My extra large model stopped at ~120, so 300 was overkill for me, but better to overguess than find your training stopped at your limit resulting with an un-optimized model.  You can restart the training where it left off but I'll leave it to you to figure out how if you need to.
+
+data=GSAI_Images.yaml  Points to the .yaml file that is in the folder level that we navigated to in CMD
+
+model=yolov8x.pt  Points to one of the five YoloV8 models, also in the folder level that we navigated to in CMD
+
+imgsz=640  The size of the images we are using to train the model in pixels, either the x or y dimension
 
 ### Run the YoloV8 trainer from an untrained model from "scratch"
 Or use this to run a yolov8 model from scratch that has not been pretrained.  The only difference in the call is model=yolov8x.yaml.  I believe yolo grabs this file from the interwebs somewhere... I also did not find much difference in the overall results between this and the pretrained model.
+```
 yolo task=detect mode=train epochs=10 data=GSAI_Images.yaml model=yolov8x.yaml imgsz=640
-
+```
 ### Run the trainer from python
 You can use YoloV8_train.py in the C:\Users\Green Sturgeon\AI_Project\AI_Project\TrainYoloV8\ and run it from your python IDE
 I needed to add the "if __name__ == '__main__':" line to make it work relative to directions in ultralytics and everywhere else....I don't know why
 
-Or in the command line, go to the folder it is in and run 
+Or to run it from CMD, navigate to the folder it is in 
 
-`C:\Users\Green Sturgeon\AI_Project\TrainYoloV8> python YoloV8_train.py`
+`(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8>`
+
+and type
+```
+python YoloV8_train.py`
+```
 
 ### Results of the training
-Results end up in C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\train and if you decide to train different models, they will end up in sequentially numbered folders train1, train2 etc., so you should probably rename the folders to something more memorable.  Inside those folders are a number of diagnostic graphs, images from train and validate with model detections outlined with confidence scores.  The weights folder is your new model and what you will point to when running your model on new images.
+For me, results ended up in C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8\runs\detect\train and if you decide to train different models, they will end up in sequentially numbered folders train1, train2 etc., so you should probably rename the folders to something more memorable.  I have also seen the results deposited in python3.11 virtual environment folders.  Inside those folders are a number of diagnostic graphs, images from train and validate with model detections outlined with confidence scores.  The weights folder is your new model and what you will point to when running your model on new images.
 
 ### Understanding the Training Results
 
@@ -285,7 +303,7 @@ TP & FP\\
 FN & TN 
 \end{pmatrix}$$
 
-for a singe class, with columns normalized to 1, (or a percentage) with true on the x axis and predictions on the y axis.  The IoU threshold is set at 0.45, why not 0.5 I don't know.
+for a singe class, with columns normalized to 1, (or a percentage) with true on the x axis and predictions on the y axis.  The IoU default threshold is set at 0.45, why not 0.5 I don't know.
 
 There are two types of confidence scores, box confidence and class confidence.  I believe the box confidence is the confidence associated with the bounding boxes created in the training and in predictions when using the model.  Box confidence is $IoU(pred, truth) \times Pr(Object)$.  I have not been able to find the equation for calculating $PR(Object)$.
 Class confidence is $PR(Class_i|Object) \times PR(Object) \times IoU(pred, truth)$.  Again, unable to find equation for $PR(Class_i|Object)$
@@ -296,14 +314,21 @@ $$F1_{Score} = \frac{2\times{Precision}\times{Recall}}{(Preciaion + Recall)}$$
 
 ## 5.0 Running your basic model
 
-Now that you have trained your model, you can use it to identify things!  To run a basic model from CMD line,
+Now that you have trained your model, you can use it to identify things!  To run a basic model from CMD line, activate your 3.11 virtual environment and navigate to
+
+`(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\Basic_Model>`
+
+and type
 
 ```
-yolo detect predict model="C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\train_XTRA_LARGE\weights\best.pt" source="C:\Users\Green Sturgeon\AI_Project\Test" imgsz=640 save_txt=True
+yolo detect predict model="C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8\runs\detect\train_XTRA_LARGE\weights\best.pt" source="C:\Users\...Your\Folder\Path...\AI_Project\Test" imgsz=640 save_txt=True
 ```
 
-Which will save labeled images and a yolo_darknet annotation text file in the folder that you are in at the CMD.  You can then read back into LabelImg to fix False Positives and False Negatives by hand....Hey, no one said this was perfect.
-but again, please see https://docs.ultralytics.com/usage/cfg/#predict for a list and brief description of the possible arguments.
+`source="C:\Users\...Your\Folder\Path...\AI_Project\Images"` Is where you are keeping your images you want to analyze
+
+`save_txt=True`  Simply states to save the model predicted image annotations as a .txt file
+
+Which will save labeled images and a yolo_darknet annotation text file in the folder that you are in at the CMD.  You can then read back into LabelImg to fix False Positives and False Negatives by hand....Hey, no one said this was perfect.  But again, please see https://docs.ultralytics.com/usage/cfg/#predict for a list and brief description of the possible arguments.
 
 ## 5.1 Using SAHI and your newly trained YoloV8 model
 SAHI stands for Slicing Aided Hyper Inference and is designed to find relatively small objects within larger images.  For my use, this is mandatory because of my large, inconsistently sized images with relatively small ooi's.  See https://docs.ultralytics.com/guides/sahi-tiled-inference/ and https://github.com/obss/sahi.
