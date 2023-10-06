@@ -1,0 +1,6 @@
+train: C:\Users\Green Sturgeon\AI_Project\Images\train
+val: C:\Users\Green Sturgeon\AI_Project\Images\val
+
+nc: 1
+
+names: ["gs"]
