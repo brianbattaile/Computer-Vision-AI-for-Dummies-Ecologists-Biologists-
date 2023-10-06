@@ -359,7 +359,9 @@ exit()
 
 to exit python and then type
 
-`pip install pandas`
+```
+pip install pandas
+```
 
 Then rerun the import 
 
