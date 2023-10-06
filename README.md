@@ -248,17 +248,17 @@ yolo task=detect mode=train epochs=300 data=GSAI_Images.yaml model=yolov8x.pt im
 
 I'll break down the commands used'''
 
-task=detect  Yolo can do a few different computer vision tasks, object detection is just one of them, others include segmentation, pose estimation, tracking, and classification.
+`task=detect`  Yolo can do a few different computer vision tasks, object detection is just one of them, others include segmentation, pose estimation, tracking, and classification.
 
-mode=train  Here we are training the model, When we go to actually use our trained model when we call yolo, we would use mode=predict
+`mode=train`  Here we are training the model, When we go to actually use our trained model when we call yolo, we would use mode=predict
 
-epochs=300  This has to do with how many times the trainer will run through our images.  We don't want to over or under train our model, thankfully, the trainer tests for these things and will stop at an optimal point.  Advanced users may want to optimize this themselves, but if you are reading this, you are not an advanced user.  My extra large model stopped at ~120, so 300 was overkill for me, but better to overguess than find your training stopped at your limit resulting with an un-optimized model.  You can restart the training where it left off but I'll leave it to you to figure out how if you need to.
+`epochs=300`  This has to do with how many times the trainer will run through our images.  We don't want to over or under train our model, thankfully, the trainer tests for these things and will stop at an optimal point.  Advanced users may want to optimize this themselves, but if you are reading this, you are not an advanced user.  My extra large model stopped at ~120, so 300 was overkill for me, but better to overguess than find your training stopped at your limit resulting with an un-optimized model.  You can restart the training where it left off but I'll leave it to you to figure out how if you need to.
 
-data=GSAI_Images.yaml  Points to the .yaml file that is in the folder level that we navigated to in CMD
+`data=GSAI_Images.yaml`  Points to the .yaml file that is in the folder level that we navigated to in CMD
 
-model=yolov8x.pt  Points to one of the five YoloV8 models, also in the folder level that we navigated to in CMD
+`model=yolov8x.pt`  Points to one of the five YoloV8 models, also in the folder level that we navigated to in CMD
 
-imgsz=640  The size of the images we are using to train the model in pixels, either the x or y dimension
+`imgsz=640`  The size of the images we are using to train the model in pixels, either the x or y dimension
 
 ### Run the YoloV8 trainer from an untrained model from "scratch"
 Or use this to run a yolov8 model from scratch that has not been pretrained.  The only difference in the call is model=yolov8x.yaml.  I believe yolo grabs this file from the interwebs somewhere... I also did not find much difference in the overall results between this and the pretrained model.
@@ -331,15 +331,21 @@ yolo detect predict model="C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV
 Which will save labeled images and a yolo_darknet annotation text file in the folder that you are in at the CMD.  You can then read back into LabelImg to fix False Positives and False Negatives by hand....Hey, no one said this was perfect.  But again, please see https://docs.ultralytics.com/usage/cfg/#predict for a list and brief description of the possible arguments.
 
 ## 5.1 Using SAHI and your newly trained YoloV8 model
-SAHI stands for Slicing Aided Hyper Inference and is designed to find relatively small objects within larger images.  For my use, this is mandatory because of my large, inconsistently sized images with relatively small ooi's.  See https://docs.ultralytics.com/guides/sahi-tiled-inference/ and https://github.com/obss/sahi.
+SAHI stands for Slicing Aided Hyper Inference and is designed to find relatively small objects within larger images.  For my use, this is mandatory because of my large, inconsistently sized images with relatively small ooi's, and because we are using this, necessitatd our tiling the images in section 3.  See https://docs.ultralytics.com/guides/sahi-tiled-inference/ and https://github.com/obss/sahi.
 
 In your python 3.11 virtual environment from the CMD line
 
-`(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project\Images> sahi predict --model_path  "C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\train_XTRA_LARGE\weights\best.pt" --model_type yolov8 --source "C:\Users\Green Sturgeon\AI_Project\Test" --slice_height 640 --slice_width 640 --overlap_height_ratio 0.2 --overlap_width_ratio 0.2 --visual_bbox_thickness 1 --visual_hide_labels TRUE --export_pickle TRUE --result_json_path result.json`
+`(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\Images>
 
-As an asside...
+type
 
-the "pickle" file is the txt file with the annotations but in an unreadable format.  If you want to turn this into a readable file, 
+```
+sahi predict --model_path  "C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\train_XTRA_LARGE\weights\best.pt" --model_type yolov8 --source "C:\Users\Green Sturgeon\AI_Project\Test" --slice_height 640 --slice_width 640 --overlap_height_ratio 0.2 --overlap_width_ratio 0.2 --visual_bbox_thickness 1 --visual_hide_labels TRUE --export_pickle TRUE`
+```
+
+As an asside...Unfortunatey, SAHI does not output a conveniently formatted .txt file with annotations in the yolo format that we can easily import into LabelImg.  The "pickle" file is the .txt file with the annotations but in an unreadable format.  If you want to turn this into a readable file, in your 3.11 virtual environment
+
+type
 
 ```
 python
@@ -347,23 +353,30 @@ import pandas as pd
 ```
 If you don't have pandas it will throgh an error in that case just do this
 
-`exit()`
+```
+exit()
+```
 
 to exit python and then type
 
 `pip install pandas`
 
-Then rerun the import from within python
+Then rerun the import 
 
 ```
-unpickled_data=pd.read_pickle(r"C:\Users\Green Sturgeon\AI_Project\Test\runs\predict\exp\pickles\MasterImage000815_1_2.pickle")
+python
+import pandas as pd
+```
+Then type
+```
+unpickled_data=pd.read_pickle(r"C:\Users\...Your\Folder\Path...\AI_Project\Images\runs\predict\exp\pickles\Your_Image_Name.pickle")
 print(unpickled_data)
 ```
 
-to save as readable text file still within python within CMD
+to save as readable text file, type
 ```
 import pprint
-with open(r"C:\Users\Green Sturgeon\AI_Project\Test\runs\predict\exp\pickles\MasterImage000797_1_1.txt", "a") as f:
+with open(r"C:\Users\...Your\Folder\Path...\AI_Project\Test\runs\predict\exp\pickles\Your_Image_Name.txt", "a") as f:
 	pprint.pprint(unpickled_data, stream=f)
 ```
 You might need to press enter a couple times for it to take...don't know why
@@ -372,45 +385,49 @@ To exit python
 ```
 exit()
 ```
-To turn it into a yolodarknet annotation file that we can read into LabelImg........  Probably need to create a .py to batch process these.
+Still, the dumb thing isn't in yolo format and can't be imported into LabelImg.  ***To turn it into a yolodarknet annotation file that we can read into LabelImg........  Probably need to create a .py to batch process these.***
 
 Back to our regular programming.....
 
-As with the yolo call to train, there are a huge number of optional arguments.  See https://docs.ultralytics.com/guides/sahi-tiled-inference/#standard-inference-with-yolov8 for further details.
+As with the yolo call to train a model, there are a huge number of optional arguments.  See https://docs.ultralytics.com/guides/sahi-tiled-inference/#standard-inference-with-yolov8 for further details.
 
-model_path is the path to one of the *.pt files in the weights folder.  You should use the best.pt model unless your an advanced user, but you are reading this so you aren't advanced...just like me.
+`model_path` is the path to one of the *.pt files in the weights folder.  You should use the best.pt model unless your an advanced user, but you are reading this so you aren't advanced...just like me.
 
-source is your path to the images you want your yoloV8 model to do predictions on
+`source` is your path to the images you want your yoloV8 model to do predictions on
 
---slice_height and slice_width are the dimensions in pixels you want SAHI to slice your images into...should be the same dimensions you used in part 3 Tiling Images and part 4 Train YoloV8.
+`slice_height` and `slice_width` are the dimensions in pixels you want SAHI to slice your images into...should be the same dimensions you used in part 3 Tiling Images and part 4 Train YoloV8.
 
-visual_hide_labels  I didn't want to see the confidence scores or because I only had one class, there was no ambiguity there.  Defaults to False
+`visual_hide_labels`  I didn't want to see the confidence scores or because I only had one class, there was no ambiguity there.  Defaults to False
 
-visual_bbox_thickness  This is the thickness of the line of the bounding box that surrounds your ooi's, I prefered a thinner line so it didn't obstruct the image when I went back to correct the model predictions.
+`visual_bbox_thickness`  This is the thickness of the line of the bounding box that surrounds your ooi's, I prefered a thinner line so it didn't obstruct the image when I went back to correct the model predictions.
 
 ## 5.2 Georeferenced.py (SAHI and YoloV8) on georeferenced images and QGIS
 
-This is a rather specialzed section that won't apply to the majority of investigators.  Our images are georeferenced so we want the images and predicted bounding boxes to be georeferenced as well so we can manipulate them in a GIS program such as QGIS, instead of using LabelImg.  GeoreferencedBB.py does this using SAHI and YoloV8.  This is from https://github.com/obss/sahi/discussions/870 and all credit goes to the author.  This works on a georeferenced .tif file (geotif) or a .png with associated .xml file that contains georeferencing.  This creates a geojson file of the predicted bounding boxes associated with the image which can be opened in GIS along with the image.  You can run this file from your python IDE or from the CMD activate your 3.11 virtual environment and navigate to the folder the python script is in and type
+This is a rather specialzed section that won't apply to the majority of investigators.  Our images are georeferenced so we want the images and predicted bounding boxes to be georeferenced as well so we can manipulate them in a GIS program such as QGIS, instead of using LabelImg.  GeoreferencedBB.py does this using SAHI and YoloV8.  This is from https://github.com/obss/sahi/discussions/870 and all credit goes to the author.  This works on a georeferenced .tif file (geotif) or a .png with associated .xml file that contains georeferencing.  This creates a geojson file of the predicted bounding boxes associated with the image which can be opened in GIS along with the image.  Before running it, you need to change the file paths on rows 59 and 66.  The path on line 59 will find every instance of a .png in the directories and subdirectories below it and will perform the predictions on all these images.  Also, the script is currently set up for .png files, if you are using .tif files, you will need to change lines 61 and 81 from "png" to "tif".  The predictions will be saved as a .geojson file in the same directory as the image with the same name as the image.  You can run this file from your python IDE or from the CMD activate your 3.11 virtual environment and navigate to the folder the python script is in
 
-`(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project\Georeferenced> python GeoReferencedBB.py`
+`(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\Georeferenced>`
 
-But before that you need to change the file paths on rows 59 and 66.  The path on line 59 will find every instance of a .png in the directories and subdirectories below it and will perform the predictions on all these images.  Also, the script is currently set up for .png files, if you are using .tif files, you will need to change lines 61 and 81 from "png" to "tif".  The predictions will be saved as a .geojson file in the same directory as the image with the same name as the image.
+and type
 
+```
+python GeoReferencedBB.py
+```
+### Using QGIS to map and manipulate the annotations
 The following applies to manipulating the bounding boxes within the freeware QGIS.  Any Computer Vision model is not going to be perfect, and by importing into QGIS you can correct the False Negatives and False Positives.  
 
-For importing the geojson into qgis, we need to create the default style  Go to Project>Properties and click on Default Styles.  
+For importing the .geojson into qgis, we need to create the default style, within QGIS go to Project>Properties and click on Default Styles.  
 
-Under default symbols, change fill to outline red or favoriate color
+Under default symbols, change fill to outline red or you favoriate color
 
-click on style manager, click on line, click on simple red line, change color or width or whatever.
+Click on style manager, click on line, click on simple red line, change color or width or whatever.
 
-Edit, click on pencil when layer is selected, use polygon tool to add fish, delete polygons with select features tool, adjust polygons with vertex tool
+Edit, click on pencil when layer is selected, use polygon tool to add create a box for a missed ooi, delete polygons with select features tool, adjust polygons with vertex tool for detections with poor fitting bounding boxes.
 
-View>Toolbars>Shape Digitizing Toolbar  Then use "add rectangle from extent"
+View>Toolbars>Shape Digitizing Toolbar  Then use "add rectangle from extent" to add bounding boxes.
 
-Save as geojson file non newline type...which can be reconverted to Yolo annotation format in next section for adding to the images to retain the model on a larger data set for next time.  It's a never ending iterativ process over time.
+Save as .geojson file "non newline" type...which can be reconverted to Yolo annotation format in next section for adding to the images to retain the model on a larger data set for next time.  It's a never ending iterativ process over time.
 
 ## 6 Convert georeferenced annotations back to Yolo format
 
-Run "Geojson_to_Yolo_Darknet.py to convert QGIS geojson files into yolo darknet annotation sytle.  This is essentially a reverse engineered back transform of the Georeferenced.py script that made coco (Coco is a data set of images of everyday items used to train and benchmark AI computer vision models) formatted annotations (which are based on x-y coordinates of the image in pixels) and turned them into georeferenced coordinates based on the projection of the georeferenced image.  So Geojson_to_Yolo_Darknet.py takes georeferenced annotations and turns them into x-y image pixel coordinates but using the yolo darknet annotation format instead of the coco format.  Its confusing as Fuck.  Now you can retrain your model with the new annotations and images that your model helped you identify.  Again, you can run this from your IDE or the CMD.  Again, you will need to alter the path in line 55 and depending on if you are using .png or .tif files, line 64.
+Run "Geojson_to_Yolo_Darknet.py to convert QGIS .geojson files into yolo darknet annotation sytle.  This is essentially a reverse engineered back transform of the Georeferenced.py script that made coco (Coco is a data set of images of everyday items used to train and benchmark AI computer vision models) formatted annotations (which are based on x-y coordinates of the image in pixels) and turned them into georeferenced coordinates based on the projection of the georeferenced image.  So Geojson_to_Yolo_Darknet.py takes georeferenced annotations and turns them into x-y image pixel coordinates but using the yolo darknet annotation format instead of the coco format.  Its confusing as Fuck.  Now you can retrain your model with the new annotations and images that your model helped you identify.  Again, you can run this from your IDE or the CMD and you will need to alter the path in line 55 and depending on if you are using .png or .tif files, line 64.
 
