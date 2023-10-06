@@ -39,7 +39,7 @@ The pycharm community edition is free
 
 https://www.jetbrains.com/pycharm/download/?section=windows
 
-At this point, I highly recommend reading or watching a brief tutorial on you chosen editor, they are complicated beasts.  In the least, you will likely need to learn how to assign a python interpreter to your project and learn how to run a script from the editor.  Within pycharm at least, with a script open, you will go into the settings, poke around until you find the python interpreter and set it to the 3.11 python.exe in your 3.11 local environment that we will create next!!!
+At this point, I highly recommend reading or watching a brief tutorial on you chosen editor, they are complicated beasts.  In the least, you will likely need to learn how to assign a python interpreter to your project and learn how to run a script from the editor.  Within pycharm at least, with a script open, you will go into the settings, and under project you will find the python interpreter and set it to the 3.11 python.exe in your 3.11 local environment that we will create next!!!
 
 ### Create Local Python Environment for AI_Project
 
@@ -203,7 +203,7 @@ It is good practice to include some images with no objects of interest, and henc
 
 ### Tiling the images
 
-Open tile_yolo_new_BB.py in your python IDE (or a text editor) and change line 126 file path to the folder where you keep your images.  Lines 120 and 138 automatically create folders inside the folder that tile_yolo_new_BB.py is located to save the tiled images.
+Open tile_yolo_new_BB.py in your python IDE (or a text editor) and change line 126 file path to the folder where you keep your images.  The folders in lines 120 and 138 must already exist, or the program will tell you they don't and exit.
 
 Activate your python 3.11 virtual environment 
 
@@ -218,26 +218,26 @@ python tile_yolo_new_BB.py`
 
 Sliced images with ooi's and annotation files end up in the C:\Users\...Your\Folder\Path...\AI_Project\Tile_Images\yolosliced\ts folder while any tiled images that did not have any ooi's end up in the C:\Users\...Your\Folder\Path...\AI_Project\ile_Images\yolo-tiling-main\yolosliced\ff folder.
 
-After the script is finished, I reannotate the sliced images in LabelImg to clean up any annotated objects of interest that were cut in half by the tiling program.  I kept a split annotation if I could still identify the object of interest as an object of interest and deleted any annotations otherwise. In LabelImg, open "directory" and you can use the Next and Prev Image buttons to quickly go through your tiled images.  Ultimately, this will result in some images with no annotations but still have an annotations.txt file, which is just fine.  Again, ***If you are opening a previously annotated image, you will need the classes.txt file in the folder with your image***.
+After the script is finished, I reannotate the sliced images in LabelImg to clean up any annotated objects of interest that were cut in half by the tiling process.  I kept a split annotation if I could still identify the object of interest as an object of interest and deleted any annotations otherwise. In LabelImg, open "directory" and you can use the Next and Prev Image buttons to quickly go through your tiled images.  Ultimately, this will result in some images with no annotations but still have an annotations.txt file, which is just fine.  Again, ***If you are opening a previously annotated image, you will need the classes.txt file in the folder with your image***.
 
 ### Seperate your images into Train and Validate categories
-To train a Convolution Neural Network(CNN) like YoloV8, you need to split the annotated data into a two-three groups.  Usually they are split into ~80-90% Train and ~10-20% Validate and ~10% or so for a Testing category.  
+To train a Convolution Neural Network(CNN) like YoloV8, you need to split the annotated data into two or three groups.  Usually they are split into ~80-90% Train and ~10-20% Validate and ~10% or so for a Testing category.  YoloV8 doesn't make use of a Test category at this point for the training, so we only want to seperate our images into Train and Validate categories.
 
-Use "Seperate Train Validate and Test.py" to assign your tiled images and associated annotations into Train, Validate and optional Test folders.  Again, if you are more comfortable with R, you can use Seperate Train and Validate.R, but it currently only seperates into the Train and Validate groups.  YoloV8 doesn't make use of a Test category at this point for the training, so we only want to seperate our images into Train and Validate categories.
+Use "Seperate Train Validate and Test.py" to assign your tiled images and associated annotations into Train, Validate and optional Test folders.  Again, if you are more comfortable with R, you can use "Seperate Train and Validate.R", which currently only seperates into the Train and Validate groups.  
 
 ## 4. Train VoloV8
 
 Yolo V8 comes in 5 different model sizes ranging from nano at 3.5 million parameters to extra large at 68.7 million parameters.  The difference in size will affect how quickly your model trains and how quickly it works when applied.  If you are working through large numbers of images such as video, or want to implement a fast version for realtime evaluation in video, the nano version may be your best option, if accuracy is paramount and time is no object, the extral large version may be for you, some experimentation will be required to determine the best model for your application.
 
-There are a large number of options for training a YoloV8 model, I will go over a few of the options I found important, but please consult the YoloV8 reference pages https://docs.ultralytics.com/ and specifically https://docs.ultralytics.com/usage/cfg/#train but in gneral I found this site to be a monster of opaqueness and confusion.  I also found this particular video valuable for explaining the training process and some output options, www.youtube.com/watch?v=gRAyOPjQ9_s "Complete yolo v8 custom object detection tutorial | Windows & Linux"
+There are a large number of argument options for training a YoloV8 model, I will go over a few of the options I found important, but please consult the YoloV8 reference pages https://docs.ultralytics.com/ and specifically https://docs.ultralytics.com/usage/cfg/#train but in gneral I found this site to be a monster of opaqueness and confusion.  I also found this particular video valuable for explaining the training process and some output options, www.youtube.com/watch?v=gRAyOPjQ9_s "Complete yolo v8 custom object detection tutorial | Windows & Linux"
 
 ### Create your .yaml file
-This file tells Yolo where your images are, the number of classes you want to train for and the names of those classes.  it's a simple file to create and I've included an example for my work with a single class of ooi's.
+This file tells Yolo where your images are, the number of classes you want to train for and the names of those classes.  it's a simple file to create and I've included an example for my work with a single class of ooi's.  It is stored inside C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8\
 
-Activate your Python 3.11 virtual environment and navigate to the TrainYoloV8 folder where GSAI_Images.yaml is stored.
+In CMD, activate your Python 3.11 virtual environment and navigate to the TrainYoloV8 folder where GSAI_Images.yaml is stored.
 
 ### Run the YoloV8 trainer on a pretrained model
-The following command traines a pretrained yoloV8 model, which means YoloV8 comes from the factory trained to detect common everyday things you find in your house or as you are walking around your neighborhood.  (As an asside, it is briefly fun to run that model on your images and watch the model find chairs and dogs amidst an image of a pristine forest or coral reef.)
+The following command traines a pretrained yoloV8 model, which means YoloV8 comes from the factory trained to detect common everyday things you find in your house or as you are walking around your neighborhood.  (As an asside, it is briefly fun to run that model on your images and watch the model find chairs, vases and dogs amidst an image of a pristine forest or coral reef.)
 
 `(AIvenv) C:\Users\Green Sturgeon\AI_Project\TrainYoloV8>yolo task=detect mode=train epochs=120 data=GSAI_Images.yaml model=yolov8x.pt imgsz=640`
 
