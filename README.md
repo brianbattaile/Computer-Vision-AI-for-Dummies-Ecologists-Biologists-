@@ -331,7 +331,7 @@ yolo detect predict model="C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV
 Which will save labeled images and a yolo_darknet annotation text file in the folder that you are in at the CMD.  You can then read back into LabelImg to fix False Positives and False Negatives by hand....Hey, no one said this was perfect.  But again, please see https://docs.ultralytics.com/usage/cfg/#predict for a list and brief description of the possible arguments.
 
 ## 5.1 Using SAHI and your newly trained YoloV8 model
-SAHI stands for Slicing Aided Hyper Inference and is designed to find relatively small objects within larger images.  For my use, this is mandatory because of my large, inconsistently sized images with relatively small ooi's, and because we are using this, necessitatd our tiling the images in section 3.  See https://docs.ultralytics.com/guides/sahi-tiled-inference/ and https://github.com/obss/sahi.
+SAHI stands for Slicing Aided Hyper Inference and is designed to find relatively small objects within larger images.  For my use, this is mandatory because of my large, inconsistently sized images with relatively small ooi's, and because we are using this, necessitated our tiling the images in section 3.  See https://docs.ultralytics.com/guides/sahi-tiled-inference/ and https://github.com/obss/sahi.
 
 In your python 3.11 virtual environment from the CMD line
 
