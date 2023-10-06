@@ -1,0 +1,1 @@
+This folder exists to store tiled images with no annotations
