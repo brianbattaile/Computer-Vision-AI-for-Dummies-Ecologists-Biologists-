@@ -193,6 +193,7 @@ And the LabelImg GUI will open.
 
 LabelImg is fairly self explanitory, but go to https://github.com/HumanSignal/labelImg for more information.  In general, you want to enclose your target objects as closely as possible with the annotation/bounding box.  When you create a bounding box (With the "Create RectBox" button), LabelImg will open an window that wants you to fill in the class name that the ooi belongs to.  Each type of object you are intersted in identifying will require it's own class label.  You want to save your annotations using the Yolo style (click through the button under the Save  icon to find the Yolo option) and save the annotations in the same folder as the images.  LabelImg also automatically creates a classes.txt file in that folder when you annotate an image.  ***If you are opening a previously annotated image, you will need the classes.txt file in the folder with your image***.  Otherwise it will just close when you attempt to edit the previously annotataed image.  It is best practice to label ALL of your objects of interest in an image, leaving some out will "confuse" the model and make it less efficient.  LabelImg is a very basic annotator and doesn't do more advance annotations such as masking.  Use CTRL plus the mouse wheel to zoom in and out instead of the dumb buttons. 
 
+<a id="tile-images"></a>
 ## 3. Tile Images
 If you have standard sized images, say 1280 x 1280 or smaller (much larger images slow down the processing),  or consistent sized images with objects of interest that are relatively large compared to the size of the image, you will not need to do this step.  The point of tiling the images is to create images the same size for training as you will input in the model for predictions when you go to use the model.  In my case, I can have very large images (~20,000 x 12,000) as well as relatively small images (~1,000 x 1,000) AND the objects of interest in my images are relatively small so breaking up the images into consistent sizes is mandatory for YoloV8 to work.  The convolution part of a convolution neural network reduces the size of the images through "filters" and if your ooi's are to small, then they get lost in the many series of filters of the convolution section.  When we go to implement the model for predictions we will also be cutting the images into a standard size but using the SAHI package to implement the model...again, if you have standard and consistent sized images with relatively large objects of interest, you will not need to use SAHI, in which case just move on to setion 4.
 
@@ -222,6 +223,7 @@ To train a Convolution Neural Network(CNN) like YoloV8, you need to split the an
 
 Use "Seperate Train Validate and Test.py" to assign your tiled images and associated annotations into Train, Validate and optional Test folders.  Again, if you are more comfortable with R, you can use "Seperate Train and Validate.R", which currently only seperates into the Train and Validate groups.  
 
+<a id="train-yolov8"></a>
 ## 4. Train VoloV8
 
 Yolo V8 comes in 5 different model sizes ranging from nano at 3.5 million parameters to extra large at 68.7 million parameters.  You downloaded these five models already in the section ***"Preparing Your Computer"***.  The difference in size will affect how quickly your model trains and how quickly it works when applied.  If you are working through large numbers of images such as video, or want to implement a fast version for realtime evaluation in video, the nano version may be your best option, if accuracy is paramount and time is no object, the extral large version may be for you, some experimentation will be required to determine the best model for your application.
@@ -308,6 +310,7 @@ A final summary statistic often found is the $F1_{Score}$
 
 $$F1_{Score} = \frac{2\times{Precision}\times{Recall}}{(Preciaion + Recall)}$$
 
+<a id="run-model"></a>
 ## 5.0 Run Model
 ### 5.0 Running your basic model
 Now that you have trained your model, you can use it to identify things!  To run a basic model from CMD line, activate your 3.11 virtual environment and navigate to
@@ -410,6 +413,8 @@ and type
 ```
 python GeoReferencedBB.py
 ```
+
+<a id="qgis"></a>
 ## 6. QGIS
 The following applies to manipulating the bounding boxes within the freeware QGIS.  Any Computer Vision model is not going to be perfect, and by importing into QGIS you can correct the False Negatives and False Positives.  
 
@@ -424,6 +429,7 @@ View>Toolbars>Shape Digitizing Toolbar  Then use "add rectangle from extent" to 
 
 Save as .geojson file "non newline" type, which can be reconverted to Yolo annotation format in next section for adding to the images to retain the model on a larger data set for next time.  It's a never ending iterative process over time.
 
+<a id="convert-georeferenced-annotations-back-to-yolo-format"></a>
 ## 7 Convert georeferenced annotations back to Yolo format
 
 Run "Geojson_to_Yolo_Darknet.py to convert QGIS .geojson files into yolo darknet annotation sytle.  This is essentially a reverse engineered back transform of the Georeferenced.py script that made coco (Coco is a data set of images of everyday items used to train and benchmark AI computer vision models) formatted annotations (which are based on x-y coordinates of the image in pixels) and turned them into georeferenced coordinates based on the projection of the georeferenced image.  So Geojson_to_Yolo_Darknet.py takes georeferenced annotations and turns them into x-y image pixel coordinates but using the yolo darknet annotation format instead of the coco format.  If you are confused, it's not your fault, it's a relatively young industry and things are not yet standardized, so everyone is doing something different.  Regardless, now you can retrain your model with the new annotations and images that your model helped you identify.  Again, you can run this from your Python IDE or the CMD ***BUT*** you will need to alter the path in line 55 and depending on if you are using .png or .tif files, line 64 as well.
