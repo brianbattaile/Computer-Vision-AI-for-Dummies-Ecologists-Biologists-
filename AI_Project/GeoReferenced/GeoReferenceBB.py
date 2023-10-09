@@ -52,18 +52,18 @@ def convert_coco_to_geojson(geotiff_path, coco_annotations, output_geojson_path)
 
 
 # paths of original images
-#geotiff_path = r'G:\.shortcut-targets-by-id\1_IRSVwxHJ_lLPwru5DzDz_qUrVgKzri2\GS Census\GIS\SSS Pictures\2022\GIS2022\Unit06\MasterImage000490.png'
+#geotiff_path = r'C:\Users\...Your\Folder\Path...\AI_Project\GeoReferenced\MasterImage000490.png'
 geotiff_paths = []
 # os.walk() returns subdirectories, file from current directory and ...
 # follow next directory from subdirectory list recursively until last directory
-for root, dirs, files in os.walk(r"G:\.shortcut-targets-by-id\1_IRSVwxHJ_lLPwru5DzDz_qUrVgKzri2\GS Census\GIS\SSS Pictures\2021\GIS2021\Unit06"):
+for root, dirs, files in os.walk(r"C:\Users\...Your\Folder\Path...\AI_Project\GeoReferenced"):
     for file in files:
         if file.endswith(".png"):
             geotiff_paths.append(os.path.join(root, file))
 
 detection_model = AutoDetectionModel.from_pretrained(
     model_type='yolov8',
-    model_path='C:/Users/Green Sturgeon/AI_Project/TrainYoloV8/runs/detect/train_XTRA_LARGE/weights/best.pt',  #yolov8_model_path
+    model_path='C:/Users/...Your/Folder/Path.../AI_Project/TrainYoloV8/runs/detect/train_XTRA_LARGE/weights/best.pt',  #yolov8_model_path
     confidence_threshold=0.5,
     device="cuda:0", # or 'cpu'
 )
