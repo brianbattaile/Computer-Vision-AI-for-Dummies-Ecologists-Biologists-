@@ -2,9 +2,9 @@
 This guide was prepared and tested on a windows 10 and windows 11 computer.  Using the CMD line code will most certainly fail on a Mac (but should be pretty close) though the python code should be the same.  Also, for most of this guide, the folder paths will start with the AI_Project folder from this github repository that you will soon download, and everything before that will be replaced by C:User\...Your\Folder\Path...\ so your path to the AI_Project folder should look like C:User\...Your\Folder\Path...\AI_Project
 
 ## Order of Operations
-1.  [Preparing Your Computer](##-preparing-your-computer).  Adds python 3.11 and all needed packages to your computer to do the deep neural network computer vision work.
-2.  [Annotating Images](##-annotating-images).  (This assumes you have images you want to work on)
-3.  [Tile Images](##-tile-images).   YoloV8 defaults to images 640 x 640 pixels but any size can be used.  My images are much larger AND the fish I want to detect are relatively small.  So I must break up my images into smaller sizes close to 640 x 640 to train my model.
+1.  [Preparing Your Computer](##preparing-your-computer).  Adds python 3.11 and all needed packages to your computer to do the deep neural network computer vision work.
+2.  [Annotating Images](##annotating-images).  (This assumes you have images you want to work on)
+3.  [Tile Images](##tile-images).   YoloV8 defaults to images 640 x 640 pixels but any size can be used.  My images are much larger AND the fish I want to detect are relatively small.  So I must break up my images into smaller sizes close to 640 x 640 to train my model.
 4.  [Train YoloV8](##train-yolov8).  This is training the YoloV8 model to work on images and objects of interest (ooi's) that you care about.
 5.  [Run Model](##run-model).  Using SAHI and YoloV8.txt to create geojson files that mark your objects of interest from a georeferenced image.  SAHI cuts up your images into ~640 x 640 pixels, then applies your customized YoloV8 model to find your objects of interest.
 6.  [QGIS](##qgis). Import your images and corresponding geojson files for manual editing into QGIS to remove false positives and add false negatives.
