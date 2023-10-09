@@ -229,7 +229,7 @@ Use "Seperate Train Validate and Test.py" to assign your tiled images and associ
 
 ## 4. Train VoloV8
 
-Yolo V8 comes in 5 different model sizes ranging from nano at 3.5 million parameters to extra large at 68.7 million parameters.  The difference in size will affect how quickly your model trains and how quickly it works when applied.  If you are working through large numbers of images such as video, or want to implement a fast version for realtime evaluation in video, the nano version may be your best option, if accuracy is paramount and time is no object, the extral large version may be for you, some experimentation will be required to determine the best model for your application.
+Yolo V8 comes in 5 different model sizes ranging from nano at 3.5 million parameters to extra large at 68.7 million parameters.  You downloaded these five models already in the section ***"Preparing Your Computer"***.  The difference in size will affect how quickly your model trains and how quickly it works when applied.  If you are working through large numbers of images such as video, or want to implement a fast version for realtime evaluation in video, the nano version may be your best option, if accuracy is paramount and time is no object, the extral large version may be for you, some experimentation will be required to determine the best model for your application.
 
 There are a large number of argument options for training a YoloV8 model, I will go over a few of the options I found important, but please consult the YoloV8 reference pages https://docs.ultralytics.com/ and specifically https://docs.ultralytics.com/usage/cfg/#train but in gneral I found this site to be a monster of opaqueness and confusion.  I also found this particular video valuable for explaining the training process and some output options, www.youtube.com/watch?v=gRAyOPjQ9_s "Complete yolo v8 custom object detection tutorial | Windows & Linux"
 
@@ -268,7 +268,7 @@ Or use this to run a yolov8 model from scratch that has not been pretrained.  Th
 yolo task=detect mode=train epochs=10 data=GSAI_Images.yaml model=yolov8x.yaml imgsz=640
 ```
 ### Run the trainer from python
-You can use YoloV8_train.py in the C:\Users\Green Sturgeon\AI_Project\AI_Project\TrainYoloV8\ and run it from your python IDE
+You can use YoloV8_train.py in C:\Users\...Your\Folder\Path...\AI_Project\AI_Project\TrainYoloV8\ and run it from your python IDE
 I needed to add the "if __name__ == '__main__':" line to make it work relative to directions in ultralytics and everywhere else....I don't know why
 
 Or to run it from CMD, navigate to the folder it is in 
@@ -281,7 +281,7 @@ python YoloV8_train.py
 ```
 
 ### Results of the training
-For me, results ended up in C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8\runs\detect\train and if you decide to train different models, they will end up in sequentially numbered folders train1, train2 etc., so you should probably rename the folders to something more memorable.  I have also seen the results deposited in python3.11 virtual environment folders.  Inside those folders are a number of diagnostic graphs, images from train and validate with model detections outlined with confidence scores.  The weights folder is your new model and what you will point to when running your model on new images.
+For me, results ended up in C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8\runs\detect\train and if you decide to train different models, they will end up in sequentially numbered folders train1, train2 etc., so you should probably rename the folders to something more memorable.  I have also seen the results deposited in python3.11 virtual environment folders.  Inside those folders are a number of diagnostic graphs, images from train and validate with model detections outlined with confidence scores.  The weights folder is your new model and what you will point to when running your model on new images.  I have supplied a model and results trained from the "small" YoloV8 model found C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8\runs\detect\train
 
 ### Understanding the Training Results
 
