@@ -180,7 +180,9 @@ First order of business, put the images you want to use to train your model in a
 
 `C:\Users\...Your\Folder\Path...\AI_Project\Annotations`
 
-To use LabelImg to annotate your images,
+I have added a few of my images to practice on in AI_Project\Annotations.  One folder has images without annotaitons and another has the same images with annotations.  I'm assuming you are going through the trouble to learn this because you have your own images you want to work on, but if you don't, there are a number of resources on the net to download images.
+
+To use LabelImg to annotate images,
 
 In your AIvenv3.9 virtual environment
 
@@ -213,7 +215,7 @@ Then navigate to your directory that has the tile_yolo_new_BB.py script and type
 
 Type
 ```
-python tile_yolo_new_BB.py`
+python tile_yolo_new_BB.py
 ```
 
 Sliced images with ooi's and annotation files end up in the C:\Users\...Your\Folder\Path...\AI_Project\Tile_Images\yolosliced\ts folder while any tiled images that did not have any ooi's end up in the C:\Users\...Your\Folder\Path...\AI_Project\ile_Images\yolo-tiling-main\yolosliced\ff folder.
@@ -243,10 +245,10 @@ In CMD, activate your Python 3.11 virtual environment and navigate to the TrainY
 
 And type
 ```
-yolo task=detect mode=train epochs=300 data=GSAI_Images.yaml model=yolov8x.pt imgsz=640`
+yolo task=detect mode=train epochs=300 data=GSAI_Images.yaml model=yolov8x.pt imgsz=640
 ```
 
-I'll break down the commands used'''
+I'll break down the commands used
 
 `task=detect`  Yolo can do a few different computer vision tasks, object detection is just one of them, others include segmentation, pose estimation, tracking, and classification.
 
@@ -275,7 +277,7 @@ Or to run it from CMD, navigate to the folder it is in
 
 and type
 ```
-python YoloV8_train.py`
+python YoloV8_train.py
 ```
 
 ### Results of the training
@@ -340,7 +342,7 @@ In your python 3.11 virtual environment from the CMD line
 type
 
 ```
-sahi predict --model_path  "C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\train_XTRA_LARGE\weights\best.pt" --model_type yolov8 --source "C:\Users\Green Sturgeon\AI_Project\Test" --slice_height 640 --slice_width 640 --overlap_height_ratio 0.2 --overlap_width_ratio 0.2 --visual_bbox_thickness 1 --visual_hide_labels TRUE --export_pickle TRUE`
+sahi predict --model_path  "C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\train_XTRA_LARGE\weights\best.pt" --model_type yolov8 --source "C:\Users\Green Sturgeon\AI_Project\Test" --slice_height 640 --slice_width 640 --overlap_height_ratio 0.2 --overlap_width_ratio 0.2 --visual_bbox_thickness 1 --visual_hide_labels TRUE --export_pickle TRUE
 ```
 
 As an asside...Unfortunatey, SAHI does not output a conveniently formatted .txt file with annotations in the yolo format that we can easily import into LabelImg.  The "pickle" file is the .txt file with the annotations but in an unreadable format.  If you want to turn this into a readable file, in your 3.11 virtual environment
