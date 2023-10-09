@@ -167,6 +167,7 @@ pip install rasterio
 
 OK!  That's all you should need as far as programs and packages for you to run the AI on your computer.  So easy!!!
 
+<a name="annotating-images"></a>
 ## 2. Annotating Images
 To create an AI model that will detect objects of interest for you, you first must show the AI what it should be looking for.  We do this by annotating images by drawing boxes that surround the objects of interest and labeling those boxes with a class name (like Fish_Type_1).  Annotatio prograrms help us do this by turning these graphic boxes (and associated labels) into text files that describe where the boxes are in the image, and what class that box belongs to. This is the time consuming part of creating an AI as many hundreds to thousands of images must be annotated with thousands of boxes surrounding each class of your objects of interest...at least those are the types of numbers one sees thrown around on the internet.  A model that is useful may require much less or much more. 
 
