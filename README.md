@@ -3,12 +3,12 @@ This guide was prepared and tested on a windows 10 and windows 11 computer.  Usi
 
 ## Order of Operations
 1.  [Preparing your Computer](##preparing-your-computer).  Adds python 3.11 and all needed packages to your computer to do the deep neural network computer vision work.
-2.  Annotate Images (This assumes you have images you want to work on)
-3.  Tile Images.   YoloV8 defaults to images 640 x 640 pixels but any size can be used.  My images are much larger AND the fish I want to detect are relatively small.  So I must break up my images into smaller sizes close to 640 x 640 to train my model.
-4.  Train YoloV8  This is training the YoloV8 model to work on images and objects of interest (ooi's) that you care about.
-5.  Run Model.  Using SAHI and YoloV8.txt to create geojson files that mark your objects of interest from a georeferenced image.  SAHI cuts up your images into ~640 x 640 pixels, then applies your customized YoloV8 model to find your objects of interest.
-6.  QGIS. Import your images and corresponding geojson files for manual editing into QGIS to remove false positives and add false negatives.
-7.  Run Geojson_to_Yolo_Darknet.py to convert QGIS geojson files into yolo darknet annotation sytle to reread into LabelImg or put back into step 4 to improve your yoloV8 model...yeah!!!
+2.  [Annotating Images](##annotating_images). (This assumes you have images you want to work on)
+3.  [Tile Images](##tile_images).   YoloV8 defaults to images 640 x 640 pixels but any size can be used.  My images are much larger AND the fish I want to detect are relatively small.  So I must break up my images into smaller sizes close to 640 x 640 to train my model.
+4.  [Train YoloV8](##train-yolov8).  This is training the YoloV8 model to work on images and objects of interest (ooi's) that you care about.
+5.  [Run Model]((##run-model).  Using SAHI and YoloV8.txt to create geojson files that mark your objects of interest from a georeferenced image.  SAHI cuts up your images into ~640 x 640 pixels, then applies your customized YoloV8 model to find your objects of interest.
+6.  [QGIS](##qgis). Import your images and corresponding geojson files for manual editing into QGIS to remove false positives and add false negatives.
+7.  [Convert georeferenced annotations back to Yolo format](##convert-georeferenced-annotations-back-to-yolo-format).  Run Geojson_to_Yolo_Darknet.py to convert QGIS geojson files into yolo darknet annotation sytle to reread into LabelImg or put back into step 4 to improve your yoloV8 model...yeah!!!
 
 ## 1. Preparing Your Computer
 If you are a github stud, clone this repository, if not, just go to green "code" button and download the zip file and install it in your favored location on your computer, I chose to put it here.
@@ -306,7 +306,8 @@ A final summary statistic often found is the $F1_{Score}$
 
 $$F1_{Score} = \frac{2\times{Precision}\times{Recall}}{(Preciaion + Recall)}$$
 
-## 5.0 Running your basic model
+## 5.0 Run Model
+### 5.0 Running your basic model
 Now that you have trained your model, you can use it to identify things!  To run a basic model from CMD line, activate your 3.11 virtual environment and navigate to
 
 `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project>`
@@ -323,7 +324,7 @@ yolo detect predict model="C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV
 
 Which will save labeled images and a yolo_darknet annotation text file in the folder that you are in at the CMD.  You can then read back into LabelImg to fix False Positives and False Negatives by hand....Hey, no one said this was perfect.  But again, please see https://docs.ultralytics.com/usage/cfg/#predict for a list and brief description of the possible arguments.
 
-## 5.1 Using SAHI and your newly trained YoloV8 model
+### 5.1 Using SAHI and your newly trained YoloV8 model
 SAHI stands for Slicing Aided Hyper Inference and is designed to find relatively small objects within larger images.  For my use, this is mandatory because of my large, inconsistently sized images with relatively small ooi's, and because we are using this, necessitated our tiling the images in section 3.  See https://docs.ultralytics.com/guides/sahi-tiled-inference/ and https://github.com/obss/sahi.
 
 In your python 3.11 virtual environment from the CMD line
@@ -396,7 +397,7 @@ As with the yolo call to train a model, there are a huge number of optional argu
 
 `visual_bbox_thickness`  This is the thickness of the line of the bounding box that surrounds your ooi's, I prefered a thinner line so it didn't obstruct the image when I went back to correct the model predictions.
 
-## 5.2 Georeferenced.py (SAHI and YoloV8) on georeferenced images and QGIS
+### 5.2 Georeferenced.py (SAHI and YoloV8) on georeferenced images and QGIS
 
 This is a rather specialzed section that won't apply to the majority of investigators.  Our images are georeferenced so we want the images and predicted bounding boxes to be georeferenced as well so we can manipulate them in a GIS program such as QGIS, instead of using LabelImg. GeoreferencedBB.py does this using SAHI and YoloV8.  This is from https://github.com/obss/sahi/discussions/870 and all credit goes to the author.  This works on a georeferenced .tif file (geotif) or a .png with associated .xml file that contains georeferencing.  This creates a geojson file of the predicted bounding boxes associated with the image which can be opened in GIS along with the image.  Before running it, you need to change the file paths on rows 59 and 66.  The path on line 59 will find every instance of a .png in the directories and subdirectories below it and will perform the predictions on all these images.  Also, the script is currently set up for .png files, if you are using .tif files, you will need to change lines 61 and 81 from "png" to "tif".  The predictions will be saved as a .geojson file in the same directory as the image with the same name as the image.  You can run this file from your python IDE or from the CMD activate your 3.11 virtual environment and navigate to the folder the python script is in
 
@@ -407,7 +408,7 @@ and type
 ```
 python GeoReferencedBB.py
 ```
-### Using QGIS to map and manipulate the annotations
+## 6. QGIS
 The following applies to manipulating the bounding boxes within the freeware QGIS.  Any Computer Vision model is not going to be perfect, and by importing into QGIS you can correct the False Negatives and False Positives.  
 
 For importing the .geojson into qgis, we need to create the default style, within QGIS go to Project>Properties and click on Default Styles.  
@@ -421,7 +422,7 @@ View>Toolbars>Shape Digitizing Toolbar  Then use "add rectangle from extent" to 
 
 Save as .geojson file "non newline" type, which can be reconverted to Yolo annotation format in next section for adding to the images to retain the model on a larger data set for next time.  It's a never ending iterative process over time.
 
-## 6 Convert georeferenced annotations back to Yolo format
+## 7 Convert georeferenced annotations back to Yolo format
 
 Run "Geojson_to_Yolo_Darknet.py to convert QGIS .geojson files into yolo darknet annotation sytle.  This is essentially a reverse engineered back transform of the Georeferenced.py script that made coco (Coco is a data set of images of everyday items used to train and benchmark AI computer vision models) formatted annotations (which are based on x-y coordinates of the image in pixels) and turned them into georeferenced coordinates based on the projection of the georeferenced image.  So Geojson_to_Yolo_Darknet.py takes georeferenced annotations and turns them into x-y image pixel coordinates but using the yolo darknet annotation format instead of the coco format.  If you are confused, it's not your fault, it's a relatively young industry and things are not yet standardized, so everyone is doing something different.  Regardless, now you can retrain your model with the new annotations and images that your model helped you identify.  Again, you can run this from your Python IDE or the CMD ***BUT*** you will need to alter the path in line 55 and depending on if you are using .png or .tif files, line 64 as well.
 
