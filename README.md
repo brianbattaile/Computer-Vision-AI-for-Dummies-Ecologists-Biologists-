@@ -281,7 +281,7 @@ python YoloV8_train.py
 ```
 
 ### Results of the training
-For me, results ended up in C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8\runs\detect\train and if you decide to train different models, they will end up in sequentially numbered folders train1, train2 etc., so you should probably rename the folders to something more memorable.  I have also seen the results deposited in python3.11 virtual environment folders.  Inside those folders are a number of diagnostic graphs, images from train and validate with model detections outlined with confidence scores.  The weights folder is your new model and what you will point to when running your model on new images.  I have supplied a model and results trained from the "small" YoloV8 model found C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8\runs\detect\train
+For me, results ended up in C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8\runs\detect\train and if you decide to train different models, they will end up in sequentially numbered folders train1, train2 etc., so you should probably rename the folders to something more memorable.  I have also seen the results deposited in python3.11 virtual environment folders.  Inside those folders are a number of diagnostic graphs, images from train and validate with model detections outlined with confidence scores.  The weights folder is your new model and what you will point to when running your model on new images.  I have supplied a model and results trained from the "small" YoloV8 model found C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8\runs\detect\train_Small folder.
 
 ### Understanding the Training Results
 
