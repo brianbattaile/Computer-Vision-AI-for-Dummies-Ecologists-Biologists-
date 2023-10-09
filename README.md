@@ -318,15 +318,15 @@ $$F1_{Score} = \frac{2\times{Precision}\times{Recall}}{(Preciaion + Recall)}$$
 
 Now that you have trained your model, you can use it to identify things!  To run a basic model from CMD line, activate your 3.11 virtual environment and navigate to
 
-`(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\Basic_Model>`
+`(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project>`
 
 and type
 
 ```
-yolo detect predict model="C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8\runs\detect\train_XTRA_LARGE\weights\best.pt" source="C:\Users\...Your\Folder\Path...\AI_Project\Test" imgsz=640 save_txt=True
+yolo detect predict model="C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8\runs\detect\train_Small\weights\best.pt" source="C:\Users\...Your\Folder\Path...\AI_Project\Georeferenced" imgsz=640 save_txt=True
 ```
 
-`source="C:\Users\...Your\Folder\Path...\AI_Project\Images"` Is where you are keeping your images you want to analyze
+`source="C:\Users\...Your\Folder\Path...\AI_Project\Georeferenced"` Is where you are keeping your images you want to analyze
 
 `save_txt=True`  Simply states to save the model predicted image annotations as a .txt file
 
@@ -342,7 +342,7 @@ In your python 3.11 virtual environment from the CMD line
 type
 
 ```
-sahi predict --model_path  "C:\Users\Green Sturgeon\AI_Project\TrainYoloV8\runs\detect\train_XTRA_LARGE\weights\best.pt" --model_type yolov8 --source "C:\Users\Green Sturgeon\AI_Project\Test" --slice_height 640 --slice_width 640 --overlap_height_ratio 0.2 --overlap_width_ratio 0.2 --visual_bbox_thickness 1 --visual_hide_labels TRUE --export_pickle TRUE
+sahi predict --model_path  "C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8\runs\detect\train_Small\weights\best.pt" --model_type yolov8 --source "C:\Users\...Your\Folder\Path...\AI_Project\Georeferenced" --slice_height 640 --slice_width 640 --overlap_height_ratio 0.2 --overlap_width_ratio 0.2 --visual_bbox_thickness 1 --visual_hide_labels TRUE --export_pickle TRUE
 ```
 
 As an asside...Unfortunatey, SAHI does not output a conveniently formatted .txt file with annotations in the yolo format that we can easily import into LabelImg.  The "pickle" file is the .txt file with the annotations but in an unreadable format.  If you want to turn this into a readable file, in your 3.11 virtual environment
@@ -383,7 +383,7 @@ import pprint
 with open(r"C:\Users\...Your\Folder\Path...\AI_Project\Test\runs\predict\exp\pickles\Your_Image_Name.txt", "a") as f:
 	pprint.pprint(unpickled_data, stream=f)
 ```
-You might need to press enter a couple times for it to take...don't know why
+You might need to press enter a couple times for it to take...don't know why.  Also, python is sensitive to indentations, so I have found python to be finicky about just copying and pasting the above lines.
 
 To exit python
 ```
