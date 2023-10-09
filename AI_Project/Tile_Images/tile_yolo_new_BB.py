@@ -123,7 +123,7 @@ if __name__ == "__main__":
     imnames = []
     # os.walk() returns subdirectories, file from current directory and
     # And follow next directory from subdirectory list recursively until last directory
-    for root, dirs, files in os.walk(r"C:/Users/Green Sturgeon/AI_Project/Annotations/2023/Full Annotations/Census_1"):
+    for root, dirs, files in os.walk(r"C:/Users/...Your/Folder/Path.../AI_Project/Annotations/Annotated_Example_Images"):
         for file in files:
             if file.endswith(".png"):
                 imnames.append(os.path.join(root, file))
