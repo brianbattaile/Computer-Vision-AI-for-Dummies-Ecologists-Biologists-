@@ -413,7 +413,6 @@ python GeoReferencedBB.py
 	The following applies to manipulating the bounding boxes within the freeware QGIS.  Any Computer Vision model is not going to be perfect, and by importing into QGIS you can correct the False Negatives and False Positives.  
 
 For importing the .geojson into qgis, we need to create the default style, within QGIS go to Project>Properties and click on Default Styles.  
-
 Under default symbols, change fill to outline red or you favoriate color
 
 Click on style manager, click on line, click on simple red line, change color or width or whatever.
@@ -422,9 +421,9 @@ Edit, click on pencil when layer is selected, use polygon tool to add create a b
 
 View>Toolbars>Shape Digitizing Toolbar  Then use "add rectangle from extent" to add bounding boxes.
 
-Save as .geojson file "non newline" type...which can be reconverted to Yolo annotation format in next section for adding to the images to retain the model on a larger data set for next time.  It's a never ending iterativ process over time.
+Save as .geojson file "non newline" type, which can be reconverted to Yolo annotation format in next section for adding to the images to retain the model on a larger data set for next time.  It's a never ending iterative process over time.
 
 ## 6 Convert georeferenced annotations back to Yolo format
 
-	Run "Geojson_to_Yolo_Darknet.py to convert QGIS .geojson files into yolo darknet annotation sytle.  This is essentially a reverse engineered back transform of the Georeferenced.py script that made coco (Coco is a data set of images of everyday items used to train and benchmark AI computer vision models) formatted annotations (which are based on x-y coordinates of the image in pixels) and turned them into georeferenced coordinates based on the projection of the georeferenced image.  So Geojson_to_Yolo_Darknet.py takes georeferenced annotations and turns them into x-y image pixel coordinates but using the yolo darknet annotation format instead of the coco format.  Its confusing.  Now you can retrain your model with the new annotations and images that your model helped you identify.  Again, you can run this from your IDE or the CMD and you will need to alter the path in line 55 and depending on if you are using .png or .tif files, line 64.
+	Run "Geojson_to_Yolo_Darknet.py to convert QGIS .geojson files into yolo darknet annotation sytle.  This is essentially a reverse engineered back transform of the Georeferenced.py script that made coco (Coco is a data set of images of everyday items used to train and benchmark AI computer vision models) formatted annotations (which are based on x-y coordinates of the image in pixels) and turned them into georeferenced coordinates based on the projection of the georeferenced image.  So Geojson_to_Yolo_Darknet.py takes georeferenced annotations and turns them into x-y image pixel coordinates but using the yolo darknet annotation format instead of the coco format.  If you are confused, it's not your fault, it's a relatively young industry and things are not yet standardized, so everyone is doing something different.  Regardless, now you can retrain your model with the new annotations and images that your model helped you identify.  Again, you can run this from your Python IDE or the CMD ***but*** you will need to alter the path in line 55 and depending on if you are using .png or .tif files, line 64 as well.
 
