@@ -39,10 +39,10 @@ The pycharm community edition is free
 
 https://www.jetbrains.com/pycharm/download/?section=windows
 
-At this point, I highly recommend reading or watching a brief tutorial on you chosen editor, they are complicated beasts.  In the least, you will likely need to learn how to assign a python interpreter to your project and learn how to run a script from the editor.  Within pycharm at least, with a script open, you will go into the settings, and under project you will find the python interpreter and set it to the 3.11 python.exe in your 3.11 local environment that we will create next!!!
+At this point, I highly recommend reading or watching a brief tutorial on your chosen editor, they are complicated beasts.  In the least, you will likely need to learn how to assign a python interpreter to your project and learn how to run a script from the editor.  Within pycharm at least, with a script open, you will go into the settings, and under project you will find the python interpreter and set it to the 3.11 python.exe in your 3.11 local environment that we will create next!!!
 
-### Create Local Python Environment for AI_Project
-We are going to make python local environments, which tends to be good practice because many python versions and packages can interfer with each other, or not work together, as we found with pycharm and 3.12 and LabelImg not working in >3.10, so we can make a local environment to isolate projects that might require different python versions and packages.
+### Create Local/virtual Python Environment for AI_Project
+We are going to make python local/virtual environments, which tends to be good practice because many python versions and packages can interfer with each other, or not work together, as we found with pycharm and 3.12 and LabelImg not working in >3.10, so we can make a local environment to isolate projects that might require different python versions and packages.
 
 #### Navigating in your Command Line Interface
 In your Command Prompt (CMD)-navigate to the folder where you downloaded this git hub repository, for me it is C:\Users\Green Sturgeon\AI_Project.  For instance, my CMD opens up to 
@@ -78,9 +78,9 @@ In CMD, navigate to the folder you want the virtual environment to be in, mine i
 
 Now type 
 ```
-python -m virtualenv AIvenv3.11 -p="C:\Users\Your\Folder\Path\AppData\Local\Programs\Python\Python311\python.exe"
+python -m virtualenv AIvenv3.11 -p="C:\Users\...Your\Folder\Path...\AppData\Local\Programs\Python\Python311\python.exe"
 ```
-replacing "AIvenv3.11" for your preferend folder name of your virtual environment and "C:\Users\...Your\Folder\Path...\AppData\Local\Programs\Python\Python39\python.exe" with the path to your 3.11 python executable file, which is likely to be similar to mine so ***HOPEFULLY*** you only need to replace the "...Your\Folder\Path..." part of the path.
+replacing "AIvenv3.11" for your preferend folder name of your virtual environment and "C:\Users\...Your\Folder\Path...\AppData\Local\Programs\Python\Python311\python.exe" with the path to your 3.11 python executable file, which is likely to be similar to mine so ***HOPEFULLY*** you only need to replace the "...Your\Folder\Path..." part of the path.
 
 #### Python 3.9 virtual local environment
 Do the same to make a Python 3.9 local environment
@@ -95,9 +95,9 @@ To activate your environment navigate to the Scripts folder in your local enviro
 
 and your CMD prompt will chage to this
 
-`(AIvenv3.9) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.9\Scripts>`
+`(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.9\Scripts>`
 
-Just type "deactivate" while in that same Scripts folder to get our of your local environment.  At this point, I found it easiest to have two CMD windows open, one with your python 3.9 local environment activated and the other with your 3.11 python environment activated...and maybe even a third open without a local environment activated.  Keeping track of which is which can take some extra concentration, but having to constantly activate and deactivate virtual environments is *tedious*.
+Just type "deactivate" while in that same Scripts folder to get out of your local environment.  At this point, I found it easiest to have two CMD windows open, one with your python 3.9 local environment activated and the other with your 3.11 python environment activated...and maybe even a third open without a local environment activated.  Keeping track of which is which can take some extra concentration, but having to constantly activate and deactivate virtual environments is *tedious*.
 
 ### Install Pytorch 
 Pytorch is needed to do AI stuff...comes with CUDA and cuDNN which allow the use of your gpu, instead of your cpu, to do the AI work which is ***MANY*** times faster.  I was not able to install pytorch with Python 3.12, but that might have changed by the time you read this.
@@ -151,7 +151,7 @@ pip install sahi
 SAHI does the detections by chopping the image into small sections, ~the same size as your tiled images used for training the model, with overlap so it shouldn't miss anything, more on this later.
 
 ### Install split-folders
-For easy random splitting of images into train, validation and test(If applicable) groups (more on this later)
+For easy random splitting of annotated images into train, validation and test(If applicable) groups (more on this later)
 
 `(AIvenv3.11) C:\Users\Green Sturgeon\AI_Project\AIvenv3.11\Scripts>pip install split-folders`
 
