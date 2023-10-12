@@ -234,15 +234,15 @@ Use "Separate Train Validate and Test.py" to assign your tiled images and associ
 <a id="train-yolov8"></a>
 ## 4. Train VoloV8
 
-Yolo V8 comes in 5 different model sizes ranging from nano at 3.5 million parameters to extra large at 68.7 million parameters.  You downloaded these five models already in the section ***"Preparing Your Computer"***.  The difference in size will affect how quickly your model trains and how quickly it works when applied.  If you are working through large numbers of images such as video, or want to implement a fast version for realtime evaluation in video, the nano version may be your best option, if accuracy is paramount and time is no object, the extral large version may be for you, some experimentation will be required to determine the best model for your application.
+Yolo V8 comes in 5 different model sizes ranging from nano at 3.5 million parameters to extra-large at 68.7 million parameters.  You downloaded these five models already in the section ***"Preparing Your Computer"***.  The difference in size will affect how quickly your model trains and how quickly it works when applied.  If you are working through large numbers of images such as video, or want to implement a fast version for realtime evaluation in video, the nano version may be your best option, if accuracy is paramount and time is no object, the extra-large version may be for you, some experimentation will be required to determine the best model for your application.
 
-There are a large number of argument options for training a YoloV8 model, I will go over a few of the options I found important, but please consult the YoloV8 reference pages https://docs.ultralytics.com/ and specifically https://docs.ultralytics.com/usage/cfg/#train but in gneral I found this site to be a monster of opaqueness and confusion.  I also found this particular video valuable for explaining the training process and some output options, www.youtube.com/watch?v=gRAyOPjQ9_s "Complete yolo v8 custom object detection tutorial | Windows & Linux"
+There are a large number of argument options for training a YoloV8 model, I will go over a few of the options I found important, but please consult the YoloV8 reference pages https://docs.ultralytics.com/ and specifically https://docs.ultralytics.com/usage/cfg/#train but in general I found this site to be a monster of opaqueness and confusion.  I also found this particular video valuable for explaining the training process and some output options, www.youtube.com/watch?v=gRAyOPjQ9_s "Complete yolo v8 custom object detection tutorial | Windows & Linux"
 
 ### Create your .yaml file
 This file tells Yolo where your images are, the number of classes you want to train for and the names of those classes.  it's a simple file to create and I've included an example for my work with a single class of ooi's.  It is stored inside C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8\
 
 ### Run the YoloV8 trainer on a pretrained model
-The following command traines a pretrained yoloV8 model, which means YoloV8 comes from the factory trained to detect common everyday things you find in your house or as you are walking around your neighborhood.  (As an asside, it is briefly fun and instructive to run that model on your images and watch the model find chairs, vases and dogs amidst an image of a pristine forest or coral reef.)
+The following command trains a pretrained yoloV8 model, which means YoloV8 comes from the factory trained to detect common everyday things you find in your house or as you are walking around your neighborhood.  (As an aside, it is briefly fun and instructive to run that model on your images and watch the model find chairs, vases and dogs amidst an image of a pristine forest or coral reef.)
 
 In CMD, activate your Python 3.11 virtual environment and navigate to the TrainYoloV8 folder where GSAI_Images.yaml is stored.
 
@@ -259,7 +259,7 @@ I'll break down the commands used
 
 `mode=train`  Here we are training the model, When we go to actually use our trained model when we call yolo, we would use mode=predict
 
-`epochs=300`  This has to do with how many times the trainer will run through our images.  We don't want to over or under train our model, thankfully, the trainer tests for these things and will stop at an optimal point.  Advanced users may want to optimize this themselves, but if you are reading this, you are not an advanced user.  My extra large model stopped at ~120, so 300 was overkill for me, but better to overguess than find your training stopped at your limit resulting with an un-optimized model.  You can restart the training where it left off but I'll leave it to you to figure out how if you need to.
+`epochs=300`  This has to do with how many times the trainer will run through our images.  We don't want to over or under train our model, thankfully, the trainer tests for these things and will stop at an optimal point.  Advanced users may want to optimize this themselves, but if you are reading this, you are not an advanced user.  My extra-large model stopped at ~120, so 300 was overkill for me, but better to over guess than find your training stopped at your limit resulting with an un-optimized model.  You can restart the training where it left off but I'll leave it to you to figure out how if you need to.
 
 `data=GSAI_Images.yaml`  Points to the .yaml file that is in the folder level that we navigated to in CMD
 
@@ -291,11 +291,11 @@ For me, results ended up in C:\Users\...Your\Folder\Path...\AI_Project\TrainYolo
 ### Understanding the Training Results
 Understanding the diagnostics is a bit opaque and at some levels requires digging into the code or trusting what you might read on-line.  The following is what I've been able to glean from multiple sources.  
 
-Predictions can come in 4 flavors, True Positives (TP), False Positives (FP), True Negatives (TN) and False Negatives (FN).  True positives occur when the model predicted an object of interest correctly.  False Positives occur when the model detected an object of interest that did not exist.  Ture Negatives occur when the computer does not detect an ooi when none exist, kinda strange in practice.  False Negatives occur when the model did not detect and ooi when in fact it did exist. There are a number of metrics to summarize the efficency of the model using these four flavors, but the two most commonly used statistics for computer Vision AI are Recall and Precision.  Recall is $\frac{TP}{(TP + FN)}$ or in words, the percentage of true predictions of all real ooi's, or how well do we find the ooi's. Precision is $\frac{TP}{(TP + FP)}$ or in words, the percentage of true predictions of all predictions, or the percentage of predictions that are correct.  The rub is that if we want better Precision, Recall gets worse and vise versa, so there is a Precision Recall curve that shows how these two are co-related.  The other rub, is that these are different for different classes.  Another common statistic we are interested in is how close is the bounding box created by the computer model prediction, to the bounding box we created in the annotations, the closer they are in size and location, the better.  The metric that describes this is the Intersectin over Union and is defined as the $\frac{\text{Area  of  Overlap}}{\text{Area  of  Union}}$.  Often an IoU of 50% or greater is used as a lower limit to determine if a prediction is a True Positive but that IoU is user defined.  A higher IoU will result in greater Precision but lower Recall.  From these statistics, the Average Precision is calculated.  
+Predictions can come in 4 flavors, True Positives (TP), False Positives (FP), True Negatives (TN) and False Negatives (FN).  True positives occur when the model predicted an object of interest correctly.  False Positives occur when the model detected an object of interest that did not exist.  Ture Negatives occur when the computer does not detect an ooi when none exist, kinda strange in practice.  False Negatives occur when the model did not detect and ooi when in fact it did exist. There are a number of metrics to summarize the efficiency of the model using these four flavors, but the two most commonly used statistics for computer Vision AI are Recall and Precision.  Recall is $\frac{TP}{(TP + FN)}$ or in words, the percentage of true predictions of all real ooi's, or how well do we find the ooi's. Precision is $\frac{TP}{(TP + FP)}$ or in words, the percentage of true predictions of all predictions, or the percentage of predictions that are correct.  The rub is that if we want better Precision, Recall gets worse and vise versa, so there is a Precision Recall curve that shows how these two are co-related.  The other rub, is that these are different for different classes.  Another common statistic we are interested in is how close is the bounding box created by the computer model prediction, to the bounding box we created in the annotations, the closer they are in size and location, the better.  The metric that describes this is the Intersection over Union and is defined as the $\frac{\text{Area  of  Overlap}}{\text{Area  of  Union}}$.  Often an IoU of 50% or greater is used as a lower limit to determine if a prediction is a True Positive but that IoU is user defined.  A higher IoU will result in greater Precision but lower Recall.  From these statistics, the Average Precision is calculated.  
 
 $$AP=\sum_{i=0}^{n-1}(Recall_i-Recall_{i-1}) Precision_i$$
 
-Average Precision is defined at a prticular IoU, so AP50 is the average precision for an IoU of 50% or greater.  In other words, it is the weighted sum of precisions at each threshold where the weight is the increase in recall...if that helps you.  It is more simply defined as the area under the Precision-Recall curve. The mAP50 (mean AP50) is the average precision averaged over all the different ooi classes.  
+Average Precision is defined at a particular IoU, so AP50 is the average precision for an IoU of 50% or greater.  In other words, it is the weighted sum of precisions at each threshold where the weight is the increase in recall...if that helps you.  It is more simply defined as the area under the Precision-Recall curve. The mAP50 (mean AP50) is the average precision averaged over all the different ooi classes.  
 
 $$mAP=\frac{1}{c} \sum_{i=1}^c AP_i$$
 
@@ -316,7 +316,7 @@ Class confidence is $PR(Class_i|Object) \times PR(Object) \times IoU(pred, truth
 
 A final summary statistic often found is the $F1_{Score}$
 
-$$F1_{Score} = \frac{2\times{Precision}\times{Recall}}{(Preciaion + Recall)}$$
+$$F1_{Score} = \frac{2\times{Precision}\times{Recall}}{(Precision + Recall)}$$
 
 [🔼 Back to top](#top)
 <a id="run-model"></a>
@@ -352,7 +352,7 @@ type
 sahi predict --model_path  "C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV8\runs\detect\train_Small\weights\best.pt" --model_type yolov8 --source "C:\Users\...Your\Folder\Path...\AI_Project\Georeferenced" --slice_height 640 --slice_width 640 --overlap_height_ratio 0.2 --overlap_width_ratio 0.2 --visual_bbox_thickness 1 --visual_hide_labels TRUE --export_pickle TRUE
 ```
 
-As an asside...Unfortunatey, SAHI does not output a conveniently formatted .txt file with annotations in the yolo format that we can easily import into LabelImg.  The "pickle" file is the .txt file with the annotations but in an unreadable format.  If you want to turn this into a readable file, in your 3.11 virtual environment
+As an aside...Unfortunately, SAHI does not output a conveniently formatted .txt file with annotations in the yolo format that we can easily import into LabelImg.  The "pickle" file is the .txt file with the annotations but in an unreadable format.  If you want to turn this into a readable file, in your 3.11 virtual environment
 
 type
 
@@ -402,7 +402,7 @@ Back to Using SAHI...
 
 As with the yolo call to train a model, there are a huge number of optional arguments.  See https://docs.ultralytics.com/guides/sahi-tiled-inference/#standard-inference-with-yolov8 for further details.
 
-`model_path` is the path to one of the *.pt files in the weights folder.  You should use the best.pt model unless your an advanced user, but you are reading this so you aren't advanced...just like me.
+`model_path` is the path to one of the *.pt files in the weights folder.  You should use the best.pt model unless you're an advanced user, but you are reading this so you aren't advanced...just like me.
 
 `source` is your path to the images you want your yoloV8 model to do predictions on
 
@@ -414,7 +414,7 @@ As with the yolo call to train a model, there are a huge number of optional argu
 
 ### 5.2 Georeferenced.py (SAHI and YoloV8) on georeferenced images and QGIS
 
-This is a rather specialzed section that won't apply to the majority of investigators.  Our images are georeferenced so we want the images and predicted bounding boxes to be georeferenced as well so we can manipulate them in a GIS program such as QGIS, instead of using LabelImg. GeoreferencedBB.py does this using SAHI and YoloV8.  This is from https://github.com/obss/sahi/discussions/870 and all credit goes to the author.  This works on a georeferenced .tif file (geotif) or a .png with associated .xml file that contains georeferencing.  This creates a geojson file of the predicted bounding boxes associated with the image which can be opened in GIS along with the image.  Before running it, you need to change the file paths on rows 59 and 66.  The path on line 59 will find every instance of a .png in the directories and subdirectories below it and will perform the predictions on all these images.  Also, the script is currently set up for .png files, if you are using .tif files, you will need to change lines 61 and 81 from "png" to "tif".  The predictions will be saved as a .geojson file in the same directory as the image with the same name as the image.  You can run this file from your python IDE or from the CMD activate your 3.11 virtual environment and navigate to the folder the python script is in
+This is a rather specialized section that won't apply to the majority of investigators.  Our images are georeferenced so we want the images and predicted bounding boxes to be georeferenced as well so we can manipulate them in a GIS program such as QGIS, instead of using LabelImg. GeoreferencedBB.py does this using SAHI and YoloV8.  This is from https://github.com/obss/sahi/discussions/870 and all credit goes to the author.  This works on a georeferenced .tif file (geotif) or a .png with associated .xml file that contains georeferencing.  This creates a geojson file of the predicted bounding boxes associated with the image which can be opened in GIS along with the image.  Before running it, you need to change the file paths on rows 59 and 66.  The path on line 59 will find every instance of a .png in the directories and subdirectories below it and will perform the predictions on all these images.  Also, the script is currently set up for .png files, if you are using .tif files, you will need to change lines 61 and 81 from "png" to "tif".  The predictions will be saved as a .geojson file in the same directory as the image with the same name as the image.  You can run this file from your python IDE or from the CMD activate your 3.11 virtual environment and navigate to the folder the python script is in
 
 `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\Georeferenced>`
 
@@ -431,7 +431,7 @@ python GeoReferencedBB.py
 The following applies to manipulating the bounding boxes within the freeware QGIS.  Any Computer Vision model is not going to be perfect, and by importing into QGIS you can correct the False Negatives and False Positives.  
 
 For importing the .geojson into qgis, we need to create the default style, within QGIS go to Project>Properties and click on Default Styles.  
-Under default symbols, change fill to outline red or you favoriate color
+Under default symbols, change fill to outline red or you favorite color
 
 Click on style manager, click on line, click on simple red line, change color or width or whatever.
 
