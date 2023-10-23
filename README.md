@@ -310,18 +310,18 @@ In practical terms, it is calculated as a descrete weighted sum of precisions wh
 $$AP=\sum_{i=0}^{n-1}(Recall_i-Recall_{i-1}) \times{Precision_i}$$
 Where n is the number of precision recall points.
 
-$$(Recall_i-Recall_{i-1}) \times{Precision_i)}	AP
-(0.1-0.0) × 1	0.1
-(0.2-0.1) × 1	0.1
-(0.3-0.2) × 0.99	0.099
-(0.4-0.3) × 0.97	0.097
-(0.5-0.4) × 0.9	0.09
-(0.6-0.5) × 0.8	0.08
-(0.7-0.6) × 0.65	0.065
-(0.8-0.7) × 0.45	0.045
-(0.9-0.8) × 0.3	0.03
-(1.0-0.9) × 01	0.01
-Sum	0.716
+| $$(Recall_i-Recall_{i-1}) \times{Precision_i)} | AP |
+| (0.1-0.0) × 1	| | 0.1 |
+| (0.2-0.1) × 1	| 0.1
+| (0.3-0.2) × 0.99 | 0.099 |
+| (0.4-0.3) × 0.97 | 0.097 |
+| (0.5-0.4) × 0.9 | 0.09 |
+| (0.6-0.5) × 0.8 | 0.08 |
+| (0.7-0.6) × 0.65 | 0.065 |
+| (0.8-0.7) × 0.45 | 0.045 |
+| (0.9-0.8) × 0.3 | 0.03 |
+| (1.0-0.9) × 01 | 0.01 |
+| Sum | 0.716 | 
 
 
 ![image](https://github.com/brianbattaile/Computer-Vision-AI-for-Dummies-Ecologists-Biologists-/assets/105937466/7d715ad6-ad3c-4e28-a815-108177f57231)
