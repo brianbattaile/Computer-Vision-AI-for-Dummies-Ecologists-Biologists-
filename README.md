@@ -295,12 +295,24 @@ Predictions can come in 4 flavors, True Positives (TP), False Positives (FP), Tr
 
 ![image](https://github.com/brianbattaile/Computer-Vision-AI-for-Dummies-Ecologists-Biologists-/assets/105937466/d3fbf750-bfbd-4bd2-9505-e4d8e840b9f8)
 
+The other rub, is that these are different for different classes.  Another common statistic we are interested in is how close is the bounding box created by the computer model prediction, to the bounding box we created in the annotations, the closer they are in size and location, the better.  The metric that describes this is the Intersection over Union and is defined as the $\frac{\text{Area  of  Overlap}}{\text{Area  of  Union}}$.  
 
-The other rub, is that these are different for different classes.  Another common statistic we are interested in is how close is the bounding box created by the computer model prediction, to the bounding box we created in the annotations, the closer they are in size and location, the better.  The metric that describes this is the Intersection over Union and is defined as the $\frac{\text{Area  of  Overlap}}{\text{Area  of  Union}}$.  Often an IoU of 50% or greater is used as a lower limit to determine if a prediction is a True Positive but that IoU is user defined.  A higher IoU will result in greater Precision but lower Recall.  From these statistics, the Average Precision is calculated.  
+![image](https://github.com/brianbattaile/Computer-Vision-AI-for-Dummies-Ecologists-Biologists-/assets/105937466/50a67c9b-098b-48bf-b157-93c03b54830c)
+
+Often an IoU of 50% or greater is used as a lower limit to determine if a prediction is a True Positive but that IoU is user defined.  A higher IoU will result in greater Precision but lower Recall.  From these statistics, the Average Precision is calculated.  
+
+Average Precision is defined at a particular IoU, so AP50 is the average precision for an IoU of 50% or greater.  In other words, it is the weighted sum of precisions at each threshold where the weight is the increase in recall...if that helps you.  It is more simply defined as the area under the Precision-Recall curve. 
+
+![image](https://github.com/brianbattaile/Computer-Vision-AI-for-Dummies-Ecologists-Biologists-/assets/105937466/61bcb925-94af-4f37-a86b-91139c57b97b)
+
+In practical terms, it is calculated as a descrete weighted sum of precisions where the weight is the increase in recall from consecutive recall points.
 
 $$AP=\sum_{i=0}^{n-1}(Recall_i-Recall_{i-1}) Precision_i$$
+Where n is the number of precision recall points.
 
-Average Precision is defined at a particular IoU, so AP50 is the average precision for an IoU of 50% or greater.  In other words, it is the weighted sum of precisions at each threshold where the weight is the increase in recall...if that helps you.  It is more simply defined as the area under the Precision-Recall curve. The mAP50 (mean AP50) is the average precision averaged over all the different ooi classes.  
+![image](https://github.com/brianbattaile/Computer-Vision-AI-for-Dummies-Ecologists-Biologists-/assets/105937466/7d715ad6-ad3c-4e28-a815-108177f57231)
+
+The mAP50 (mean AP50) is the average precision averaged over all the different ooi classes.  
 
 $$mAP=\frac{1}{c} \sum_{i=1}^c AP_i$$
 
@@ -322,6 +334,9 @@ Class confidence is $PR(Class_i|Object) \times PR(Object) \times IoU(pred, truth
 A final summary statistic often found is the $F1_{Score}$
 
 $$F1_{Score} = \frac{2\times{Precision}\times{Recall}}{(Precision + Recall)}$$
+
+![image](https://github.com/brianbattaile/Computer-Vision-AI-for-Dummies-Ecologists-Biologists-/assets/105937466/835a5ff9-df7e-4e28-a651-cc5f1bedd436)
+
 
 [🔼 Back to top](#top)
 <a id="run-model"></a>
