@@ -362,11 +362,17 @@ In the images that YoloV8 provides of the objects of interest it identifies, alo
 
 There are two types of confidence scores, box confidence and class confidence.  I believe the box confidence is the confidence associated with the bounding boxes created in the training and in predictions when using the model.  
 
-Box confidence is $IoU(pred, truth) \times Pr(Object)$.  I have not been able to find the equation for calculating $PR(Object)$.
+Box confidence is 
 
-Class confidence is $PR(Class_i|Object) \times PR(Object) \times IoU(pred, truth)$.  Again, unable to find equation for $PR(Class_i|Object)$
+$$IoU(pred, truth) \times Pr(Object)$$  
 
+I have not been able to find the equation for calculating $PR(Object)$.
 
+Class confidence is 
+
+$$PR(Class_i|Object) \times PR(Object) \times IoU(pred, truth)$$
+
+Again, unable to find equation for $PR(Class_i|Object)$
 
 A final summary statistic often found is the $F1_{Score}$, which is a measure of the accuracy of the model, and is a summary statistic that weights both precision and recall as a harmonic mean of the two.
 
