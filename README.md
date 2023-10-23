@@ -291,17 +291,32 @@ For me, results ended up in C:\Users\...Your\Folder\Path...\AI_Project\TrainYolo
 ### Understanding the Training Results
 Understanding the diagnostics is a bit opaque and at some levels requires digging into the code or trusting what you might read on-line.  The following is what I've been able to glean from multiple sources.  
 
-Predictions can come in 4 flavors, True Positives (TP), False Positives (FP), True Negatives (TN) and False Negatives (FN).  True positives occur when the model predicted an object of interest correctly.  False Positives occur when the model detected an object of interest that did not exist.  Ture Negatives occur when the computer does not detect an ooi when none exist, kinda strange in practice.  False Negatives occur when the model did not detect and ooi when in fact it did exist. There are a number of metrics to summarize the efficiency of the model using these four flavors, but the two most commonly used statistics for computer Vision AI are Recall and Precision.  Recall is $\frac{TP}{(TP + FN)}$ or in words, the percentage of true predictions of all real ooi's, or how well do we find the ooi's. Precision is $\frac{TP}{(TP + FP)}$ or in words, the percentage of true predictions of all predictions, or the percentage of predictions that are correct.  The rub is that if we want better Precision, Recall gets worse and vise versa, so there is a Precision Recall curve that shows how these two are co-related.  
+Predictions can come in 4 flavors, True Positives (TP), False Positives (FP), True Negatives (TN) and False Negatives (FN).  True positives occur when the model predicted an object of interest correctly.  False Positives occur when the model detected an object of interest in the background that did not exist.  Ture Negatives occur when the computer does not detect an object of interest when none existed in the background.  False Negatives occur when the model did not detect an object of interest when in fact it did exist. There are a number of metrics to summarize the efficiency of the model using these four flavors, but the two most commonly used statistics for computer Vision AI are Recall and Precision.  Recall is 
+
+$$\frac{TP}{(TP + FN)}$$
+
+or in words, the percentage of true predictions of all real objects of interest, or how well do we find the objects of interest. A Higher recall means the model will detect more of our objects of interest, but it is also more likely to find our objects of interest where non exist.
+Precision is 
+
+$$\frac{TP}{(TP + FP)}$$
+
+or in words, the percentage of true predictions of all predictions, or the percentage of predictions that are correct.  A high precision means our model is only finding true instances of our object of interest, but at the expense of finding only the obvious ones.  Hence, typically, if we want better Precision, Recall gets worse and vice versa, so there is a Precision Recall curve that shows how these two are co-related.  
 
 ![image](https://github.com/brianbattaile/Computer-Vision-AI-for-Dummies-Ecologists-Biologists-/assets/105937466/d3fbf750-bfbd-4bd2-9505-e4d8e840b9f8)
 
-The other rub, is that these are different for different classes.  Another common statistic we are interested in is how close is the bounding box created by the computer model prediction, to the bounding box we created in the annotations, the closer they are in size and location, the better.  The metric that describes this is the Intersection over Union and is defined as the $\frac{\text{Area  of  Overlap}}{\text{Area  of  Union}}$.  
+The other rub, is that these are different for different classes.  In our example, we only have one class, green sturgeon, but most applications will have multiple objects of interest, for example, different species of fish, and any given model will be better at identifying some fish than others.  
+
+Another common statistic we are interested in is how close is the bounding box created by the computer model prediction, to our ground truth bounding box we created in the annotations, the closer they are in size and location, the better.  The metric that describes this is the Intersection over Union (IoU) and is defined as 
+
+$$\frac{\text{Area  of  Overlap}}{\text{Area  of  Union}}$$
 
 ![image](https://github.com/brianbattaile/Computer-Vision-AI-for-Dummies-Ecologists-Biologists-/assets/105937466/50a67c9b-098b-48bf-b157-93c03b54830c)
 
-Often an IoU of 50% or greater is used as a lower limit to determine if a prediction is a True Positive but that IoU is user defined.  A higher IoU will result in greater Precision but lower Recall.  From these statistics, the Average Precision is calculated.  
+Often an IoU of 50% or greater is used as a lower limit to determine if a prediction is a True Positive but that IoU is user defined.  A higher IoU will result in greater Precision but lower Recall.  
 
-Average Precision is defined at a particular IoU, so AP50 is the average precision for an IoU of 50% or greater.  In other words, it is the weighted sum of precisions at each threshold where the weight is the increase in recall...if that helps you.  It is more simply defined as the area under the Precision-Recall curve. 
+Average Precision is defined at a particular IoU, so AP50 is the average precision for an IoU threshold of 50%.  It is more simply defined as the area under the Precision-Recall curve.
+
+$$AP=\int_{r-0}^{1}\ p(r)dr \times{Precision_i}$$
 
 ![image](https://github.com/brianbattaile/Computer-Vision-AI-for-Dummies-Ecologists-Biologists-/assets/105937466/61bcb925-94af-4f37-a86b-91139c57b97b)
 
