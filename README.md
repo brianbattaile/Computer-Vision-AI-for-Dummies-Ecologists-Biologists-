@@ -316,7 +316,8 @@ Often an IoU of 50% or greater is used as a lower limit to determine if a predic
 
 Average Precision is defined at a particular IoU, so AP50 is the average precision for an IoU threshold of 50%.  It is more simply defined as the area under the Precision-Recall curve.
 
-$$AP=\int_{r-0}^{1}\ p(r)dr \times{Precision_i}$$
+$$AP=\int_{r-0}^{1}\ p(r)dr$$
+Where r is recall
 
 ![image](https://github.com/brianbattaile/Computer-Vision-AI-for-Dummies-Ecologists-Biologists-/assets/105937466/61bcb925-94af-4f37-a86b-91139c57b97b)
 
@@ -342,11 +343,10 @@ Where n is the number of precision recall points.
 
 ![image](https://github.com/brianbattaile/Computer-Vision-AI-for-Dummies-Ecologists-Biologists-/assets/105937466/7d715ad6-ad3c-4e28-a815-108177f57231)
 
-The mAP50 (mean AP50) is the average precision averaged over all the different ooi classes.  
+The mAP50 (mean AP50) is the average precision averaged over all the different objects of interest classes.  
 
 $$mAP=\frac{1}{c} \sum_{i=1}^c AP_i$$
-
-And a final statistic is mAP50-95, which is the mAP over IoU blocks of 0.05 between 0.5 to 0.95.  
+Where c is the number of classes.  And a final statistic is mAP50-95, which is the mAP averaged over IoU blocks of 0.05 between 0.5 to 0.95. 
 
 The confusion matrix is a matrix in the form of 
 
@@ -358,14 +358,22 @@ FN & TN
 
 for a singe class, with columns normalized to 1, (or a percentage) with true on the x axis and predictions on the y axis.  The IoU default threshold is set at 0.45, why not 0.5 I don't know.
 
+In the images that YoloV8 provides of the objects of interest it identifies, along with the bounding box around the object of interest, it includes a confidence score.
+
 There are two types of confidence scores, box confidence and class confidence.  I believe the box confidence is the confidence associated with the bounding boxes created in the training and in predictions when using the model.  Box confidence is $IoU(pred, truth) \times Pr(Object)$.  I have not been able to find the equation for calculating $PR(Object)$.
 Class confidence is $PR(Class_i|Object) \times PR(Object) \times IoU(pred, truth)$.  Again, unable to find equation for $PR(Class_i|Object)$
 
-A final summary statistic often found is the $F1_{Score}$
+
+
+A final summary statistic often found is the $F1_{Score}$, which is a measure of the accuracy of the model, and is a summary statistic that weights both precision and recall as a harmonic mean of the two.
 
 $$F1_{Score} = \frac{2\times{Precision}\times{Recall}}{(Precision + Recall)}$$
 
 ![image](https://github.com/brianbattaile/Computer-Vision-AI-for-Dummies-Ecologists-Biologists-/assets/105937466/835a5ff9-df7e-4e28-a651-cc5f1bedd436)
+
+A more general form of this equation weights the recall or precision more or less than the other, depending on the needs of the user.
+
+You will also find box_loss, cls_loss and dfl_loss in the graphs.  Equations for these have not been provided by the authors of YoloV8.  In general, the lower these numbers are the better, box loss is a similar concept to IoU.  Cls_loss is the difference between class predictions and ground truth.  Dfl_loss is distribution focal loss and has to do with training for rare classes for which there aren’t many examples and the model attempts to address this.
 
 
 [🔼 Back to top](#top)
