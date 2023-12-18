@@ -5,7 +5,7 @@ This set of scripts and directions was put together to enable the non-computer s
 This guide was prepared and tested on a Windows 10 and Windows 11 computer.  Using the CMD line code will most certainly fail on a Mac (but should be pretty close) though the python code should be the same.  Also, for most of this guide, the folder paths will start with the AI_Project folder from this github repository that you will soon download, and everything before that will be replaced by C:\User\...Your\Folder\Path...\ so your path to the AI_Project folder should look like C:\User\...Your\Folder\Path...\AI_Project
 
 ## Order of Operations
-1.  [Preparing Your Computer](#preparing-your-computer).  Adds python 3.11 and all needed packages to your computer to do the deep neural network computer vision work.
+1.  [Preparing Your Computer](#preparing-your-computer).  Adds python 3.11 and all needed packages to your computer to do the deep learning, convolution neural network computer vision work.
 2.  [Annotating Images](#annotating-images).  This assumes you have images you want to work on, but I have provided some of my images to work on, or you can download images from the net.
 3.  [Tile Images](#tile-images).   YoloV8 defaults to images 640 x 640 pixels but any size can be used.  My images are much larger AND the fish I want to detect are relatively small.  So I must break up my images into smaller sizes close to 640 x 640 to train my model.
 4.  [Train YoloV8](#train-yolov8).  Train the YoloV8 model to work on images and objects of interest (ooi's) that you care about.
