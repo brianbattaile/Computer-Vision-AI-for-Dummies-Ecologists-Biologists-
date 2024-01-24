@@ -10,7 +10,7 @@ This guide was prepared and tested on a Windows 10 and Windows 11 computer.  Usi
 3.  [Tile Images](#tile-images).   YoloV8 defaults to images 640 x 640 pixels but any size can be used.  My images are much larger AND the fish I want to detect are relatively small.  So I must break up my images into smaller sizes close to 640 x 640 to train my model.
 4.  [Train YoloV8](#train-yolov8).  Train the YoloV8 model to work on images and objects of interest (ooi's) that you care about.
 5.  [Run Model](#run-model).  Using SAHI and YoloV8.txt to create geojson files that mark your objects of interest from a georeferenced image.  SAHI cuts up your images into ~640 x 640 pixels, then applies your customized YoloV8 model to find your objects of interest.
-6.  [QGIS](#qgis). Import your images and corresponding geojson files for manual editing into QGIS to remove false positives and add false negatives.
+6.  [QGIS](#qgis). Import your images and corresponding geojson files for manual editing into QGIS to remove false positives and correct false negatives.
 7.  [Convert georeferenced annotations back to Yolo format](#convert-georeferenced-annotations-back-to-yolo-format).  Run Geojson_to_Yolo_Darknet.py to convert QGIS geojson files into yolo darknet annotation style to reread into LabelImg or put back into step 4 to improve your yoloV8 model...yeah!!!
 
 <a id="preparing-your-computer"></a>
