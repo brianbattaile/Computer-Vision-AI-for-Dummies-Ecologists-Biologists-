@@ -15,7 +15,7 @@ This guide was prepared and tested on a Windows 10 and Windows 11 computer.  Usi
 
 <a id="preparing-your-computer"></a>
 ## 1. Preparing Your Computer
-If you are a github stud, clone this repository, if not, just go to green "code" button and download the zip file and install it in your favored location on your computer, I chose to put it here.
+If you are a github stud, clone this repository, if not, just go to the green "code" button and download the zip file and install it in your favored location on your computer, I chose to put it here.
 
 `C:\Users\Green Sturgeon\AI_Project`
 
