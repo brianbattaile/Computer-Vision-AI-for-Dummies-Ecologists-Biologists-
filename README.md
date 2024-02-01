@@ -232,7 +232,7 @@ Use "Separate Train Validate and Test.py" to assign your tiled images and associ
 
 [🔼 Back to top](#top)
 <a id="train-yolov8"></a>
-## 4. Train VoloV8
+## 4. Train YoloV8
 
 Yolo V8 comes in 5 different model sizes ranging from nano at 3.5 million parameters to extra-large at 68.7 million parameters.  You downloaded these five models already in the section ***"Preparing Your Computer"***.  The difference in size will affect how quickly your model trains and how quickly it works when applied.  If you are working through large numbers of images such as video, or want to implement a fast version for realtime evaluation in video, the nano version may be your best option, if accuracy is paramount and time is no object, the extra-large version may be for you, some experimentation will be required to determine the best model for your application.
 
