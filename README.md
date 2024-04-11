@@ -556,7 +556,10 @@ Run "Geojson_to_Yolo_Darknet.py to convert QGIS .geojson files into yolo darknet
 python train_dual.py --batch 8 --epochs 500 --img 640 --device 0 --min-items 0 --close-mosaic 15 --data "C:/Users/...Your\Folder\Path.../AI_Project/TrainYoloV9/GSAI_Images.yaml" --weights "C:/Users/...Your\Folder\Path.../AI_Project/TrainYoloV9/yolov9-c.pt" --cfg "C:/Users/...Your\Folder\Path.../AI_Project/AIvenv3.11YoloV9/Scripts/yolov9/models/detect/yolov9-c.yaml" --hyp hyp.scratch-high.yaml
 ```
 
-6.  Unfortunately there is a bug and this file need to be changed.
+Now your model is trained and the results should be in
+   `C:/Users/...Your\Folder\Path.../AI_Project/AIvenv3.11YoloV9/Scripts/yolov9/runs/train/"
+   
+6.  Unfortunately there is a bug and this file that need to be edited.
     "(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts\yolov9\utils\general.py"
 
   line 903 needs to look like 
@@ -564,5 +567,37 @@ python train_dual.py --batch 8 --epochs 500 --img 640 --device 0 --min-items 0 -
   ```
   prediction = prediction[0][1]
 ```
+7.  Now we can run the inference on your data!!!!
 
-7.  Now
+```
+python detect.py --img 640 --conf 0.1 --device 0 --weights "C:/Users/...Your\Folder\Path.../AI_Project/AIvenv3.11YoloV9/Scripts/yolov9/runs/train/exp7/weights/best.pt" --source "C:/Users/...Your\Folder\Path.../AI_Project/Georeferenced/Image.png"
+```
+
+8.  SAHI-As of yet, SAHI has not been updated to work with YoloV9, so we need to do it ourselves.  Fortunatley, kadirnar has updated SAHI to work with yoloV7, and the people who make yoloV7 also made yoloV9 so behind the scenes, they work in a similar way.
+   a.  First if you already installed the original SAHI into your yolov9 virtual environment, we need to uninstall it using
+
+```
+pip uninstall sahi
+```
+after that we will do
+
+```
+pip install git+https://github.com/kadirnar/Yolov7-SAHI.git
+```
+
+I have added a yolov9 folder to the github and in that we need to take two files and use them to replace the old files.
+Add yolov9hub.py to 
+C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Lib\site-packages\sahi\models
+Add auto_model.py to
+C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Lib\site-packages\sahi
+
+That should make it work.
+
+```
+sahi predict --model_path  "C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts\yolov9\runs\train\exp\weights\best.pt" --model_type yolov9hub --source "C:\Users\...Your\Folder\Path...\AI_Project\Georeferenced\Image.png" --slice_height 640 --slice_width 640 --overlap_height_ratio 0.2 --overlap_width_ratio 0.2 --visual_bbox_thickness 1 --export_pickle TRUE
+```
+
+In order to do the bulk georeferencing, use the new GeoReference.py in the yolov9 folder, only line 66 has changed, plus you will need to change the file paths of course.  You will also likely need to make sure the python interpreter points to the interpreter in your new yolov9 virtual environment.
+
+That's it to use yolov9!  Cross your fingers!
+
