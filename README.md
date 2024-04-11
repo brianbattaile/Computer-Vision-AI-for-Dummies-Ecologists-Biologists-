@@ -531,7 +531,7 @@ Run "Geojson_to_Yolo_Darknet.py to convert QGIS .geojson files into yolo darknet
 
 3.  Next we want to clone the yoloV9 github repository into the virutal environment, this is different from the "pip" install of the YoloV8 highlighting the different designers of the two models.  Go to
 
-   `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts>
+   `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts>`
    and type
    
 ```
@@ -547,12 +547,12 @@ git clone https://github.com/WongKinYiu/yolov9.git
     https://github.com/WongKinYiu/yolov9/releases/tag/v0.1
     or to the blue models under Evaluation on the main github page, click on the model weights and then download.  I then moved them to a folder
 
-    `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV9
+    `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV9`
 
 5.  Train the model.
    First you need to change the number of classes, (the number of different objects of interest that you want to find) in the "cfg*.yaml file.  They should be installed here.
 
-  `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts\yolov9\models\detect\yolov9-c.yaml"
+  `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts\yolov9\models\detect\yolov9-c.yaml`
 
   The third line down is "nc: 80  # number of classes" so you need to change that number to your number of classes.  80 is the number that the the model is pretrained on to find from the COCO data set
 6.  Now you can run this code to train your model.
@@ -562,10 +562,10 @@ python train_dual.py --batch 8 --epochs 500 --img 640 --device 0 --min-items 0 -
 ```
 
 Now your model is trained and the results should be in
-   `C:/Users/...Your\Folder\Path.../AI_Project/AIvenv3.11YoloV9/Scripts/yolov9/runs/train/"
+   `C:/Users/...Your\Folder\Path.../AI_Project/AIvenv3.11YoloV9/Scripts/yolov9/runs/train/`
    
 6.  Unfortunately there is a bug and this file that need to be edited.
-    "(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts\yolov9\utils\general.py"
+    `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts\yolov9\utils\general.py`
 
   line 903 needs to look like 
   
@@ -591,9 +591,9 @@ pip install git+https://github.com/kadirnar/Yolov7-SAHI.git
 
 I have added a yolov9 folder to the github and in that we need to take two files and use them to replace the old files.
 Add yolov9hub.py to 
-C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Lib\site-packages\sahi\models
+`C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Lib\site-packages\sahi\models`
 Add auto_model.py to
-C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Lib\site-packages\sahi
+`C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Lib\site-packages\sahi`
 
 That should make it work.
 
