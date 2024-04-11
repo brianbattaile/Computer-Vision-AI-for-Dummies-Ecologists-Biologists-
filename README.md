@@ -532,6 +532,7 @@ Run "Geojson_to_Yolo_Darknet.py to convert QGIS .geojson files into yolo darknet
 3.  Next we want to clone the yoloV9 github repository into the virutal environment, this is different from the "pip" install of the YoloV8 highlighting the different designers of the two models.  Go to
 
    `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts>`
+   
    and type
    
 ```
@@ -562,9 +563,11 @@ python train_dual.py --batch 8 --epochs 500 --img 640 --device 0 --min-items 0 -
 ```
 
 Now your model is trained and the results should be in
+
    `C:/Users/...Your\Folder\Path.../AI_Project/AIvenv3.11YoloV9/Scripts/yolov9/runs/train/`
    
 6.  Unfortunately there is a bug and this file that need to be edited.
+7.  
     `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts\yolov9\utils\general.py`
 
   line 903 needs to look like 
@@ -591,8 +594,11 @@ pip install git+https://github.com/kadirnar/Yolov7-SAHI.git
 
 I have added a yolov9 folder to the github and in that we need to take two files and use them to replace the old files.
 Add yolov9hub.py to 
+
 `C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Lib\site-packages\sahi\models`
+
 Add auto_model.py to
+
 `C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Lib\site-packages\sahi`
 
 That should make it work.
