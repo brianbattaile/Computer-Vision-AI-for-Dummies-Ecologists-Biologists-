@@ -573,8 +573,7 @@ Now your model is trained and the results should be in
 python detect.py --img 640 --conf 0.1 --device 0 --weights "C:/Users/...Your\Folder\Path.../AI_Project/AIvenv3.11YoloV9/Scripts/yolov9/runs/train/exp7/weights/best.pt" --source "C:/Users/...Your\Folder\Path.../AI_Project/Georeferenced/Image.png"
 ```
 
-8.  SAHI-As of yet, SAHI has not been updated to work with YoloV9, so we need to do it ourselves.  Fortunatley, kadirnar has updated SAHI to work with yoloV7, and the people who make yoloV7 also made yoloV9 so behind the scenes, they work in a similar way.
-   a.  First if you already installed the original SAHI into your yolov9 virtual environment, we need to uninstall it using
+8.  SAHI-As of yet, SAHI has not been updated to work with YoloV9, so we need to do it ourselves.  Fortunatley, kadirnar has updated SAHI to work with yoloV7, and the people who make yoloV7 also made yoloV9 so behind the scenes, they work in a similar way.  First if you already installed the original SAHI into your yolov9 virtual environment, we need to uninstall it using
 
 ```
 pip uninstall sahi
