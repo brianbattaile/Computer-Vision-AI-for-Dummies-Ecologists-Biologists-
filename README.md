@@ -528,3 +528,41 @@ Run "Geojson_to_Yolo_Darknet.py to convert QGIS .geojson files into yolo darknet
    ```
 
    then cd to any directory in your new yoloV9 venv and paste that code
+
+3.  Next we want to clone the yoloV9 github repository into the virutal environment, this is different from the "pip" install of the YoloV8 highlighting the different designers of the two models.
+
+   `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts>git clone https://github.com/WongKinYiu/yolov9.git
+
+   then run the requirements.txt file which will install all the necessary packages for YoloV9
+
+   ```
+   pip install -r requirements.txt
+   ```
+4.  Download the model weights, currently N, S and M are not available, only C and E.  Go to
+    https://github.com/WongKinYiu/yolov9/releases/tag/v0.1
+    or to the blue models under Evaluation on the main github page, click on the model weights and then download.  I then moved them to a folder
+
+    `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\TrainYoloV9
+
+5.  Train the model.
+   First you need to change the number of classes, (the number of different objects of interest that you want to find) in the "cfg*.yaml file.  They should be installed here.
+
+  `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts\yolov9\models\detect\yolov9-c.yaml"
+
+  The third line down is "nc: 80  # number of classes" so you need to change that number to your number of classes.  80 is the number that the the model is pretrained on to find from the COCO data set
+6.  Now you can run this code to train your model.
+
+```
+python train_dual.py --batch 8 --epochs 500 --img 640 --device 0 --min-items 0 --close-mosaic 15 --data "C:/Users/...Your\Folder\Path.../AI_Project/TrainYoloV9/GSAI_Images.yaml" --weights "C:/Users/...Your\Folder\Path.../AI_Project/TrainYoloV9/yolov9-c.pt" --cfg "C:/Users/...Your\Folder\Path.../AI_Project/AIvenv3.11YoloV9/Scripts/yolov9/models/detect/yolov9-c.yaml" --hyp hyp.scratch-high.yaml
+```
+
+6.  Unfortunately there is a bug and this file need to be changed.
+    "(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts\yolov9\utils\general.py"
+
+  line 903 needs to look like 
+  
+  ```
+  prediction = prediction[0][1]
+```
+
+7.  Now
