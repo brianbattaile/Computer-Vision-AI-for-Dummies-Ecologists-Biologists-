@@ -12,6 +12,7 @@ This guide was prepared and tested on a Windows 10 and Windows 11 computer.  Usi
 5.  [Run Model](#run-model).  Using SAHI and YoloV8.txt to create geojson files that mark your objects of interest from a georeferenced image.  SAHI cuts up your images into ~640 x 640 pixels, then applies your customized YoloV8 model to find your objects of interest.
 6.  [QGIS](#qgis). Import your images and corresponding geojson files for manual editing into QGIS to remove false positives and correct false negatives.
 7.  [Convert georeferenced annotations back to Yolo format](#convert-georeferenced-annotations-back-to-yolo-format).  Run Geojson_to_Yolo_Darknet.py to convert QGIS geojson files into yolo darknet annotation style to reread into LabelImg or put back into step 4 to improve your yoloV8 model...yeah!!!
+8.  [YoloV9 changes](#yolov9-changes).  All the python and code changes needed to run YoloV9 instead of yoloV8.
 
 <a id="preparing-your-computer"></a>
 ## 1. Preparing Your Computer
@@ -514,3 +515,14 @@ Save as .geojson file "non newline" type, which can be reconverted to Yolo annot
 
 Run "Geojson_to_Yolo_Darknet.py to convert QGIS .geojson files into yolo darknet annotation sytle.  This is essentially a reverse engineered back transform of the Georeferenced.py script that made coco (Coco is a data set of images of everyday items used to train and benchmark AI computer vision models) formatted annotations (which are based on x-y coordinates of the image in pixels) and turned them into georeferenced coordinates based on the projection of the georeferenced image.  So Geojson_to_Yolo_Darknet.py takes georeferenced annotations and turns them into x-y image pixel coordinates but using the yolo darknet annotation format instead of the coco format.  If you are confused, it's not your fault, it's a relatively young industry and things are not yet standardized, so everyone is doing something different.  Regardless, now you can retrain your model with the new annotations and images that your model helped you identify.  Again, you can run this from your Python IDE or the CMD ***BUT*** you will need to alter the path in line 55 and depending on if you are using .png or .tif files, line 64 as well.
 
+[🔼 Back to top](#top)
+<a id="YoloV9-changes"></a>
+## 7 YoloV9
+
+1.  Create a new python virtual environment as above for yolov9
+2.  I had issues with a component of the pytorch version I installed for yoloV9, so I had to get an older version for this virtual environemnt, I went to
+    https://pytorch.org/get-started/previous-versions/ and eventually found a version that worked for me, which was the following.
+    ```
+   pip install torch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 --index-url https://download.pytorch.org/whl/cu118
+   ```
+   then cd to any directory in your new yoloV9 venv and paste that code
