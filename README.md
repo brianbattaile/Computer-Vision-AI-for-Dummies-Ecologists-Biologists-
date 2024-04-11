@@ -522,7 +522,9 @@ Run "Geojson_to_Yolo_Darknet.py to convert QGIS .geojson files into yolo darknet
 1.  Create a new python virtual environment as above for yolov9
 2.  I had issues with a component of the pytorch version I installed for yoloV9, so I had to get an older version for this virtual environemnt, I went to
     https://pytorch.org/get-started/previous-versions/ and eventually found a version that worked for me, which was the following.
-    ```
+   
+   ```
    pip install torch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 --index-url https://download.pytorch.org/whl/cu118
    ```
+
    then cd to any directory in your new yoloV9 venv and paste that code
