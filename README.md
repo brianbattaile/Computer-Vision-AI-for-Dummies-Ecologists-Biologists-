@@ -529,9 +529,14 @@ Run "Geojson_to_Yolo_Darknet.py to convert QGIS .geojson files into yolo darknet
 
    then cd to any directory in your new yoloV9 venv and paste that code
 
-3.  Next we want to clone the yoloV9 github repository into the virutal environment, this is different from the "pip" install of the YoloV8 highlighting the different designers of the two models.
+3.  Next we want to clone the yoloV9 github repository into the virutal environment, this is different from the "pip" install of the YoloV8 highlighting the different designers of the two models.  Go to
 
-   `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts>git clone https://github.com/WongKinYiu/yolov9.git
+   `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts>
+   and type
+   
+```
+git clone https://github.com/WongKinYiu/yolov9.git
+```
 
    then run the requirements.txt file which will install all the necessary packages for YoloV9
 
