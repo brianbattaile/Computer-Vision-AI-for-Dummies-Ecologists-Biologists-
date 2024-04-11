@@ -586,7 +586,7 @@ python detect.py --img 640 --conf 0.1 --device 0 --weights "C:/Users/...Your\Fol
 ```
 pip uninstall sahi
 ```
-after that we will do
+after that we will type
 
 ```
 pip install git+https://github.com/kadirnar/Yolov7-SAHI.git
