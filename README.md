@@ -213,13 +213,13 @@ Open tile_yolo_new_BB.py in your python IDE (or a text editor) and change line 1
 
 Activate your python 3.11 virtual environment 
 
-Then navigate to your directory that has the tile_yolo_new_BB.py script and type `python tile_yolo_new_BB.py` to run the python script from CMD
+Then navigate to your directory that has the tile_yolo_new.py script and type `python tile_yolo_new_BB.py` to run the python script from CMD
 
 `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\Tile_Images\>
 
 Type
 ```
-python tile_yolo_new_BB.py
+python tile_yolo_new.py
 ```
 
 Sliced images with ooi's and annotation files end up in the C:\Users\...Your\Folder\Path...\AI_Project\Tile_Images\yolosliced\ts folder while any tiled images that did not have any ooi's end up in the C:\Users\...Your\Folder\Path...\AI_Project\ile_Images\yolo-tiling-main\yolosliced\ff folder.
@@ -480,7 +480,7 @@ As with the yolo call to train a model, there are a huge number of optional argu
 
 `visual_bbox_thickness`  This is the thickness of the line of the bounding box that surrounds your ooi's, I prefered a thinner line so it didn't obstruct the image when I went back to correct the model predictions.
 
-### 5.2 Georeferenced.py (SAHI and YoloV8) on georeferenced images and QGIS
+### 5.2 Georeference.py (SAHI and YoloV8) on georeferenced images and QGIS
 
 This is a rather specialized section that won't apply to the majority of investigators.  Our images are georeferenced so we want the images and predicted bounding boxes to be georeferenced as well so we can manipulate them in a GIS program such as QGIS, instead of using LabelImg. GeoreferenceBB.py does this using SAHI and YoloV8.  This is from https://github.com/obss/sahi/discussions/870 and all credit goes to the author.  This works on a georeferenced .tif file (geotif) or a .png with associated .xml file that contains georeferencing.  This creates a geojson file of the predicted bounding boxes associated with the image which can be opened in GIS along with the image.  Before running it, you need to change the file paths on rows 59 and 66.  The path on line 59 will find every instance of a .png in the directories and subdirectories below it and will perform the predictions on all these images.  Also, the script is currently set up for .png files, if you are using .tif files, you will need to change lines 61 and 81 from "png" to "tif".  The predictions will be saved as a .geojson file in the same directory as the image with the same name as the image.  You can run this file from your python IDE or from the CMD activate your 3.11 virtual environment and navigate to the folder the python script is in
 
@@ -489,7 +489,7 @@ This is a rather specialized section that won't apply to the majority of investi
 and type
 
 ```
-python GeoReferenceBB.py
+python GeoReference.py
 ```
 
 [🔼 Back to top](#top)
@@ -517,9 +517,19 @@ Run "Geojson_to_Yolo_Darknet.py to convert QGIS .geojson files into yolo darknet
 
 [🔼 Back to top](#top)
 <a id="YoloV9-changes"></a>
-## 7 YoloV9
+## 8 YoloV9
 
-1.  Create a new python virtual environment as above for yolov9
+1.  Create a new python 3.11 virtual environment for yolov9, I'll repeat the directions from above here for convenience.
+   In CMD, navigate to the folder you want the virtual environment to be in, mine is in the top level of the github project you cloned or downloaded as a zip.
+
+`C:\Users\...Your\Folder\Path...\AI_Project`
+
+Now type 
+```
+python -m virtualenv YoloV9venv3.11 -p="C:\Users\...Your\Folder\Path...\AppData\Local\Programs\Python\Python311\python.exe"
+```
+replacing "YoloV9venv3.11" for your preferred folder name of your virtual environment and "C:\Users\...Your\Folder\Path...\AppData\Local\Programs\Python\Python311\python.exe" with the path to your 3.11 python executable file, which is likely to be similar to mine so ***HOPEFULLY*** you only need to replace the "...Your\Folder\Path..." part of the path.
+
 2.  I had issues with a component of the pytorch version I installed for yoloV9, so I had to get an older version for this virtual environemnt, I went to
     https://pytorch.org/get-started/previous-versions/ and eventually found a version that worked for me, which was the following.
    
@@ -527,9 +537,9 @@ Run "Geojson_to_Yolo_Darknet.py to convert QGIS .geojson files into yolo darknet
    pip install torch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 --index-url https://download.pytorch.org/whl/cu118
    ```
 
-   then cd to any directory in your new yoloV9 venv and paste that code
+   In the Command, activate your new yolov9 virtual environment and paste that code
 
-3.  Next we want to clone the yoloV9 github repository into the virutal environment, this is different from the "pip" install of the YoloV8 highlighting the different designers of the two models.  Go to
+3.  Next we want to clone the yoloV9 github repository into the virutal environment, this is different from the "pip" install of the YoloV8 highlighting the different approach of the different designers of the two models.  Go to
 
    `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts>`
    
@@ -555,8 +565,8 @@ git clone https://github.com/WongKinYiu/yolov9.git
 
   `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts\yolov9\models\detect\yolov9-c.yaml`
 
-  The third line down is "nc: 80  # number of classes" so you need to change that number to your number of classes.  80 is the number that the the model is pretrained on to find from the COCO data set
-6.  Now you can run this code to train your model.
+  The third line down is "nc: 80  # number of classes" so we need to change that number to our number of classes.  80 is the number that the the model is pretrained on to find from the COCO data set
+6.  Now we can run the following code to train your model.
 
 ```
 python train_dual.py --batch 8 --epochs 500 --img 640 --device 0 --min-items 0 --close-mosaic 15 --data "C:/Users/...Your\Folder\Path.../AI_Project/TrainYoloV9/GSAI_Images.yaml" --weights "C:/Users/...Your\Folder\Path.../AI_Project/TrainYoloV9/yolov9-c.pt" --cfg "C:/Users/...Your\Folder\Path.../AI_Project/AIvenv3.11YoloV9/Scripts/yolov9/models/detect/yolov9-c.yaml" --hyp hyp.scratch-high.yaml
@@ -566,8 +576,8 @@ Now your model is trained and the results should be in
 
    `C:/Users/...Your\Folder\Path.../AI_Project/AIvenv3.11YoloV9/Scripts/yolov9/runs/train/`
    
-6.  Unfortunately there is a bug and this file that need to be edited.
-7.  
+7.  Unfortunately there is a bug and this file that need to be edited.
+  
     `(AIvenv3.11) C:\Users\...Your\Folder\Path...\AI_Project\AIvenv3.11YoloV9\Scripts\yolov9\utils\general.py`
 
   line 903 needs to look like 
@@ -575,13 +585,13 @@ Now your model is trained and the results should be in
   ```
   prediction = prediction[0][1]
 ```
-7.  Now we can run the inference on your data!!!!
+8.  Now we can run the inference on your data!!!!
 
 ```
 python detect.py --img 640 --conf 0.1 --device 0 --weights "C:/Users/...Your\Folder\Path.../AI_Project/AIvenv3.11YoloV9/Scripts/yolov9/runs/train/exp7/weights/best.pt" --source "C:/Users/...Your\Folder\Path.../AI_Project/Georeferenced/Image.png"
 ```
 
-8.  SAHI-As of yet, SAHI has not been updated to work with YoloV9, so we need to do it ourselves.  Fortunatley, kadirnar has updated SAHI to work with yoloV7, and the people who make yoloV7 also made yoloV9 so behind the scenes, they work in a similar way.  First if you already installed the original SAHI into your yolov9 virtual environment, we need to uninstall it using
+9.  SAHI-As of yet, SAHI has not been updated to work with YoloV9, so we need to do it ourselves.  Fortunatley, kadirnar has updated SAHI to work with yoloV7, and the people who make yoloV7 also made yoloV9 so behind the scenes, they work in a similar way.  First if you already installed the original SAHI into your yolov9 virtual environment, we need to uninstall it using
 
 ```
 pip uninstall sahi
