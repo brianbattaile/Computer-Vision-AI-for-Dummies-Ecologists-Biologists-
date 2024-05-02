@@ -184,6 +184,8 @@ First order of business, put the images you want to use to train your model in a
 
 I have added a few of my images to practice on in AI_Project\Annotations.  One folder has images without annotations and another has the same images with annotations.  I'm assuming you are going through the trouble to learn this because you have your own images you want to work on, but if you don't, there are a number of resources on the net to download images.
 
+I'm going to explain two different ways to annotate images, one is with LabelImg and the other is with DIVE.
+
 To use LabelImg to annotate images,
 
 In your AIvenv3.9 virtual environment
@@ -198,6 +200,8 @@ LabelImg
 And the LabelImg GUI will open.
 
 LabelImg is fairly self explanatory, but go to https://github.com/HumanSignal/labelImg for more information.  In general, you want to enclose your target objects as closely as possible with the annotation/bounding box.  When you create a bounding box (With the "Create RectBox" button), LabelImg will open a window that wants you to fill in the class name that the ooi belongs to.  Each type of object you are interested in identifying will require it's own class label.  You want to save your annotations using the Yolo style (click through the button under the Save icon to find the Yolo option) and save the annotations in the same folder as the images.  LabelImg also automatically creates a classes.txt file in that folder when you annotate an image.  ***If you are opening a previously annotated image, you will need the classes.txt file in the folder with your image***.  Otherwise it will just close when you attempt to edit the previously annotated image.  It is best practice to label ALL of your objects of interest in an image, leaving some out will "confuse" the model and make it less efficient.  Use CTRL plus the mouse wheel to zoom in and out, instead of the dumb buttons.  LabelImg is a very basic annotator and doesn't do more advanced annotations such as masking.  It has its quirks, but surprisingly, I have yet to find a free, simple and easy-to-install alternative that saves in yolo format.
+
+DIVE can be found at https://kitware.github.io/dive/ and you can use either the online version or download it to your desktop.  It's somewhat self explanatory, there are some tutorials on how to use it.  The only real issue with DIVE is that it doesn't save in the yolo darknet format so we will need to convert the format it does give.  I have provided a 
 
 [🔼 Back to top](#top)
 <a id="tile-images"></a>
