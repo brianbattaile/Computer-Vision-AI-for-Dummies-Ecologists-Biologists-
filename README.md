@@ -20,7 +20,11 @@ If you are a github stud, clone this repository (https://docs.github.com/en/repo
 
 `C:\Users\Green Sturgeon\AI_Project`
 
+It's really dumb to have a space in names...don't do what teh person who set up my computer did, Green_Sturgeon would be much better.
+
 ### Installing Python
+The only reason we are installing python 3.9 is to use an old free annotator.  You might skip to the Annotating Images section and check out DIVE to see if that's what you would prefer to use.  I probably would use DIVE if I were just starting out, but I didn't find a good solution to it not annotating in Yolo Darknet format until later in my journey, but that is all solved now, so if you would prefer to use DIVE, you can skip installing python 3.9 all together.  Otherwise....
+
 We are going to install python 3.11 AND 3.9
 
 Go to https://www.python.org/downloads
@@ -36,6 +40,8 @@ https://github.com/adang1345/PythonWindows/tree/master/3.9.16
 and download
 
 python-3.9.16-amd64-full.exe
+
+which will be appropriate for most users, or find the package that works for your system.
 
 ### Install your favorite python IDE
 The pycharm community edition is free
