@@ -219,7 +219,7 @@ If you have standard sized images, say 1280 x 1280 or smaller (much larger image
 It is sometimes advised to include some images with no objects of interest, and hence no annotations, for the model to work on, these are sometimes termed "background".  If you want to do this, for the images with no annotations you will need a blank annotations.txt file for the tiling program to work.  Open Create_blank_txt_annotations.py in your python IDE, change the file paths to yours and run it, or run it from command.  If you are more comfortable in R you can use Create_blank_txt_annotations.R to do the same thing.
 
 ### Tiling the images
-Open tile_yolo_new_BB.py in your python IDE (or a text editor) and change line 126 file path to the folder where you keep your images.  The folders in lines 120 and 138 must already exist, or the program will tell you they don't and exit.
+This script is from https://towardsdatascience.com/tile-slice-yolo-dataset-for-small-objects-detection-a75bf26f7fa2 .  Open tile_yolo_new_BB.py in your python IDE (or a text editor) and change line 126 file path to the folder where you keep your images.  The folders in lines 120 and 138 must already exist, or the program will tell you they don't and exit.
 
 Activate your python 3.11 virtual environment 
 
